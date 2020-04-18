@@ -1,16 +1,16 @@
 package app;
 
 public abstract class Produit {
-    protected String ID;
+    protected String id;
     protected String title;
     protected double dailyPrice;
 
-    public String getID() {
-        return this.ID;
+    public String getId() {
+        return this.id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
