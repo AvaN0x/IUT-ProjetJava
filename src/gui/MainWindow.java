@@ -11,6 +11,8 @@ import app.*;
 public class MainWindow extends JFrame implements ActionListener {
     protected ArrayList<Client> clients;
 
+    private boolean dialogShowing = false;
+
     private JButton btn_newCommande;
 
     public MainWindow() {
@@ -38,14 +40,15 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_newCommande) {
-            var commandeDialog = new CommandeDialog(this);
-            commandeDialog.setVisible(true);
-        }
+        if (!dialogShowing)
+            if (e.getSource() == btn_newCommande) {
+                var commandeDialog = new CommandeDialog(this);
+                commandeDialog.setVisible(true);
+                dialogShowing = false;
+            }
     }
 
-    public void commandeDialogReturn()
-    {
-
+    public void commandeDialogReturn() {
+        dialogShowing = false;
     }
 }

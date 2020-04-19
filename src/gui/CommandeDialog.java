@@ -38,6 +38,9 @@ public class CommandeDialog extends JDialog implements ActionListener {
         } else if (e.getSource() == btn_valider) {
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn();
+        } else if (e.getSource() == btn_cancel) {
+            var owner = (MainWindow) getOwner();
+            owner.commandeDialogReturn();
         }
     }
 
