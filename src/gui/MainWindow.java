@@ -31,8 +31,13 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_newCommande) {
-            var commandeDialog = new CommandeDialog();
+            var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
         }
+    }
+
+    public void commandeDialogReturn()
+    {
+        
     }
 }

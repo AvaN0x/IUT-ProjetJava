@@ -4,11 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class CommandeDialog extends JOptionPane implements ActionListener {
-    private JButton btn_newUser;
+import app.Client;
 
-    public CommandeDialog() {
-        super("test - Nouvelle commande");
+public class CommandeDialog extends JDialog implements ActionListener {
+    private JButton btn_newUser;
+    private JButton btn_valider;
+    private JButton btn_cancel;
+
+    public CommandeDialog(Window owner) {
+        super(owner, "test - Nouvelle commande");
         setLocation(300, 200);
         setSize(600, 300);
 
@@ -25,9 +29,16 @@ public class CommandeDialog extends JOptionPane implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_newUser) {
-            var userWindow = new UserDialog();
-            System.out.println(userWindow.client);
+            var userDialog = new UserDialog(this);
+            userDialog.setVisible(true);
+        } else if (e.getSource() == btn_valider) {
+            var owner = (MainWindow) getOwner();
+            owner.commandeDialogReturn();
         }
+    }
+
+    public void userDialogReturn(Client client) {
+        System.out.println(client);
     }
 
 }

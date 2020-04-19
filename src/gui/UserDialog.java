@@ -8,9 +8,7 @@ import app.Client;
 import app.ClientFidele;
 import app.ClientOccas;
 
-public class UserDialog extends JOptionPane implements ActionListener {
-    public Client client;
-
+public class UserDialog extends JDialog implements ActionListener {
     private JLabel lbl_nom;
     private JLabel lbl_prenom;
     private JTextField tf_nom;
@@ -19,8 +17,8 @@ public class UserDialog extends JOptionPane implements ActionListener {
     private JButton btn_valider;
     private JButton btn_cancel;
 
-    public UserDialog() {
-        super("test - Nouveau client");
+    public UserDialog(Window owner) {
+        super(owner, "test - Nouveau client");
         setLocation(300, 200);
         setSize(600, 300);
 
@@ -52,11 +50,14 @@ public class UserDialog extends JOptionPane implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
+            Client client;
             if (cb_fidel.isSelected())
                 client = new ClientFidele(tf_nom.getName(), tf_prenom.getName());
             else
                 client = new ClientOccas(tf_nom.getName(), tf_prenom.getName());
             setVisible(false);
+            var owner = (CommandeDialog) getOwner();
+            owner.userDialogReturn(client);
         }
     }
 }
