@@ -5,8 +5,4 @@ public class ClientOccas extends Client {
     {
         super(nom, prenom);
     }
-
-    public ClientOccas(String id, String nom, String prenom) {
-        super(id, nom, prenom);
-    }
 }

@@ -1,21 +1,18 @@
 package app;
 
+import java.util.UUID;
+
 public abstract class Client {
     protected String id;
     protected String nom;
     protected String prenom;
 
     public Client(String nom, String prenom) {
-        // TODO: Generate the ID
-        this.nom = nom;
-        this.prenom = prenom;
+        this.id = "U" + UUID.randomUUID().toString();
+        this.nom = nom.trim();
+        this.prenom = prenom.trim();
     }
 
-    public Client(String id, String nom, String prenom) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-    }
 
     /**
      * @return the id

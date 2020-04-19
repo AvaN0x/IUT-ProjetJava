@@ -1,9 +1,17 @@
 package app;
 
+import java.util.UUID;
+
 public abstract class Produit {
     protected String id;
     protected String title;
     protected double dailyPrice;
+
+    public Produit(String title, double dailyPrice) {
+        this.id = "P" + UUID.randomUUID().toString();
+        this.title = title.trim();
+        this.dailyPrice = dailyPrice;
+    }
 
     public String getId() {
         return this.id;
