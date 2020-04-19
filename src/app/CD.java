@@ -1,11 +1,11 @@
 package app;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class CD extends SupportNum {
-    public Date releaseDate;
+    public Calendar releaseDate;
 
-    public CD(String title, double dailyPrice, Date releaseDate) {
+    public CD(String title, double dailyPrice, Calendar releaseDate) {
         super(title, dailyPrice);
         this.releaseDate = releaseDate;
     }
