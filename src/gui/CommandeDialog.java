@@ -46,7 +46,8 @@ public class CommandeDialog extends JDialog implements ActionListener {
         dialogShowing = false;
     }
     public void userDialogReturn(Client client) {
-        System.out.println(client);
+        var owner = (MainWindow) getOwner();
+        owner.clients.add(client);
         userDialogReturn();
     }
 

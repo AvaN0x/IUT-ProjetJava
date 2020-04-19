@@ -74,9 +74,9 @@ public class UserDialog extends JDialog implements ActionListener {
         if (e.getSource() == btn_valider) {
             Client client;
             if (cb_fidel.isSelected())
-                client = new ClientFidele(tf_nom.getName(), tf_prenom.getName());
+                client = new ClientFidele(tf_nom.getText(), tf_prenom.getText());
             else
-                client = new ClientOccas(tf_nom.getName(), tf_prenom.getName());
+                client = new ClientOccas(tf_nom.getText(), tf_prenom.getText());
             setVisible(false);
             var owner = (CommandeDialog) getOwner();
             owner.userDialogReturn(client);

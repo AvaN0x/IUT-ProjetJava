@@ -1,10 +1,16 @@
 package gui;
 
+import java.util.ArrayList;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import app.*;
+
 public class MainWindow extends JFrame implements ActionListener {
+    protected ArrayList<Client> clients;
+
     private JButton btn_newCommande;
 
     public MainWindow() {
@@ -13,6 +19,8 @@ public class MainWindow extends JFrame implements ActionListener {
         setSize(1280, 720);
 
         initComponents();
+
+        clients = new ArrayList<Client>();
     }
 
     private void initComponents() {
@@ -38,6 +46,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public void commandeDialogReturn()
     {
-        
+
     }
 }
