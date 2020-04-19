@@ -7,6 +7,8 @@ import javax.swing.*;
 import app.Client;
 
 public class CommandeDialog extends JDialog implements ActionListener {
+    private boolean dialogShowing = false;
+
     private JButton btn_newUser;
     private JButton btn_valider;
     private JButton btn_cancel;
@@ -28,17 +30,24 @@ public class CommandeDialog extends JDialog implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if(!dialogShowing)
         if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
+            dialogShowing = true;
         } else if (e.getSource() == btn_valider) {
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn();
         }
     }
 
+    public void userDialogReturn()
+    {
+        dialogShowing = false;
+    }
     public void userDialogReturn(Client client) {
         System.out.println(client);
+        userDialogReturn();
     }
 
 }
