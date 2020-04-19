@@ -9,11 +9,13 @@ import javax.swing.*;
 import app.*;
 
 public class MainWindow extends JFrame implements ActionListener {
-    protected ArrayList<Client> clients;
+    protected JList<Client> clients;
 
     private boolean dialogShowing = false;
 
+    private JPanel pnl_clients;
     private JButton btn_newCommande;
+    private JButton btn_deluser;
 
     public MainWindow() {
         super("titre");
@@ -21,8 +23,6 @@ public class MainWindow extends JFrame implements ActionListener {
         setSize(1280, 720);
 
         initComponents();
-
-        clients = new ArrayList<Client>();
     }
 
     private void initComponents() {
@@ -35,6 +35,10 @@ public class MainWindow extends JFrame implements ActionListener {
 
         toolbar.add(btn_newCommande);
         toolbar.addSeparator();
+
+        pnl_clients = new JPanel(new FlowLayout());
+        clients = new JList<Client>();
+        add(clients, BorderLayout.EAST);
 
         add(toolbar, BorderLayout.NORTH);
     }

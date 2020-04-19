@@ -50,7 +50,7 @@ public class CommandeDialog extends JDialog implements ActionListener {
     }
     public void userDialogReturn(Client client) {
         var owner = (MainWindow) getOwner();
-        owner.clients.add(client);
+        owner.clients.add(new JLabel(client.getNom() + " " + client.getPrenom()), client);
         userDialogReturn();
     }
 
