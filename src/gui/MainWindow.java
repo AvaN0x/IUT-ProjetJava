@@ -47,9 +47,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         l_clients.addListSelectionListener(this);
         l_clients.setVisibleRowCount(5);
         var l_clientsScrollPane = new JScrollPane(l_clients);
+        btn_deluser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
+        btn_deluser.setEnabled(false);
+        btn_deluser.addActionListener(this);
+        pnl_clients.add(l_clientsScrollPane);
+        pnl_clients.add(btn_deluser);
 
         add(toolbar, BorderLayout.NORTH);
-        add(l_clientsScrollPane, BorderLayout.EAST);
+        add(pnl_clients, BorderLayout.EAST);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -59,6 +64,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 commandeDialog.setVisible(true);
                 dialogShowing = false;
             }
+            else if (e.getSource() == btn_deluser) {
+                clients.removeElement(l_clients.getSelectedValue());
+            }
     }
 
     public void commandeDialogReturn() {
@@ -66,6 +74,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+            if (l_clients.getSelectedIndex() == -1) {
+                btn_deluser.setEnabled(false);
 
+            } else {
+                btn_deluser.setEnabled(true);
+            }
+        }
     }
 }
