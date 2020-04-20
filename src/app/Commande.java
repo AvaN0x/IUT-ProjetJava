@@ -47,4 +47,12 @@ public class Commande {
     public double getTotalCost() {
         return getTotalCostNoReduc() * (1 - reduction);
     }
+
+    // seulement pour les tests en console
+    public void consoleWriteEmprunts() {
+        System.out.println("Liste des emprunts de la commande :");
+        for(Emprunt e : emprunts) {
+            System.out.println(e.produit);
+        }
+    }
 }
