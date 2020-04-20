@@ -7,26 +7,30 @@ import app.*;
 public class TestProduit {
 
     public static void main(String[] args) {
-        // ClientFidele cltf = new ClientFidele("nom", "prenom");
 
-        // Commande cde = new Commande(cltf);
-        // DVD dvd1 = new DVD("dvd1", 1, 2, "qqun");
-        // DVD dvd2 = new DVD("dvd2", 2, 1, "encore qqun");
+        // test de creation de commande 
+        ClientFidele cltf = new ClientFidele("nom", "prenom");
 
-        // System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
+        Commande cde = new Commande(cltf);
+        DVD dvd1 = new DVD("dvd1", 1, 2, "qqun");
+        DVD dvd2 = new DVD("dvd2", 2, 1, "encore qqun");
 
-        // Calendar dateFin = Calendar.getInstance();
-        // dateFin.set(Calendar.YEAR, dateFin.get(Calendar.YEAR) + 1);
-        // cde.addEmprunt(dateFin, dvd1);
-        // cde.addEmprunt(dateFin, dvd2);
-        // cde.addEmprunt(dateFin, dvd1);
+        System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
 
-        // System.out.println("\nPrix sans reduc = " + cde.getTotalCostNoReduc() + "\nPrix final = " + cde.getTotalCost());
+        Calendar dateFin = Calendar.getInstance();
+        dateFin.set(Calendar.YEAR, dateFin.get(Calendar.YEAR) + 1);
+        cde.addEmprunt(dateFin, dvd1);
+        cde.addEmprunt(dateFin, dvd2);
+        cde.addEmprunt(dateFin, dvd1);
 
-        // System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
+        System.out.println("\nPrix sans reduc = " + cde.getTotalCostNoReduc() + "\nPrix final = " + cde.getTotalCost());
 
-        // System.out.println();
-        // cde.consoleWriteEmprunts();
+        System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
+
+        System.out.println();
+        cde.consoleWriteEmprunts();
+
+        // verification de date
 
         int d = 29;
         int m = 1;
