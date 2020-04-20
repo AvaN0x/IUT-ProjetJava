@@ -27,9 +27,14 @@ public class Commande {
         this.emprunts = new ArrayList<Emprunt>();
     }
     
-    public void addEmprunt(Calendar dateFin, Produit produit) {
-        Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
-        emprunts.add(emprunt);
+    public boolean addEmprunt(Calendar dateFin, Produit produit) {
+        if (produit.getDispo() > 0) {
+            Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
+            emprunts.add(emprunt);
+            return true;
+        }
+        else
+            return false;
     }
 
     public double getTotalCostNoReduc() {
