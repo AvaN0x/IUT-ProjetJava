@@ -14,7 +14,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private boolean dialogShowing = false;
 
-    private JPanel pnl_clients;
     private JButton btn_newCommande;
     private JButton btn_delUser;
     private JList<Client> l_clients;
@@ -40,7 +39,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         toolbar.add(btn_newCommande);
         toolbar.addSeparator();
 
-        pnl_clients = new JPanel(new FlowLayout());
+        var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
         l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         l_clients.setSelectedIndex(0);
