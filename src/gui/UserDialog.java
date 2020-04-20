@@ -68,6 +68,11 @@ public class UserDialog extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
             Client client;
+            if(tf_nom.getText().trim().length() <= 0 || tf_prenom.getText().trim().length() <= 0 )
+            {
+                JOptionPane.showMessageDialog(this, "Nom ou prénom vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (cb_fidel.isSelected())
                 client = new ClientFidele(tf_nom.getText(), tf_prenom.getText());
             else
