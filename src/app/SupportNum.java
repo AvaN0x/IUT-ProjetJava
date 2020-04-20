@@ -1,8 +1,8 @@
 package app;
 
 public abstract class SupportNum extends Produit {
-    public SupportNum(String title, double dailyPrice) {
-        super(title, dailyPrice);
+    public SupportNum(String title, double dailyPrice, int quantity) {
+        super(title, dailyPrice, quantity);
     }
 
 }

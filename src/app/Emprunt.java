@@ -12,10 +12,12 @@ public class Emprunt {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.produit = produit;
+        produit.emprunter();
     }
     
     public double getCost() {
         int amountOfDays = (int) Duration.between(dateDebut.toInstant(), dateFin.toInstant()).toDays();
         return amountOfDays * produit.getDailyPrice();
     }
+
 }
