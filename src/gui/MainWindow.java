@@ -16,7 +16,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private JPanel pnl_clients;
     private JButton btn_newCommande;
-    private JButton btn_deluser;
+    private JButton btn_delUser;
     private JList<Client> l_clients;
 
     public MainWindow() {
@@ -47,11 +47,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         l_clients.addListSelectionListener(this);
         l_clients.setVisibleRowCount(5);
         var l_clientsScrollPane = new JScrollPane(l_clients);
-        btn_deluser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
-        btn_deluser.setEnabled(false);
-        btn_deluser.addActionListener(this);
+        btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
+        btn_delUser.setToolTipText("Supprimer un client sélectionné");
+        btn_delUser.addActionListener(this);
+        btn_delUser.setEnabled(false);
         pnl_clients.add(l_clientsScrollPane);
-        pnl_clients.add(btn_deluser);
+        pnl_clients.add(btn_delUser);
 
         add(toolbar, BorderLayout.NORTH);
         add(pnl_clients, BorderLayout.EAST);
@@ -64,7 +65,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 commandeDialog.setVisible(true);
                 dialogShowing = false;
             }
-            else if (e.getSource() == btn_deluser) {
+            else if (e.getSource() == btn_delUser) {
                 clients.removeElement(l_clients.getSelectedValue());
             }
     }
@@ -72,14 +73,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void commandeDialogReturn() {
         dialogShowing = false;
     }
+    public void commandeDialogReturn(Commande commande) {
+        dialogShowing = false;
+    }
 
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
             if (l_clients.getSelectedIndex() == -1) {
-                btn_deluser.setEnabled(false);
+                btn_delUser.setEnabled(false);
 
             } else {
-                btn_deluser.setEnabled(true);
+                btn_delUser.setEnabled(true);
             }
         }
     }

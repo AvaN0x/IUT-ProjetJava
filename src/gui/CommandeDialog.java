@@ -3,13 +3,17 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import app.Client;
+import app.Commande;
 
-public class CommandeDialog extends JDialog implements ActionListener {
+public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener {
     private boolean dialogShowing = false;
 
+    private JList<Client> l_clients;
     private JButton btn_newUser;
+    private JButton btn_delUser;
     private JButton btn_valider;
     private JButton btn_cancel;
 
@@ -22,11 +26,41 @@ public class CommandeDialog extends JDialog implements ActionListener {
     }
 
     private void initComponents() {
-        btn_newUser = new JButton(new ImageIcon(getClass().getResource("\\icons\\addUser.png")));
+        var owner = (MainWindow) getOwner();
+
+        var pnl_clients = new JPanel(new FlowLayout());
+
+        l_clients = new JList<Client>(owner.clients);
+        l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        l_clients.setSelectedIndex(0);
+        l_clients.addListSelectionListener(this);
+        l_clients.setVisibleRowCount(5);
+        var l_clientsScrollPane = new JScrollPane(l_clients);
+
+        var pnl_clientsbtns = new JPanel(new GridLayout(2,1));
+        btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
         btn_newUser.setToolTipText("Ajouter un client");
         btn_newUser.addActionListener(this);
+        btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
+        btn_delUser.setToolTipText("Supprimer un client sélectionné");
+        btn_delUser.addActionListener(this);
+        btn_delUser.setEnabled(false);
+        pnl_clientsbtns.add(btn_newUser);
+        pnl_clientsbtns.add(btn_delUser);
 
-        add(btn_newUser);
+        pnl_clients.add(l_clientsScrollPane);
+        pnl_clients.add(pnl_clientsbtns);
+
+        var pnl_validate = new JPanel(new FlowLayout());
+        btn_valider = new JButton("Valider");
+        btn_valider.addActionListener(this);
+        btn_cancel = new JButton("Annuler");
+        btn_cancel.addActionListener(this);
+        pnl_validate.add(btn_valider);
+        pnl_validate.add(btn_cancel);
+
+        add(pnl_clients);
+        add(pnl_validate);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -35,12 +69,29 @@ public class CommandeDialog extends JDialog implements ActionListener {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
             dialogShowing = true;
-        } else if (e.getSource() == btn_valider) {
+        } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
-            owner.commandeDialogReturn();
+            owner.clients.removeElement(l_clients.getSelectedValue());
+        } else if (e.getSource() == btn_valider) {
+            var commande = new Commande(l_clients.getSelectedValue());
+            var owner = (MainWindow) getOwner();
+            owner.commandeDialogReturn(commande);
         } else if (e.getSource() == btn_cancel) {
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn();
+        }
+    }
+
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+            if (l_clients.getSelectedIndex() == -1) {
+                btn_delUser.setEnabled(false);
+                //btn_valider.setEnabled(false);
+
+            } else {
+                btn_delUser.setEnabled(true);
+                //btn_valider.setEnabled(true);
+            }
         }
     }
 
