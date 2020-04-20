@@ -7,25 +7,42 @@ import app.*;
 public class TestProduit {
 
     public static void main(String[] args) {
-        ClientFidele cltf = new ClientFidele("nom", "prenom");
+        // ClientFidele cltf = new ClientFidele("nom", "prenom");
 
-        Commande cde = new Commande(cltf);
-        DVD dvd1 = new DVD("dvd1", 1, 2, "qqun");
-        DVD dvd2 = new DVD("dvd2", 2, 1, "encore qqun");
+        // Commande cde = new Commande(cltf);
+        // DVD dvd1 = new DVD("dvd1", 1, 2, "qqun");
+        // DVD dvd2 = new DVD("dvd2", 2, 1, "encore qqun");
 
-        System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
+        // System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
 
-        Calendar dateFin = Calendar.getInstance();
-        dateFin.set(Calendar.YEAR, dateFin.get(Calendar.YEAR) + 1);
-        cde.addEmprunt(dateFin, dvd1);
-        cde.addEmprunt(dateFin, dvd2);
-        cde.addEmprunt(dateFin, dvd1);
+        // Calendar dateFin = Calendar.getInstance();
+        // dateFin.set(Calendar.YEAR, dateFin.get(Calendar.YEAR) + 1);
+        // cde.addEmprunt(dateFin, dvd1);
+        // cde.addEmprunt(dateFin, dvd2);
+        // cde.addEmprunt(dateFin, dvd1);
 
-        System.out.println("\nPrix sans reduc = " + cde.getTotalCostNoReduc() + "\nPrix final = " + cde.getTotalCost());
+        // System.out.println("\nPrix sans reduc = " + cde.getTotalCostNoReduc() + "\nPrix final = " + cde.getTotalCost());
 
-        System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
+        // System.out.println("\nStock des objets : \n" + dvd1 + "\n" + dvd2);
 
-        System.out.println();
-        cde.consoleWriteEmprunts();
+        // System.out.println();
+        // cde.consoleWriteEmprunts();
+
+        int d = 29;
+        int m = 1;
+        int y = 2020;
+
+        if (y >= 1970 && m >= 0 && m <= 11) {
+            Calendar dateCheck = Calendar.getInstance();
+            dateCheck.set(Calendar.MONTH, m);
+            dateCheck.set(Calendar.YEAR, y);
+            if (d >= dateCheck.getActualMinimum(Calendar.DAY_OF_MONTH) && d <= dateCheck.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                System.out.println("c'est good");
+            } else {
+                System.out.println("aled tom est beauf");
+            }
+        } else {
+            System.out.println("aled tom est beauf");
+        }
     }
 }
