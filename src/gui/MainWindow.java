@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -62,7 +60,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (e.getSource() == btn_newCommande) {
                 var commandeDialog = new CommandeDialog(this);
                 commandeDialog.setVisible(true);
-                dialogShowing = false;
+                dialogShowing = true;
             }
             else if (e.getSource() == btn_delUser) {
                 clients.removeElement(l_clients.getSelectedValue());

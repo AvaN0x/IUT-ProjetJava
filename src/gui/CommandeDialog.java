@@ -27,6 +27,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
     private void initComponents() {
         var owner = (MainWindow) getOwner();
+        setLayout(new BorderLayout());
 
         var pnl_clients = new JPanel(new FlowLayout());
 
@@ -54,13 +55,14 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
         btn_valider.addActionListener(this);
+        btn_valider.setEnabled(false);
         btn_cancel = new JButton("Annuler");
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
         pnl_validate.add(btn_cancel);
 
-        add(pnl_clients);
-        add(pnl_validate);
+        add(pnl_clients, BorderLayout.EAST);
+        add(pnl_validate, BorderLayout.SOUTH);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -74,11 +76,15 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             owner.clients.removeElement(l_clients.getSelectedValue());
         } else if (e.getSource() == btn_valider) {
             var commande = new Commande(l_clients.getSelectedValue());
+            setVisible(false);
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn(commande);
+            this.dispose();
         } else if (e.getSource() == btn_cancel) {
+            setVisible(false);
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn();
+            this.dispose();
         }
     }
 
@@ -86,11 +92,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         if (e.getValueIsAdjusting() == false) {
             if (l_clients.getSelectedIndex() == -1) {
                 btn_delUser.setEnabled(false);
-                //btn_valider.setEnabled(false);
+                btn_valider.setEnabled(false);
 
             } else {
                 btn_delUser.setEnabled(true);
-                //btn_valider.setEnabled(true);
+                btn_valider.setEnabled(true);
             }
         }
     }
