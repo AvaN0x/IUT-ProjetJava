@@ -41,12 +41,12 @@ public class TestProduit {
             dateCheck.set(Calendar.MONTH, m);
             dateCheck.set(Calendar.YEAR, y);
             if (d >= dateCheck.getActualMinimum(Calendar.DAY_OF_MONTH) && d <= dateCheck.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                System.out.println("c'est good");
+                System.out.println("date valide");
             } else {
-                System.out.println("aled tom est beauf");
+                System.out.println("date non valide");
             }
         } else {
-            System.out.println("aled tom est beauf");
+            System.out.println("date non valide");
         }
     }
 }
