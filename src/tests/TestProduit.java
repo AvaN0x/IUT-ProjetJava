@@ -32,7 +32,7 @@ public class TestProduit {
 
         // verification de date
 
-        int d = 29;
+        int d = 2;
         int m = 1;
         int y = 2020;
 
@@ -41,7 +41,11 @@ public class TestProduit {
             dateCheck.set(Calendar.MONTH, m);
             dateCheck.set(Calendar.YEAR, y);
             if (d >= dateCheck.getActualMinimum(Calendar.DAY_OF_MONTH) && d <= dateCheck.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                dateCheck.set(Calendar.DAY_OF_MONTH, d);
                 System.out.println("date valide");
+                System.out.println(((dateCheck.get(Calendar.DAY_OF_MONTH) > 8) ? dateCheck.get(Calendar.DAY_OF_MONTH) : ("0" + dateCheck.get(Calendar.DAY_OF_MONTH))) + 
+                                "/" + ((dateCheck.get(Calendar.MONTH) > 8) ? (dateCheck.get(Calendar.MONTH) + 1) : ("0" + (dateCheck.get(Calendar.MONTH) + 1))) + 
+                                "/" + dateCheck.get(Calendar.YEAR));
             } else {
                 System.out.println("date non valide");
             }
