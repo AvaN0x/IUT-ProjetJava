@@ -22,6 +22,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JTextField tf_dateCreation;
     private JLabel lbl_dateCreationWarn;
     private boolean dateCreationValid;
+    private Calendar dateCreation;
 
     public CommandeDialog(Window owner) {
         super(owner, "test - Nouvelle commande");
@@ -91,16 +92,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                     String dateValue = tf_dateCreation.getText();
                     String[] dateValueTab = dateValue.split("/");
 
-                    int dateCheckDay = Integer.parseInt(dateValueTab[0]);
-                    int dateCheckMonth = Integer.parseInt(dateValueTab[1]) - 1;
-                    int dateCheckYear = Integer.parseInt(dateValueTab[2]);            
+                    int dateCreationDay = Integer.parseInt(dateValueTab[0]);
+                    int dateCreationMonth = Integer.parseInt(dateValueTab[1]) - 1;
+                    int dateCreationYear = Integer.parseInt(dateValueTab[2]);            
 
-                    if (dateCheckYear >= 1970 && dateCheckMonth >= 0 && dateCheckMonth <= 11) {
-                        Calendar dateCheck = Calendar.getInstance();
-                        dateCheck.set(Calendar.MONTH, dateCheckMonth);
-                        dateCheck.set(Calendar.YEAR, dateCheckYear);
-                        if (dateCheckDay >= dateCheck.getActualMinimum(Calendar.DAY_OF_MONTH) && dateCheckDay <= dateCheck.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                            dateCheck.set(Calendar.DAY_OF_MONTH, dateCheckDay);
+                    if (dateCreationYear >= 1970 && dateCreationMonth >= 0 && dateCreationMonth <= 11) {
+                        dateCreation = Calendar.getInstance();
+                        dateCreation.set(Calendar.MONTH, dateCreationMonth);
+                        dateCreation.set(Calendar.YEAR, dateCreationYear);
+                        if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH) && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                            dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
                             lbl_dateCreationWarn.setText(""); 
                             dateCreationValid = true;
                         } else
