@@ -63,6 +63,16 @@ public class UserDialog extends JDialog implements ActionListener {
 
         add(pnl_fields, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                setVisible(false);
+                var owner = (CommandeDialog) getOwner();
+                owner.userDialogReturn();
+                dispose();
+            }
+        });
     }
 
     public void actionPerformed(ActionEvent e) {

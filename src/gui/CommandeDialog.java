@@ -9,8 +9,6 @@ import app.Client;
 import app.Commande;
 
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener {
-    private boolean dialogShowing = false;
-
     private JList<Client> l_clients;
     private JButton btn_newUser;
     private JButton btn_delUser;
@@ -63,14 +61,23 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         add(pnl_clients, BorderLayout.EAST);
         add(pnl_validate, BorderLayout.SOUTH);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                setVisible(false);
+                var owner = (MainWindow) getOwner();
+                owner.commandeDialogReturn();
+                dispose();
+            }
+        });
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(!dialogShowing)
         if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
-            dialogShowing = true;
+            this.setEnabled(false);
         } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
             owner.clients.removeElement(l_clients.getSelectedValue());
@@ -103,7 +110,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
     public void userDialogReturn()
     {
-        dialogShowing = false;
+        this.setEnabled(true);
     }
     public void userDialogReturn(Client client) {
         var owner = (MainWindow) getOwner();

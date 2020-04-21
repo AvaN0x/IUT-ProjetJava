@@ -14,8 +14,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     protected TableauProduits produits;
     protected DefaultListModel<Commande> commandes;
 
-    private boolean dialogShowing = false;
-
     private JButton btn_newCommande;
     private JButton btn_delUser;
     private JList<Client> l_clients;
@@ -80,18 +78,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (!dialogShowing)
             if (e.getSource() == btn_newCommande) {
                 var commandeDialog = new CommandeDialog(this);
                 commandeDialog.setVisible(true);
-                dialogShowing = true;
+                this.setEnabled(false);
             } else if (e.getSource() == btn_delUser) {
                 clients.removeElement(l_clients.getSelectedValue());
             }
     }
 
     public void commandeDialogReturn() {
-        dialogShowing = false;
+        this.setEnabled(true);
     }
 
     public void commandeDialogReturn(Commande commande) {
