@@ -4,17 +4,23 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import app.*;
 
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener {
     protected DefaultListModel<Client> clients;
+    protected TableauProduits produits;
+    protected DefaultListModel<Commande> commandes;
 
     private boolean dialogShowing = false;
 
     private JButton btn_newCommande;
     private JButton btn_delUser;
     private JList<Client> l_clients;
+    private JTable t_produits;
+    private TableRowSorter<TableModel> t_produitsSorter;
 
     public MainWindow() {
         super("titre");
@@ -22,6 +28,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setSize(1280, 720);
 
         clients = new DefaultListModel<Client>();
+        produits = new TableauProduits();
+        commandes = new DefaultListModel<Commande>();
 
         initComponents();
     }
@@ -51,8 +59,24 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(btn_delUser);
 
+        var pnl_produits = new JPanel(new FlowLayout());
+
+        var pnl_filter = new JPanel(new GridLayout(0, 1));
+        // checkbox for filter
+
+        t_produits = new JTable(produits);
+        t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
+        t_produitsSorter.setSortsOnUpdates(true);
+        t_produits.setRowSorter(t_produitsSorter);
+        var pnl_produitTable = new JPanel();
+        pnl_produitTable.add(new JScrollPane(t_produits));
+
+        pnl_produits.add(pnl_filter);
+        pnl_produits.add(pnl_produitTable);
+
         add(toolbar, BorderLayout.NORTH);
         add(pnl_clients, BorderLayout.EAST);
+        add(pnl_produits, BorderLayout.CENTER);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -61,8 +85,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 var commandeDialog = new CommandeDialog(this);
                 commandeDialog.setVisible(true);
                 dialogShowing = true;
-            }
-            else if (e.getSource() == btn_delUser) {
+            } else if (e.getSource() == btn_delUser) {
                 clients.removeElement(l_clients.getSelectedValue());
             }
     }
@@ -70,8 +93,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void commandeDialogReturn() {
         dialogShowing = false;
     }
+
     public void commandeDialogReturn(Commande commande) {
-        dialogShowing = false;
+        commandes.addElement(commande);
+        commandeDialogReturn();
     }
 
     public void valueChanged(ListSelectionEvent e) {
