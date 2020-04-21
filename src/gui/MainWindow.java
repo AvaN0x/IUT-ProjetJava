@@ -89,6 +89,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     public void commandeDialogReturn() {
         this.setEnabled(true);
+        this.toFront();
     }
 
     public void commandeDialogReturn(Commande commande) {

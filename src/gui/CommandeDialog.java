@@ -111,6 +111,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public void userDialogReturn()
     {
         this.setEnabled(true);
+        this.toFront();
     }
     public void userDialogReturn(Client client) {
         var owner = (MainWindow) getOwner();
