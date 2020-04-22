@@ -36,6 +36,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private void initComponents() {
         setLayout(new BorderLayout());
         var toolbar = new JToolBar();
+        toolbar.setFloatable(false);
 
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_newCommande.setToolTipText("Ajouter une commande");

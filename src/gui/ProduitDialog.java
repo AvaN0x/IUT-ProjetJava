@@ -70,7 +70,8 @@ public class ProduitDialog extends JDialog implements ActionListener {
         if (e.getSource() == btn_valider) {
             setVisible(false);
             var owner = (MainWindow) getOwner();
-            //owner.produitDialogReturn(produit);
+            // owner.produitDialogReturn(produit);
+            owner.dialogReturn();
             this.dispose();
         }
         else if (e.getSource() == btn_cancel) {
