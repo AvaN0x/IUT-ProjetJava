@@ -9,8 +9,9 @@ public abstract class Client {
 
     public Client(String nom, String prenom) {
         this.id = "U" + UUID.randomUUID().toString();
-        this.nom = nom.trim();
-        this.prenom = prenom.trim();
+        this.nom = nom.trim().toUpperCase();
+        prenom.trim();
+        this.prenom = prenom.substring(0, 1).toUpperCase() + prenom.substring(1);
     }
 
 

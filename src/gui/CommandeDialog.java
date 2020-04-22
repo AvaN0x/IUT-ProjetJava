@@ -117,7 +117,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             notValid();
                     } else
                         notValid();
-
                 } else
                     notValid();
             }
