@@ -45,7 +45,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         l_clients.setVisibleRowCount(5);
         var l_clientsScrollPane = new JScrollPane(l_clients);
 
-        var pnl_clientsbtns = new JPanel(new GridLayout(2,1));
+        var pnl_clientsbtns = new JPanel(new GridLayout(2, 1));
         btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
         btn_newUser.setToolTipText("Ajouter un client");
         btn_newUser.addActionListener(this);
@@ -68,23 +68,31 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_validate.add(btn_valider);
         pnl_validate.add(btn_cancel);
 
-        var pnl_dateCreation = new JPanel(new GridLayout(2,1));
-        lbl_dateCreation = new JLabel("Date de création : ");
+        var pnl_dateCreation = new JPanel(new GridLayout(2, 1));
         var pnl_dateCreationSelect = new Panel(new FlowLayout());
+        lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
+        var defCalendar = Calendar.getInstance();
+        var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
+        tf_dateCreation.setText(
+                  (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
+                + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
+                + defDate[2]);
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
         tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-              update();
+                update();
             }
+
             public void removeUpdate(DocumentEvent e) {
-              update();
+                update();
             }
+
             public void insertUpdate(DocumentEvent e) {
-              update();
+                update();
             }
-          
+
             private void update() {
                 Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
                 Matcher m = regex.matcher(tf_dateCreation.getText());
@@ -94,29 +102,29 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
                     int dateCreationDay = Integer.parseInt(dateValueTab[0]);
                     int dateCreationMonth = Integer.parseInt(dateValueTab[1]) - 1;
-                    int dateCreationYear = Integer.parseInt(dateValueTab[2]);            
+                    int dateCreationYear = Integer.parseInt(dateValueTab[2]);
 
                     if (dateCreationYear >= 1970 && dateCreationMonth >= 0 && dateCreationMonth <= 11) {
                         dateCreation = Calendar.getInstance();
                         dateCreation.set(Calendar.MONTH, dateCreationMonth);
                         dateCreation.set(Calendar.YEAR, dateCreationYear);
-                        if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH) && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                        if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
+                                && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
-                            lbl_dateCreationWarn.setText(""); 
+                            lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
                         } else
                             notValid();
                     } else
-                        notValid();       
-
+                        notValid();
 
                 } else
                     notValid();
             }
 
             private void notValid() {
-                lbl_dateCreationWarn.setText("Date non valide (dd/mm/yyyy)"); 
-                dateCreationValid = false;   
+                lbl_dateCreationWarn.setText("Date non valide (dd/mm/yyyy)");
+                dateCreationValid = false;
             }
         });
 
@@ -177,21 +185,18 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void checkBtnValider() {
-        if (l_clients.getSelectedIndex() != -1
-            && dateCreationValid
-            )
+        if (l_clients.getSelectedIndex() != -1 && dateCreationValid)
             btn_valider.setEnabled(true);
         else
             btn_valider.setEnabled(false);
 
-
     }
 
-    public void userDialogReturn()
-    {
+    public void userDialogReturn() {
         this.setEnabled(true);
         this.toFront();
     }
+
     public void userDialogReturn(Client client) {
         var owner = (MainWindow) getOwner();
         owner.clients.addElement(client);
