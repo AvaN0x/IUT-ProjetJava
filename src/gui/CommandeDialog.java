@@ -18,17 +18,19 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private TableauProduits produitsComm;
 
     private JList<Client> l_clients;
-    private JTable t_produitsDispo;
-    private JTable t_produitsComm;
     private JButton btn_newUser;
     private JButton btn_delUser;
-    private JButton btn_valider;
-    private JButton btn_cancel;
     private JLabel lbl_dateCreation;
     private JLabel lbl_dateCreationWarn;
     private JTextField tf_dateCreation;
+    private JTable t_produitsDispo;
     private TableRowSorter<TableModel> t_produitsDispoSorter;
+    private JButton btn_prodDispo;
+    private JButton btn_prodComm;
+    private JTable t_produitsComm;
     private TableRowSorter<TableModel> t_produitsCommSorter;
+    private JButton btn_valider;
+    private JButton btn_cancel;
     
     public CommandeDialog(Window owner) {
         super(owner, "test - Nouvelle commande");
@@ -137,19 +139,33 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         
         var pnl_produitTables = new JPanel(new FlowLayout());
         
-        t_produitsDispo = new JTable(owner.produits);
-        t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
-        t_produitsDispoSorter.setSortsOnUpdates(true);
-        t_produitsDispo.setRowSorter(t_produitsDispoSorter);
         produitsComm = new TableauProduits();
         t_produitsComm = new JTable(produitsComm);
         t_produitsCommSorter = new TableRowSorter<TableModel>(t_produitsComm.getModel());
         t_produitsCommSorter.setSortsOnUpdates(true);
         t_produitsComm.setRowSorter(t_produitsCommSorter);
         
-        pnl_produitTables.add(new JScrollPane(t_produitsDispo));
-        //btns
+        var pnl_produitsBtns = new JPanel(new GridLayout(2,1));
+        
+        btn_prodComm = new JButton("←");
+        btn_prodComm.setToolTipText("Ajouter un produit à la commande");
+        btn_prodComm.addActionListener(this);
+        
+        btn_prodDispo = new JButton("→");
+        btn_prodDispo.setToolTipText("Retire un produit de la commande");
+        btn_prodDispo.addActionListener(this);
+        
+        pnl_produitsBtns.add(btn_prodComm);
+        pnl_produitsBtns.add(btn_prodDispo);
+        
+        t_produitsDispo = new JTable(owner.produits);
+        t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
+        t_produitsDispoSorter.setSortsOnUpdates(true);
+        t_produitsDispo.setRowSorter(t_produitsDispoSorter);
+        
         pnl_produitTables.add(new JScrollPane(t_produitsComm));
+        pnl_produitTables.add(pnl_produitsBtns);
+        pnl_produitTables.add(new JScrollPane(t_produitsDispo));
 
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
