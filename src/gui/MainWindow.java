@@ -84,13 +84,18 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btn_newCommande) {
-                var commandeDialog = new CommandeDialog(this);
-                commandeDialog.setVisible(true);
-                this.setEnabled(false);
-            } else if (e.getSource() == btn_delUser) {
-                clients.removeElement(l_clients.getSelectedValue());
-            }
+        if (e.getSource() == btn_newCommande) {
+            var commandeDialog = new CommandeDialog(this);
+            commandeDialog.setVisible(true);
+            this.setEnabled(false);
+        } else if (e.getSource() == btn_newProd) {
+            var ProduitDialog = new ProduitDialog(this);
+            ProduitDialog.setVisible(true);
+            this.setEnabled(false);
+        } else if (e.getSource() == btn_delUser)
+        {
+            clients.removeElement(l_clients.getSelectedValue());
+        }
     }
 
     public void commandeDialogReturn() {
@@ -100,6 +105,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     public void commandeDialogReturn(Commande commande) {
         commandes.addElement(commande);
+        commandeDialogReturn();
+    }
+
+    public void produitDialogReturn() {
+        this.setEnabled(true);
+        this.toFront();
+    }
+
+    public void produitDialogReturn(Produit produit) {
+        produits.add(produit);
         commandeDialogReturn();
     }
 
