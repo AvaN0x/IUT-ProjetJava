@@ -7,27 +7,33 @@ import java.util.regex.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.*;
 
 import app.Client;
 import app.Commande;
 
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener {
+    private boolean dateCreationValid;
+    private Calendar dateCreation;
+    private TableauProduits produitsComm;
+
     private JList<Client> l_clients;
+    private JTable t_produitsDispo;
+    private JTable t_produitsComm;
     private JButton btn_newUser;
     private JButton btn_delUser;
     private JButton btn_valider;
     private JButton btn_cancel;
-
     private JLabel lbl_dateCreation;
-    private JTextField tf_dateCreation;
     private JLabel lbl_dateCreationWarn;
-    private boolean dateCreationValid;
-    private Calendar dateCreation;
-
+    private JTextField tf_dateCreation;
+    private TableRowSorter<TableModel> t_produitsDispoSorter;
+    private TableRowSorter<TableModel> t_produitsCommSorter;
+    
     public CommandeDialog(Window owner) {
         super(owner, "test - Nouvelle commande");
         setLocation(300, 200);
-        setSize(600, 300);
+        setSize(1100, 625);
 
         initComponents();
     }
@@ -36,6 +42,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var owner = (MainWindow) getOwner();
         setLayout(new BorderLayout());
 
+        var pnl_dateclient = new JPanel(new FlowLayout());
         var pnl_clients = new JPanel(new FlowLayout());
 
         l_clients = new JList<Client>(owner.clients);
@@ -59,15 +66,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(pnl_clientsbtns);
 
-        var pnl_validate = new JPanel(new FlowLayout());
-        btn_valider = new JButton("Valider");
-        btn_valider.addActionListener(this);
-        btn_valider.setEnabled(false);
-        btn_cancel = new JButton("Annuler");
-        btn_cancel.addActionListener(this);
-        pnl_validate.add(btn_valider);
-        pnl_validate.add(btn_cancel);
-
         var pnl_dateCreation = new JPanel(new GridLayout(2, 1));
         var pnl_dateCreationSelect = new Panel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
@@ -75,20 +73,20 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var defCalendar = Calendar.getInstance();
         var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
         tf_dateCreation.setText(
-                  (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
-                + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
-                + defDate[2]);
-        lbl_dateCreationWarn = new JLabel("");
-        lbl_dateCreationWarn.setForeground(Color.RED);
-        tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
+            (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
+            + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
+            + defDate[2]);
+            lbl_dateCreationWarn = new JLabel("");
+            lbl_dateCreationWarn.setForeground(Color.RED);
+            tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
+                public void changedUpdate(DocumentEvent e) {
                 update();
             }
-
+            
             public void removeUpdate(DocumentEvent e) {
                 update();
             }
-
+            
             public void insertUpdate(DocumentEvent e) {
                 update();
             }
@@ -99,53 +97,77 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 if (m.matches()) {
                     String dateValue = tf_dateCreation.getText();
                     String[] dateValueTab = dateValue.split("/");
-
+                    
                     int dateCreationDay = Integer.parseInt(dateValueTab[0]);
                     int dateCreationMonth = Integer.parseInt(dateValueTab[1]) - 1;
                     int dateCreationYear = Integer.parseInt(dateValueTab[2]);
-
+                    
                     if (dateCreationYear >= 1970 && dateCreationMonth >= 0 && dateCreationMonth <= 11) {
                         dateCreation = Calendar.getInstance();
                         dateCreation.set(Calendar.MONTH, dateCreationMonth);
                         dateCreation.set(Calendar.YEAR, dateCreationYear);
                         if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
-                                && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                        && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
                             lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
                         } else
-                            notValid();
-                    } else
                         notValid();
-
-                } else
+                    } else
                     notValid();
+                    
+                } else
+                notValid();
             }
-
+            
             private void notValid() {
                 lbl_dateCreationWarn.setText("Date non valide (dd/mm/yyyy)");
                 dateCreationValid = false;
             }
         });
-
+        
         pnl_dateCreationSelect.add(lbl_dateCreation);
         pnl_dateCreationSelect.add(tf_dateCreation);
-
+        
         pnl_dateCreation.add(pnl_dateCreationSelect);
         pnl_dateCreation.add(lbl_dateCreationWarn);
+        
+        pnl_dateclient.add(pnl_dateCreation);
+        pnl_dateclient.add(pnl_clients);
+        
+        var pnl_produitTables = new JPanel(new FlowLayout());
+        
+        t_produitsDispo = new JTable(owner.produits);
+        t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
+        t_produitsDispoSorter.setSortsOnUpdates(true);
+        t_produitsDispo.setRowSorter(t_produitsDispoSorter);
+        produitsComm = new TableauProduits();
+        t_produitsComm = new JTable(produitsComm);
+        t_produitsCommSorter = new TableRowSorter<TableModel>(t_produitsComm.getModel());
+        t_produitsCommSorter.setSortsOnUpdates(true);
+        t_produitsComm.setRowSorter(t_produitsCommSorter);
+        
+        pnl_produitTables.add(new JScrollPane(t_produitsDispo));
+        //btns
+        pnl_produitTables.add(new JScrollPane(t_produitsComm));
 
-        add(pnl_dateCreation, BorderLayout.WEST);
-
-        add(pnl_clients, BorderLayout.EAST);
+        var pnl_validate = new JPanel(new FlowLayout());
+        btn_valider = new JButton("Valider");
+        btn_valider.addActionListener(this);
+        btn_valider.setEnabled(false);
+        btn_cancel = new JButton("Annuler");
+        btn_cancel.addActionListener(this);
+        pnl_validate.add(btn_valider);
+        pnl_validate.add(btn_cancel);
+        
+        add(pnl_dateclient, BorderLayout.NORTH);
+        add(pnl_produitTables, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                setVisible(false);
-                var owner = (MainWindow) getOwner();
-                owner.commandeDialogReturn();
-                dispose();
+                quit();
             }
         });
     }
@@ -154,7 +176,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
-            this.setEnabled(false);
+            setEnabled(false);
         } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
             owner.clients.removeElement(l_clients.getSelectedValue());
@@ -163,12 +185,9 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             setVisible(false);
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn(commande);
-            this.dispose();
+            dispose();
         } else if (e.getSource() == btn_cancel) {
-            setVisible(false);
-            var owner = (MainWindow) getOwner();
-            owner.commandeDialogReturn();
-            this.dispose();
+            quit();
         }
     }
 
@@ -190,6 +209,14 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         else
             btn_valider.setEnabled(false);
 
+    }
+
+    private void quit()
+    {
+        setVisible(false);
+        var owner = (MainWindow) getOwner();
+        owner.commandeDialogReturn();
+        dispose();
     }
 
     public void userDialogReturn() {
