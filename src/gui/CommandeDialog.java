@@ -230,7 +230,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private void quit() {
         setVisible(false);
         var owner = (MainWindow) getOwner();
-        owner.commandeDialogReturn();
+        owner.dialogReturn();
         dispose();
     }
 
