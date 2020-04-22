@@ -15,6 +15,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     protected DefaultListModel<Commande> commandes;
 
     private JButton btn_newCommande;
+    private JButton btn_newProd;
     private JButton btn_delUser;
     private JList<Client> l_clients;
     private JTable t_produits;
@@ -33,14 +34,19 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     private void initComponents() {
+        setLayout(new BorderLayout());
+        var toolbar = new JToolBar();
+
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_newCommande.setToolTipText("Ajouter une commande");
         btn_newCommande.addActionListener(this);
 
-        setLayout(new BorderLayout());
-        var toolbar = new JToolBar();
+        btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        btn_newProd.setToolTipText("Ajouter un produit");
+        btn_newProd.addActionListener(this);
 
         toolbar.add(btn_newCommande);
+        toolbar.add(btn_newProd);
         toolbar.addSeparator();
 
         var pnl_clients = new JPanel(new FlowLayout());
