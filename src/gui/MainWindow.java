@@ -30,6 +30,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new DefaultListModel<Commande>();
 
+        produits.add(new DVD("DVD", .8, 2, "Une personne connue"));
+
         initComponents();
     }
 
