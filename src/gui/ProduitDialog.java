@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import app.Produit;
+import app.*;
 
 public class ProduitDialog extends JDialog implements ActionListener, ItemListener {
     private JLabel lbl_title;
@@ -54,7 +54,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
         pnl_fields.add(pnl_quantity);
 
         cbx_type = new JComboBox<String>();
-        for (var item : TypesProduits.produits){
+        for (var item : Utils.produits) {
             cbx_type.addItem(item[0]);
         }
         cbx_type.addItemListener(this);
@@ -62,8 +62,8 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         var pnl_optionfields = new JPanel(new GridLayout(1, 1));
         var pnl_option1 = new JPanel(new FlowLayout());
-        lbl_option1 = new JLabel(TypesProduits.produits[cbx_type.getSelectedIndex()][1] + " :");
-        tf_option1 = new JTextField(3);
+        lbl_option1 = new JLabel(Utils.produits[cbx_type.getSelectedIndex()][1] + " :");
+        tf_option1 = new JTextField(10);
         pnl_option1.add(lbl_option1);
         pnl_option1.add(tf_option1);
         pnl_optionfields.add(pnl_option1);
@@ -94,8 +94,24 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
             setVisible(false);
+            Produit produit;
+            if(cbx_type.getSelectedIndex() == 1) // It's a Roman
+                produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
+                produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
+                produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            //TODO créer un calendar à partir d'un string
+            //else if (cbx_type.getSelectedIndex() == 4) // It's a CD
+            //    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
+                produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            else // It's a BD
+                produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+
+
             var owner = (MainWindow) getOwner();
-            // owner.produitDialogReturn(produit);
+            owner.produitDialogReturn(produit);
             owner.dialogReturn();
             this.dispose();
         } else if (e.getSource() == btn_cancel) {
@@ -108,7 +124,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == cbx_type)
-            lbl_option1.setText(TypesProduits.produits[cbx_type.getSelectedIndex()][1] + " :");
+            lbl_option1.setText(Utils.produits[cbx_type.getSelectedIndex()][1] + " :");
     }
 
 }
