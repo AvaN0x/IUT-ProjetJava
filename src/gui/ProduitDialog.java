@@ -93,7 +93,17 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
+            if(tf_title.getText().trim().length() <= 0 ||
+               tf_price.getText().trim().length() <= 0 ||
+               tf_quantity.getText().trim().length() <= 0 ||
+               tf_option1.getText().trim().length() <= 0)
+            {
+                JOptionPane.showMessageDialog(this, "L'un des champs est vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             setVisible(false);
+
             Produit produit;
             if(cbx_type.getSelectedIndex() == 1) // It's a Roman
                 produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
@@ -106,9 +116,8 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             //    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
                 produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else // It's a BD
+            else // It's a BD (the first one who selected by default)
                 produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-
 
             var owner = (MainWindow) getOwner();
             owner.produitDialogReturn(produit);
