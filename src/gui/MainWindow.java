@@ -189,10 +189,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_delUser) {
-            clients.removeElement(l_clients.getSelectedValue());
+            if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le client ?", "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                clients.removeElement(l_clients.getSelectedValue());
+
         } else if (e.getSource() == btn_remProd) {
             if (t_produits.getSelectedRow() != 0) {
-                produits.remove(t_produits.getSelectedRow());
+                if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le produit ?", "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    produits.remove(t_produits.getSelectedRow());
             }
         }
     }
