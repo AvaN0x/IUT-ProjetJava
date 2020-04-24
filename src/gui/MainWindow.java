@@ -66,43 +66,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsCommandes() {
         var pnl_commandesTab = new JPanel();
 
-        var pnl_clients = new JPanel(new FlowLayout());
-        l_clients = new JList<Client>(clients);
-        l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        l_clients.setSelectedIndex(0);
-        l_clients.addListSelectionListener(this);
-        l_clients.setVisibleRowCount(5);
-        var l_clientsScrollPane = new JScrollPane(l_clients);
-        btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
-        btn_delUser.setToolTipText("Supprimer un client sélectionné");
-        btn_delUser.addActionListener(this);
-        btn_delUser.setEnabled(false);
-        pnl_clients.add(l_clientsScrollPane);
-        pnl_clients.add(btn_delUser);
-
-        var pnl_produits = new JPanel(new FlowLayout());
-
-        var pnl_filter = new JPanel(new GridLayout(0, 1));
-        // checkbox for filter
-
-        t_produits = new JTable(produits);
-        t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
-        t_produitsSorter.setSortsOnUpdates(true);
-        t_produits.setRowSorter(t_produitsSorter);
-        var pnl_produitTable = new JPanel();
-        pnl_produitTable.add(new JScrollPane(t_produits));
-
-        pnl_produits.add(pnl_filter);
-        pnl_produits.add(pnl_produitTable);
-
-        pnl_commandesTab.add(pnl_clients, BorderLayout.EAST);
-        pnl_commandesTab.add(pnl_produits, BorderLayout.CENTER);
+        var lbl_commandesTab = new JLabel("Liste des commandes :"); 
+        pnl_commandesTab.add(lbl_commandesTab);
 
         return pnl_commandesTab;
     }
 
     private JPanel initComponentsProduits() {
         var pnl_produitsTab = new JPanel();
+
+        var lbl_commandesTab = new JLabel("Liste des produits :"); // TODO fix l'affichage
+        pnl_produitsTab.add(lbl_commandesTab);
 
         var pnl_produits = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -125,6 +99,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private JPanel initComponentsClients() {
         var pnl_clientsTab = new JPanel();
+
+        var lbl_clientsTab = new JLabel("Liste des clients :"); // TODO fix l'affichage
+        pnl_clientsTab.add(lbl_clientsTab);
 
         var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
