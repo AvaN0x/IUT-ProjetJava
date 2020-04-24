@@ -3,6 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 
@@ -104,7 +106,46 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                 JOptionPane.showMessageDialog(this, "L'un des champs est vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+            if (cbx_type.getSelectedIndex() == 4) { // It's a CD
+                Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
+                Matcher m = regex.matcher(tf_option1.getText());
+                if (m.matches()) {
+                    String dateValue = tf_option1.getText();
+                    String[] dateValueTab = dateValue.split("/");
+
+                    int releaseDateDay = Integer.parseInt(dateValueTab[0]);
+                    int releaseDateMonth = Integer.parseInt(dateValueTab[1]) - 1;
+                    int releaseDateYear = Integer.parseInt(dateValueTab[2]);
+
+                    if (releaseDateYear >= 1970 && releaseDateMonth >= 0 && releaseDateMonth <= 11) {
+                        Calendar releaseDate = Calendar.getInstance();
+                        releaseDate.set(Calendar.MONTH, releaseDateMonth);
+                        releaseDate.set(Calendar.YEAR, releaseDateYear);
+                        if (releaseDateDay >= releaseDate.getActualMinimum(Calendar.DAY_OF_MONTH)
+                                && releaseDateDay <= releaseDate.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                            releaseDate.set(Calendar.DAY_OF_MONTH, releaseDateDay);
+
+                            setVisible(false);
+                            Produit produit;
+                            produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
+                            var owner = (MainWindow) getOwner();
+                            owner.produitDialogReturn(produit);
+                            this.dispose();     
+                            return;           
+                        } else {
+                            JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
             setVisible(false);
 
             Produit produit;
