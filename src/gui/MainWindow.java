@@ -93,6 +93,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_produits.add(pnl_filter);
         pnl_produits.add(pnl_produitTable);
 
+        pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
 
         return pnl_produitsTab;
