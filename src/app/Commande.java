@@ -55,4 +55,32 @@ public class Commande {
             System.out.println(e.produit);
         }
     }
+
+    /**
+     * @return the client
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * @return the dateCreation
+     */
+    public Calendar getDateCreation() {
+        return dateCreation;
+    }
+
+    /**
+     * @return the reduction
+     */
+    public double getReduction() {
+        return reduction;
+    }
+
+    /**
+     * @return the emprunts
+     */
+    public ArrayList<Emprunt> getEmprunts() {
+        return emprunts;
+    }
 }
