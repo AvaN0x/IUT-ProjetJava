@@ -33,7 +33,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JButton btn_cancel;
 
     public CommandeDialog(Window owner) {
-        super(owner, "test - Nouvelle commande");
+        super(owner, "Gestion vidéothèque - Nouvelle commande");
         setLocation(300, 200);
         setSize(1100, 625);
 

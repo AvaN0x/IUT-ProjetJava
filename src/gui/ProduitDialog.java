@@ -18,7 +18,7 @@ public class ProduitDialog extends JDialog implements ActionListener {
     private JButton btn_cancel;
 
     public ProduitDialog(Window owner) {
-        super(owner, "test - Nouveau produit");
+        super(owner, "Gestion vidéothèque - Nouveau produit");
         setLocation(300, 200);
         setSize(200, 200);
 

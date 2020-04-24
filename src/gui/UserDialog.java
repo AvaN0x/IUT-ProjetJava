@@ -18,7 +18,7 @@ public class UserDialog extends JDialog implements ActionListener {
     private JButton btn_cancel;
 
     public UserDialog(Window owner) {
-        super(owner, "test - Nouveau client");
+        super(owner, "Gestion vidéothèque - Nouveau client");
         setLocation(300, 200);
         setSize(200, 150);
 
