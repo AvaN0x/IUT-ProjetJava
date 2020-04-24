@@ -1,6 +1,6 @@
 package gui;
 
-public class TypesProduits {
+public class Utils {
     static final String[][] produits = new String[][] {{"BD", "Auteur"}, 
                                                        {"Roman", "Auteur"}, 
                                                        {"Manuel Scolaire", "Auteur"}, 
