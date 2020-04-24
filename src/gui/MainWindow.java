@@ -188,9 +188,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
-        } else if (e.getSource() == btn_delUser)
-        {
+        } else if (e.getSource() == btn_delUser) {
             clients.removeElement(l_clients.getSelectedValue());
+        } else if (e.getSource() == btn_remProd) {
+            if (t_produits.getSelectedRow() != 0) {
+                produits.remove(t_produits.getSelectedRow());
+            }
         }
     }
 
