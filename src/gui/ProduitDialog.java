@@ -52,7 +52,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
         pnl_fields.add(pnl_title);
 
         var pnl_price = new JPanel(new FlowLayout());
-        lbl_price = new JLabel("Prix :");
+        lbl_price = new JLabel("Prix / jour :");
         tf_price = new JTextField(5);
         pnl_price.add(lbl_price);
         pnl_price.add(tf_price);
