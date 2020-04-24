@@ -23,7 +23,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private TableRowSorter<TableModel> t_produitsSorter;
 
     public MainWindow() {
-        super("titre");
+        super("Gestion vidéothèque");
         setLocation(300, 200);
         setSize(1280, 720);
 
