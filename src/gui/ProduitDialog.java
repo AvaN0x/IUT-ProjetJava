@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
+
 import javax.swing.*;
 
 import app.*;
@@ -106,6 +108,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             setVisible(false);
 
             Produit produit;
+            // TODO gérer l'erreur s'il y a des char a la place de chiffres
             if(cbx_type.getSelectedIndex() == 1) // It's a Roman
                 produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
@@ -133,8 +136,20 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
     }
 
     public void itemStateChanged(ItemEvent e) {
-        if (e.getSource() == cbx_type)
+        if (e.getSource() == cbx_type) {
             lbl_option1.setText(Utils.produits[cbx_type.getSelectedIndex()][1] + " :");
+            if (cbx_type.getSelectedIndex() == 4) { // It's a CD
+                var defCalendar = Calendar.getInstance();
+                var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
+                tf_option1.setText(
+                      (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
+                    + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
+                    + defDate[2]);
+            } else {
+                tf_option1.setText("");
+            }
+
+        }
     }
 
 }
