@@ -12,7 +12,7 @@ import app.*;
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener {
     protected DefaultListModel<Client> clients;
     protected TableauProduits produits;
-    protected DefaultListModel<Commande> commandes;
+    protected TableauCommandes commandes;
 
     private JTabbedPane tab;
     private JButton btn_toolbarNewCommande;
@@ -23,6 +23,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private JTable t_produits;
     private TableRowSorter<TableModel> t_produitsSorter;
+    private JTable t_commandes;
+    private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newProd;
 
     public MainWindow() {
@@ -32,7 +34,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         clients = new DefaultListModel<Client>();
         produits = new TableauProduits();
-        commandes = new DefaultListModel<Commande>();
+        commandes = new TableauCommandes();
 
         produits.add(new DVD("DVD", .8, 2, "Une personne connue"));
 
@@ -70,7 +72,31 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_commandesTab = new JPanel();
 
         var lbl_commandesTab = new JLabel("Liste des commandes :");
-        //TODO Tableau des commandes
+        // TODO fix l'affichage
+
+        var pnl_commandes = new JPanel(new FlowLayout());
+        var pnl_filter = new JPanel(new GridLayout(0, 1));
+        //TODO checkbox for filter
+
+        t_commandes = new JTable(commandes);
+        t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
+        t_commandesSorter.setSortsOnUpdates(true);
+        t_commandes.setRowSorter(t_commandesSorter);
+        var pnl_produitTable = new JPanel();
+        pnl_produitTable.add(new JScrollPane(t_commandes));
+
+        pnl_commandes.add(pnl_filter);
+        pnl_commandes.add(pnl_produitTable);
+
+        btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
+        btn_newProd.setToolTipText("Ajouter une commande");
+        btn_newProd.addActionListener(this);
+        //TODO boutton pour supprimer une commande
+
+        pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
+        pnl_commandesTab.add(pnl_commandes, BorderLayout.CENTER);
+        pnl_commandesTab.add(btn_newProd);
+
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
 
         return pnl_commandesTab;
@@ -157,7 +183,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void commandeDialogReturn(Commande commande) {
-        commandes.addElement(commande);
+        commandes.add(commande);
         dialogReturn();
     }
 
