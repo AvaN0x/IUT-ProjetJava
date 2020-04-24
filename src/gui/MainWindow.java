@@ -26,6 +26,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JTable t_commandes;
     private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newProd;
+    private JButton btn_newCommande;
 
     public MainWindow() {
         super("Gestion vidéothèque");
@@ -88,14 +89,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandes.add(pnl_filter);
         pnl_commandes.add(pnl_produitTable);
 
-        btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
-        btn_newProd.setToolTipText("Ajouter une commande");
-        btn_newProd.addActionListener(this);
+        btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
+        btn_newCommande.setToolTipText("Ajouter une commande");
+        btn_newCommande.addActionListener(this);
         //TODO boutton pour supprimer une commande
 
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_commandesTab.add(pnl_commandes, BorderLayout.CENTER);
-        pnl_commandesTab.add(btn_newProd);
+        pnl_commandesTab.add(btn_newCommande);
 
         return pnl_commandesTab;
     }
@@ -160,7 +161,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_toolbarNewCommande) {
+        if (e.getSource() == btn_toolbarNewCommande || e.getSource() == btn_newCommande) {
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
