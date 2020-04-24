@@ -133,7 +133,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_toolbarNewCommande) {
+        if (e.getSource() == btn_toolbarNewCommande || e.getSource() == btn_newProd) {
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
