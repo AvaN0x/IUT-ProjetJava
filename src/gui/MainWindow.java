@@ -99,7 +99,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         btn_newProd.setToolTipText("Ajouter un produit");
         btn_newProd.addActionListener(this);
-
+        //TODO boutton pour supprimer un produit
 
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
