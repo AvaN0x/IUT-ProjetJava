@@ -24,7 +24,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
     public ProduitDialog(Window owner) {
         super(owner, "Gestion vidéothèque - Nouveau produit");
         setLocation(300, 200);
-        setSize(240, 200);
+        setSize(240, 210);
 
         initComponents();
     }
