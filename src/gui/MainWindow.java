@@ -15,10 +15,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     protected DefaultListModel<Commande> commandes;
 
     private JTabbedPane tab;
-    private JButton btn_newCommande;
-    private JButton btn_newProd;
+    private JButton btn_toolbarNewCommande;
+    private JButton btn_toolbarNewProd;
     private JButton btn_delUser;
+
     private JList<Client> l_clients;
+
     private JTable t_produits;
     private TableRowSorter<TableModel> t_produitsSorter;
 
@@ -41,16 +43,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var toolbar = new JToolBar(null, JToolBar.VERTICAL);
         toolbar.setFloatable(false);
 
-        btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
-        btn_newCommande.setToolTipText("Ajouter une commande");
-        btn_newCommande.addActionListener(this);
+        btn_toolbarNewCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
+        btn_toolbarNewCommande.setToolTipText("Ajouter une commande");
+        btn_toolbarNewCommande.addActionListener(this);
 
-        btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
-        btn_newProd.setToolTipText("Ajouter un produit");
-        btn_newProd.addActionListener(this);
+        btn_toolbarNewProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        btn_toolbarNewProd.setToolTipText("Ajouter un produit");
+        btn_toolbarNewProd.addActionListener(this);
 
-        toolbar.add(btn_newCommande);
-        toolbar.add(btn_newProd);
+        toolbar.add(btn_toolbarNewCommande);
+        toolbar.add(btn_toolbarNewProd);
         toolbar.addSeparator();
         add(toolbar, BorderLayout.WEST);
 
@@ -67,7 +69,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_commandesTab = new JPanel();
 
         var lbl_commandesTab = new JLabel("Liste des commandes :"); 
-        pnl_commandesTab.add(lbl_commandesTab);
+        pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
 
         return pnl_commandesTab;
     }
@@ -76,7 +78,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produitsTab = new JPanel();
 
         var lbl_commandesTab = new JLabel("Liste des produits :"); // TODO fix l'affichage
-        pnl_produitsTab.add(lbl_commandesTab);
 
         var pnl_produits = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -101,7 +102,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_clientsTab = new JPanel();
 
         var lbl_clientsTab = new JLabel("Liste des clients :"); // TODO fix l'affichage
-        pnl_clientsTab.add(lbl_clientsTab);
 
         var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
@@ -118,17 +118,18 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(btn_delUser);
 
+        pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
         pnl_clientsTab.add(pnl_clients, BorderLayout.EAST);
 
         return pnl_clientsTab;
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_newCommande) {
+        if (e.getSource() == btn_toolbarNewCommande) {
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
-        } else if (e.getSource() == btn_newProd) {
+        } else if (e.getSource() == btn_toolbarNewProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
