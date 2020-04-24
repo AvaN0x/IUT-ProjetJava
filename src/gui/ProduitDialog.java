@@ -32,6 +32,14 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         var pnl_fields = new JPanel(new GridLayout(5, 1));
 
+        cbx_type = new JComboBox<String>();
+        for (var item : Utils.produits) {
+            cbx_type.addItem(item[0]);
+        }
+        cbx_type.addItemListener(this);
+        pnl_fields.add(cbx_type);
+
+
         var pnl_title = new JPanel(new FlowLayout());
         lbl_title = new JLabel("Titre :");
         tf_title = new JTextField(10);
@@ -52,13 +60,6 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);
         pnl_fields.add(pnl_quantity);
-
-        cbx_type = new JComboBox<String>();
-        for (var item : Utils.produits) {
-            cbx_type.addItem(item[0]);
-        }
-        cbx_type.addItemListener(this);
-        pnl_fields.add(cbx_type);
 
         var pnl_optionfields = new JPanel(new GridLayout(1, 1));
         var pnl_option1 = new JPanel(new FlowLayout());
