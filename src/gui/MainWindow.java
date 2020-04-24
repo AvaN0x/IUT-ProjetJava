@@ -37,7 +37,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new TableauCommandes();
 
-        produits.add(new DVD("DVD", .8, 2, "Une personne connue"));
+        produits.add(new DVD("DVD1", .8, 2, "Une personne connue1"));
+        produits.add(new DVD("DVD2", 2, 1, "Une personne connue2"));
+        produits.add(new DVD("DVD3", .2, 4, "Une personne connue3"));
+        produits.add(new DVD("DVD4", 1.5, 1, "Une personne connue4"));
+        produits.add(new Dictionnaire("dico1", .5, 1, "FR"));
+        produits.add(new Roman("roman1", 5.5, 5, "Une personne connue5"));
+
 
         initComponents();
     }
