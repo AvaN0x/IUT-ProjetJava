@@ -56,4 +56,7 @@ public class TableauProduits extends AbstractTableModel{
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
+    public Produit getProduit(int index) {
+        return produits.get(index);
+    }
 }
