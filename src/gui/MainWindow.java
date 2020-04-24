@@ -26,6 +26,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JTable t_commandes;
     private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newProd;
+    private JButton btn_remProd;
+    private JButton btn_addQuantityProd;
     private JButton btn_newCommande;
 
     public MainWindow() {
@@ -131,10 +133,21 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_newProd.setToolTipText("Ajouter un produit");
         btn_newProd.addActionListener(this);
         //TODO boutton pour supprimer un produit
+        btn_remProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remProd.png")));
+        btn_remProd.setToolTipText("Supprimer un produit");
+        btn_remProd.addActionListener(this);
+
+        btn_addQuantityProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addQuantityProd.png")));
+        btn_addQuantityProd.setToolTipText("Ajouter du stock à un produit");
+        btn_addQuantityProd.addActionListener(this);
+
 
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
         pnl_produitsTab.add(btn_newProd);
+        pnl_produitsTab.add(btn_remProd);
+        pnl_produitsTab.add(btn_addQuantityProd);
+
 
         return pnl_produitsTab;
     }
