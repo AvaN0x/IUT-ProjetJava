@@ -141,7 +141,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_addQuantityProd.setToolTipText("Ajouter du stock à un produit");
         btn_addQuantityProd.addActionListener(this);
 
-
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
         pnl_produitsTab.add(btn_newProd);
@@ -193,7 +192,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 clients.removeElement(l_clients.getSelectedValue());
 
         } else if (e.getSource() == btn_remProd) {
-            if (t_produits.getSelectedRow() != 0) {
+            if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le produit ?", "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     produits.remove(t_produits.getSelectedRow());
             }
