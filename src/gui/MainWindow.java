@@ -160,11 +160,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_toolbarNewCommande || e.getSource() == btn_newProd) {
+        if (e.getSource() == btn_toolbarNewCommande) {
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
-        } else if (e.getSource() == btn_toolbarNewProd) {
+        } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
