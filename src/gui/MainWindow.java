@@ -14,6 +14,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     protected TableauProduits produits;
     protected DefaultListModel<Commande> commandes;
 
+    private JTabbedPane tab;
     private JButton btn_newCommande;
     private JButton btn_newProd;
     private JButton btn_delUser;
@@ -37,7 +38,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private void initComponents() {
         setLayout(new BorderLayout());
-        var toolbar = new JToolBar();
+        var toolbar = new JToolBar(null, JToolBar.VERTICAL);
         toolbar.setFloatable(false);
 
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
@@ -51,6 +52,19 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         toolbar.add(btn_newCommande);
         toolbar.add(btn_newProd);
         toolbar.addSeparator();
+        add(toolbar, BorderLayout.WEST);
+
+        tab = new JTabbedPane();
+        tab.addTab("Commandes", initComponentsCommandes());
+        tab.addTab("Produits", initComponentsProduits());
+        tab.addTab("Clients", initComponentsClients());
+
+        add(tab);
+    }
+
+
+    private JPanel initComponentsCommandes() {
+        var pnl_commandesTab = new JPanel();
 
         var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
@@ -81,9 +95,55 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_produits.add(pnl_filter);
         pnl_produits.add(pnl_produitTable);
 
-        add(toolbar, BorderLayout.NORTH);
-        add(pnl_clients, BorderLayout.EAST);
-        add(pnl_produits, BorderLayout.CENTER);
+        pnl_commandesTab.add(pnl_clients, BorderLayout.EAST);
+        pnl_commandesTab.add(pnl_produits, BorderLayout.CENTER);
+
+        return pnl_commandesTab;
+    }
+
+    private JPanel initComponentsProduits() {
+        var pnl_produitsTab = new JPanel();
+
+        var pnl_produits = new JPanel(new FlowLayout());
+        var pnl_filter = new JPanel(new GridLayout(0, 1));
+        // checkbox for filter
+
+        t_produits = new JTable(produits);
+        t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
+        t_produitsSorter.setSortsOnUpdates(true);
+        t_produits.setRowSorter(t_produitsSorter);
+        var pnl_produitTable = new JPanel();
+        pnl_produitTable.add(new JScrollPane(t_produits));
+
+        pnl_produits.add(pnl_filter);
+        pnl_produits.add(pnl_produitTable);
+
+        pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
+
+        return pnl_produitsTab;
+    }
+
+    private JPanel initComponentsClients() {
+        var pnl_clientsTab = new JPanel();
+
+        var pnl_clients = new JPanel(new FlowLayout());
+        l_clients = new JList<Client>(clients);
+        l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        l_clients.setSelectedIndex(0);
+        l_clients.addListSelectionListener(this);
+        l_clients.setVisibleRowCount(5);
+
+        var l_clientsScrollPane = new JScrollPane(l_clients);
+        btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
+        btn_delUser.setToolTipText("Supprimer un client sélectionné");
+        btn_delUser.addActionListener(this);
+        btn_delUser.setEnabled(false);
+        pnl_clients.add(l_clientsScrollPane);
+        pnl_clients.add(btn_delUser);
+
+        pnl_clientsTab.add(pnl_clients, BorderLayout.EAST);
+
+        return pnl_clientsTab;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -101,6 +161,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         }
     }
 
+    
     public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
