@@ -126,12 +126,20 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                             releaseDate.set(Calendar.DAY_OF_MONTH, releaseDateDay);
 
                             setVisible(false);
+
                             Produit produit;
-                            produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
+                            try {
+                                produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
+         
+                            } catch (Exception error) {
+                                JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                                setVisible(true);
+                                return;           
+                            }
                             var owner = (MainWindow) getOwner();
                             owner.produitDialogReturn(produit);
-                            this.dispose();     
-                            return;           
+                            this.dispose();
+                            return;
                         } else {
                             JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                             return;
@@ -149,21 +157,26 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             setVisible(false);
 
             Produit produit;
-            // TODO gérer l'erreur s'il y a des char a la place de chiffres
-            if(cbx_type.getSelectedIndex() == 1) // It's a Roman
-                produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
-                produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
-                produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
-                produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else // It's a BD (the first one who is selected by default)
-                produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-
+            try {
+                if(cbx_type.getSelectedIndex() == 1) // It's a Roman
+                    produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
+                    produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
+                    produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
+                    produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                else // It's a BD (the first one who is selected by default)
+                    produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+            } catch (Exception error) {
+                JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                setVisible(true);
+                return;
+            }
             var owner = (MainWindow) getOwner();
             owner.produitDialogReturn(produit);
             this.dispose();
+
         } else if (e.getSource() == btn_cancel) {
             setVisible(false);
             var owner = (MainWindow) getOwner();
