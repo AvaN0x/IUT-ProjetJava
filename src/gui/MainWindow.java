@@ -23,6 +23,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private JTable t_produits;
     private TableRowSorter<TableModel> t_produitsSorter;
+    private JButton btn_newProd;
 
     public MainWindow() {
         super("Gestion vidéothèque");
@@ -93,8 +94,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_produits.add(pnl_filter);
         pnl_produits.add(pnl_produitTable);
 
+        btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        btn_newProd.setToolTipText("Ajouter un produit");
+        btn_newProd.addActionListener(this);
+
+
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
+        pnl_produitsTab.add(btn_newProd);
 
         return pnl_produitsTab;
     }
