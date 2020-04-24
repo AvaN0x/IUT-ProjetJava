@@ -209,11 +209,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void commandeDialogReturn(Commande commande) {
         commandes.add(commande);
         dialogReturn();
+        tab.setSelectedIndex(0);
     }
 
     public void produitDialogReturn(Produit produit) {
         produits.add(produit);
         dialogReturn();
+        tab.setSelectedIndex(1);
     }
 
     public void valueChanged(ListSelectionEvent e) {
