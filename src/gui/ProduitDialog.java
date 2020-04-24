@@ -158,7 +158,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                 produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
                 produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            else // It's a BD (the first one who selected by default)
+            else // It's a BD (the first one who is selected by default)
                 produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
 
             var owner = (MainWindow) getOwner();
