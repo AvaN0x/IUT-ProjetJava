@@ -156,9 +156,6 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                 produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
                 produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
-            //TODO créer un calendar à partir d'un string
-            //else if (cbx_type.getSelectedIndex() == 4) // It's a CD
-            //    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
                 produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
             else // It's a BD (the first one who selected by default)
