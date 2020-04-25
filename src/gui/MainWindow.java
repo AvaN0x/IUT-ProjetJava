@@ -131,28 +131,27 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_produits.add(pnl_filter);
         pnl_produits.add(pnl_produitTable);
 
+        var pnl_prodbtns = new JPanel(new GridLayout(4, 1));
         btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         btn_newProd.setToolTipText("Ajouter un produit");
         btn_newProd.addActionListener(this);
-
         btn_remProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remProd.png")));
         btn_remProd.setToolTipText("Supprimer un produit");
         btn_remProd.addActionListener(this);
-
         btn_addQuantityProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addQuantityProd.png")));
         btn_addQuantityProd.setToolTipText("Ajouter du stock à un produit");
         btn_addQuantityProd.addActionListener(this);
-
         btn_infoProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoProd.setToolTipText("Plus d'informations à propos du produit");
         btn_infoProd.addActionListener(this);
-        
+        pnl_prodbtns.add(btn_newProd);
+        pnl_prodbtns.add(btn_remProd);
+        pnl_prodbtns.add(btn_addQuantityProd);
+        pnl_prodbtns.add(btn_infoProd);
+
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
-        pnl_produitsTab.add(btn_newProd);
-        pnl_produitsTab.add(btn_remProd);
-        pnl_produitsTab.add(btn_addQuantityProd);
-        pnl_produitsTab.add(btn_infoProd);
+        pnl_produitsTab.add(pnl_prodbtns);
 
         return pnl_produitsTab;
     }
@@ -171,6 +170,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         l_clients.setVisibleRowCount(5);
 
         var l_clientsScrollPane = new JScrollPane(l_clients);
+        var pnl_clientsbtns = new JPanel(new GridLayout(2, 1));
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
@@ -178,12 +178,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoUser.setToolTipText("Plus d'informations à propos du client");
         btn_infoUser.addActionListener(this);
+        pnl_clientsbtns.add(btn_delUser);
+        pnl_clientsbtns.add(btn_infoUser);
+        
         pnl_clients.add(l_clientsScrollPane);
-        pnl_clients.add(btn_delUser);
-        pnl_clients.add(btn_infoUser);
-
         pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
         pnl_clientsTab.add(pnl_clients, BorderLayout.EAST);
+        pnl_clientsTab.add(pnl_clientsbtns);
+
 
         return pnl_clientsTab;
     }
