@@ -43,8 +43,6 @@ public class UserDialog extends JDialog implements ActionListener {
         pnl_prenom.add(tf_prenom);
         
         var pnl_fidel = new Panel(new FlowLayout());
-        pnl_fidel.add(pnl_nom);
-        pnl_fidel.add(pnl_prenom);
         cb_fidel = new JCheckBox("Fidèle");
         cb_fidel.setToolTipText("Le client est-il fidèle ?");
         pnl_fidel.add(cb_fidel);
