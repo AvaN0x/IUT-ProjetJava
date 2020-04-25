@@ -18,6 +18,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
     private JButton btn_delUser;
+    private JButton btn_infoUser;
 
     private JList<Client> l_clients;
 
@@ -28,6 +29,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_newProd;
     private JButton btn_remProd;
     private JButton btn_addQuantityProd;
+    private JButton btn_infoProd;
     private JButton btn_newCommande;
 
     public MainWindow() {
@@ -141,12 +143,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_addQuantityProd.setToolTipText("Ajouter du stock à un produit");
         btn_addQuantityProd.addActionListener(this);
 
+        btn_infoProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoProd.setToolTipText("Plus d'informations à propos du produit");
+        btn_infoProd.addActionListener(this);
+        
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
         pnl_produitsTab.add(btn_newProd);
         pnl_produitsTab.add(btn_remProd);
         pnl_produitsTab.add(btn_addQuantityProd);
-
+        pnl_produitsTab.add(btn_infoProd);
 
         return pnl_produitsTab;
     }
@@ -169,8 +175,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
         btn_delUser.setEnabled(false);
+        btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoUser.setToolTipText("Plus d'informations à propos du client");
+        btn_infoUser.addActionListener(this);
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(btn_delUser);
+        pnl_clients.add(btn_infoUser);
 
         pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
         pnl_clientsTab.add(pnl_clients, BorderLayout.EAST);
