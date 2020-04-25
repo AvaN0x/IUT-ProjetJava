@@ -8,4 +8,7 @@ public class DVD extends SupportNum {
         this.realisateur = realisateur;
     }
 
+    public String getOption1() {
+        return realisateur;
+    }
 }

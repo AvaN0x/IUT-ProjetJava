@@ -7,4 +7,7 @@ public abstract class Livre extends Document {
         super(title, dailyPrice, quantity);
         this.auteur = auteur.trim();
     }
+    public String getOption1() {
+        return auteur;
+    }
 }

@@ -79,4 +79,5 @@ public abstract class Produit {
             ", dispo='" + dispo + "'";
     }
 
+    public abstract Object getOption1();
 }

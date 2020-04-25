@@ -7,4 +7,8 @@ public class Dictionnaire extends Document {
         super(title, dailyPrice, quantity);
         this.langue = langue.trim();
     }
+
+    public String getOption1() {
+        return langue;
+    }
 }
