@@ -85,8 +85,6 @@ public class ProduitInfo extends JDialog {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 setVisible(false);
-                var owner = (MainWindow) getOwner();
-                owner.dialogReturn();
                 dispose();
             }
         });
