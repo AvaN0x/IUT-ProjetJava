@@ -47,6 +47,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits.add(new DVD("DVD4", 1.5, 1, "Une personne connue4"));
         produits.add(new Dictionnaire("dico1", .5, 1, "FR"));
         produits.add(new Roman("roman1", 5.5, 5, "Une personne connue5"));
+        clients.addElement(new ClientFidele("nom", "prenom"));
 
 
         initComponents();
@@ -203,6 +204,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le client ?", "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 clients.removeElement(l_clients.getSelectedValue());
 
+        } else if (e.getSource() == btn_infoUser) {
+            new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
         } else if (e.getSource() == btn_remProd) {
             if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le produit ?", "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
@@ -216,9 +219,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     produits.getProduit(t_produits.getSelectedRow()).addQuantity(quantity);
                     t_produits.repaint();
                 } catch (Exception error) {
-                    JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else if (e.getSource() == btn_infoProd) {
+            // TODO info prod
         }
     }
 
