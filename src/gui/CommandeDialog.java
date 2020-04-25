@@ -268,7 +268,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public void userDialogReturn(Client client) {
         var owner = (MainWindow) getOwner();
         owner.clients.addElement(client);
-        userDialogReturn();
+        dialogReturn();
     }
 
 }
