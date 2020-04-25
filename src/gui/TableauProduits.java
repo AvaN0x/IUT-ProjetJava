@@ -7,7 +7,7 @@ import app.Produit;
 public class TableauProduits extends AbstractTableModel{
     private ArrayList<Produit> produits;
 
-    private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Quantitée", "Loués" };
+    private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
 
     public TableauProduits(){
         super();
