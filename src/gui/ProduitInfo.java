@@ -51,13 +51,13 @@ public class ProduitInfo extends JDialog {
         // TODO ajouter l'option differente a chaque prod
 
         var pnl_dispoPrice = new Panel(new FlowLayout());
-        var lbl_dispoPriceStatic = new JLabel("Disponible :");
+        var lbl_dispoPriceStatic = new JLabel("Disponibles :");
         var lbl_dispoPrice = new JLabel(Integer.toString(produit.getDispo()));
         pnl_dispoPrice.add(lbl_dispoPriceStatic);
         pnl_dispoPrice.add(lbl_dispoPrice);
 
         var pnl_loue = new Panel(new FlowLayout());
-        var lbl_loueStatic = new JLabel("Loué :");
+        var lbl_loueStatic = new JLabel("Loués :");
         var lbl_loue = new JLabel(Integer.toString(produit.getQuantity() - produit.getDispo()));
         pnl_loue.add(lbl_loueStatic);
         pnl_loue.add(lbl_loue);
