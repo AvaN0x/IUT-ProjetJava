@@ -42,7 +42,7 @@ public class TableauCommandes extends AbstractTableModel{
                 return produits.get(rowIndex).getReduction();
             case 3:
                 return produits.get(rowIndex).getEmprunts();
-                //TODO fix affichage
+                //TODO fix affichage : supprimer la colonne et les afficher dans CommandeInfo.java (TODO)
             default:
                 return null;
         }
