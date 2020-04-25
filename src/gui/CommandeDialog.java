@@ -214,7 +214,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         } else if (e.getSource() == btn_cancel) {
             quit();
         } else if (e.getSource() == btn_prodComm) {
-            // System.out.println("prodDispo " + t_produitsDispo.getSelectedRow());
             if (t_produitsDispo.getSelectedRow() != -1) {
                 var owner = (MainWindow) getOwner();
                 // TODO demander la date de fin
@@ -227,6 +226,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             if (t_produitsComm.getSelectedRow() != -1) {
                 // produitsComm.getProduit(t_produitsComm.getSelectedRow()).rendre();;
                 produitsComm.remove(t_produitsComm.getSelectedRow());
+                checkBtnValider();
             }
         }
     }
