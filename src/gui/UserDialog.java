@@ -14,6 +14,7 @@ public class UserDialog extends JDialog implements ActionListener {
     private JTextField tf_nom;
     private JTextField tf_prenom;
     private JCheckBox cb_fidel;
+    
     private JButton btn_valider;
     private JButton btn_cancel;
 
@@ -67,7 +68,7 @@ public class UserDialog extends JDialog implements ActionListener {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 setVisible(false);
                 var owner = (CommandeDialog) getOwner();
-                owner.userDialogReturn();
+                owner.dialogReturn();
                 dispose();
             }
         });
