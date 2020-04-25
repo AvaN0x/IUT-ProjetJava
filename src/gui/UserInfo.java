@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import app.Client;
 import app.ClientFidele;
-import app.ClientOccas;
 
 public class UserInfo extends JDialog implements ActionListener {
     Client client;
