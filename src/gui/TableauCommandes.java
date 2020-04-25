@@ -7,18 +7,18 @@ import javax.swing.table.*;
 import app.Commande;
 
 public class TableauCommandes extends AbstractTableModel{
-    private ArrayList<Commande> produits;
+    private ArrayList<Commande> commandes;
 
-    private final String[] categories = new String[] { "Client", "Date de Création", "Réduction", "Emprunts" };
+    private final String[] categories = new String[] { "Client", "Date de Création", "Réduction", "Cout total", "Emprunts" };
 
     public TableauCommandes(){
         super();
 
-        produits = new ArrayList<Commande>();
+        commandes = new ArrayList<Commande>();
     }
 
     public int getRowCount() {
-        return produits.size();
+        return commandes.size();
     }
  
     public int getColumnCount() {
@@ -32,16 +32,18 @@ public class TableauCommandes extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
             case 0:
-                return produits.get(rowIndex).getClient();
+                return commandes.get(rowIndex).getClient();
             case 1:
-                var dateCreation = produits.get(rowIndex).getDateCreation();
+                var dateCreation = commandes.get(rowIndex).getDateCreation();
                 return ((dateCreation.get(Calendar.DAY_OF_MONTH) > 9) ? dateCreation.get(Calendar.DAY_OF_MONTH) : ("0" + dateCreation.get(Calendar.DAY_OF_MONTH))) + 
                 "/" + ((dateCreation.get(Calendar.MONTH) > 8) ? (dateCreation.get(Calendar.MONTH) + 1) : ("0" + (dateCreation.get(Calendar.MONTH) + 1))) + 
                 "/" + dateCreation.get(Calendar.YEAR);
             case 2:
-                return produits.get(rowIndex).getReduction();
+                return commandes.get(rowIndex).getReduction();
             case 3:
-                return produits.get(rowIndex).getEmprunts();
+                return commandes.get(rowIndex).getTotalCost();
+            case 4:
+                return commandes.get(rowIndex).getEmprunts();
                 //TODO fix affichage : supprimer la colonne et les afficher dans CommandeInfo.java (TODO)
             default:
                 return null;
@@ -49,13 +51,13 @@ public class TableauCommandes extends AbstractTableModel{
     }
  
     public void add(Commande prod) {
-        produits.add(prod);
+        commandes.add(prod);
  
-        fireTableRowsInserted(produits.size() -1, produits.size() -1);
+        fireTableRowsInserted(commandes.size() -1, commandes.size() -1);
     }
  
     public void remove(int rowIndex) {
-        produits.remove(rowIndex);
+        commandes.remove(rowIndex);
  
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
