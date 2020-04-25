@@ -20,4 +20,12 @@ public class Emprunt {
         return amountOfDays * produit.getDailyPrice();
     }
 
+    public Produit getProduit() {
+        return this.produit;
+    }
+
+    public Calendar getDateFin() {
+        return this.dateFin;
+    }
+
 }
