@@ -7,10 +7,8 @@ import javax.swing.*;
 import app.Client;
 import app.ClientFidele;
 
-public class UserInfo extends JDialog implements ActionListener {
+public class UserInfo extends JDialog {
     Client client;
-
-    private JButton btn_leave;
 
     public UserInfo(Window owner, Client client) {
         super(owner, "Gestion vidéothèque - Information client");
@@ -61,13 +59,7 @@ public class UserInfo extends JDialog implements ActionListener {
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_fidel);
 
-        var pnl_validate = new Panel(new FlowLayout());
-        btn_leave = new JButton("Quitter");
-        btn_leave.addActionListener(this);
-        pnl_validate.add(btn_leave);
-
         add(pnl_fields, BorderLayout.CENTER);
-        add(pnl_validate, BorderLayout.SOUTH);
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -78,14 +70,5 @@ public class UserInfo extends JDialog implements ActionListener {
                 dispose();
             }
         });
-    }
-
-    public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == btn_leave) {
-            setVisible(false);
-            var owner = (MainWindow) getOwner();
-            owner.dialogReturn();
-            this.dispose();
-        }
     }
 }

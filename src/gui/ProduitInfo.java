@@ -6,10 +6,8 @@ import javax.swing.*;
 
 import app.Produit;
 
-public class ProduitInfo extends JDialog implements ActionListener {
+public class ProduitInfo extends JDialog {
     Produit produit;
-
-    private JButton btn_leave;
 
     public ProduitInfo(Window owner, Produit produit) {
         super(owner, "Gestion vidéothèque - Information produit");
@@ -50,6 +48,8 @@ public class ProduitInfo extends JDialog implements ActionListener {
         pnl_class.add(lbl_classStatic);
         pnl_class.add(lbl_class);
 
+        // TODO ajouter l'option differente a chaque prod
+
         var pnl_dispoPrice = new Panel(new FlowLayout());
         var lbl_dispoPriceStatic = new JLabel("Disponible :");
         var lbl_dispoPrice = new JLabel(Integer.toString(produit.getDispo()));
@@ -69,13 +69,7 @@ public class ProduitInfo extends JDialog implements ActionListener {
         pnl_fields.add(pnl_dispoPrice);
         pnl_fields.add(pnl_loue);
 
-        var pnl_validate = new Panel(new FlowLayout());
-        btn_leave = new JButton("Quitter");
-        btn_leave.addActionListener(this);
-        pnl_validate.add(btn_leave);
-
         add(pnl_fields, BorderLayout.CENTER);
-        add(pnl_validate, BorderLayout.SOUTH);
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -87,14 +81,4 @@ public class ProduitInfo extends JDialog implements ActionListener {
             }
         });
     }
-
-    public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == btn_leave) {
-            setVisible(false);
-            var owner = (MainWindow) getOwner();
-            owner.dialogReturn();
-            this.dispose();
-        }
-    }
-
 }
