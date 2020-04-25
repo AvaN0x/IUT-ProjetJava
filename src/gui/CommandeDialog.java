@@ -78,6 +78,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                   (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
                 + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
                 + defDate[2]);
+        dateCreationValid = true;
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
         tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
@@ -113,6 +114,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
                             lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
+                            checkBtnValider();
                         } else
                             notValid();
                     } else
@@ -210,6 +212,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 // TODO demander la date de fin
                 // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
                 produitsComm.add(owner.produits.getProduit(t_produitsDispo.getSelectedRow()));
+                checkBtnValider();
                 // owner.produits.getProduit(t_produitsDispo.getSelectedRow()).emprunter();
             }    
         } else if (e.getSource() == btn_prodDispo) {
@@ -233,7 +236,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void checkBtnValider() {
-        if (l_clients.getSelectedIndex() != -1 && dateCreationValid)
+        if (l_clients.getSelectedIndex() != -1 && dateCreationValid && produitsComm.getRowCount() > 0)
             btn_valider.setEnabled(true);
         else
             btn_valider.setEnabled(false);
