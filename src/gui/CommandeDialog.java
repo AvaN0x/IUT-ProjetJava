@@ -206,7 +206,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
         } else if (e.getSource() == btn_valider) {
-            var commande = new Commande(l_clients.getSelectedValue());
+            var commande = new Commande(l_clients.getSelectedValue(), dateCreation);
             setVisible(false);
             var owner = (MainWindow) getOwner();
             owner.commandeDialogReturn(commande);

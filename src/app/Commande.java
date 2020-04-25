@@ -11,10 +11,6 @@ public class Commande {
     protected double reduction;
     protected ArrayList<Emprunt> emprunts;
 
-    public Commande(Client client) {
-        this(client, Calendar.getInstance());
-    }
-
     public Commande(Client client, Calendar dateCreation) {
         this.id = "C" + UUID.randomUUID().toString();
         this.client = client;
