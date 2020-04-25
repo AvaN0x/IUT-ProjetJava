@@ -219,7 +219,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 var owner = (MainWindow) getOwner();
                 // TODO demander la date de fin
                 // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
-                checkBtnValider();
                 new EmpruntDialog(this, owner.produits.getProduit(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
             }    
         } else if (e.getSource() == btn_prodDispo) {
@@ -262,6 +261,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
+        checkBtnValider();
     }
 
     public void userDialogReturn(Client client) {
