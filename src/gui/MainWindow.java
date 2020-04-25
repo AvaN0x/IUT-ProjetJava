@@ -224,7 +224,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 }
             }
         } else if (e.getSource() == btn_infoProd) {
-            // TODO info prod
+            if (t_produits.getSelectedRow() != -1) {
+                new ProduitInfo(this, produits.getProduit(t_produits.getSelectedRow())).setVisible(true);
+            }
         }
     }
 
