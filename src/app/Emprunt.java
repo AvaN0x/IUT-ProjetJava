@@ -27,5 +27,4 @@ public class Emprunt {
     public Calendar getDateFin() {
         return this.dateFin;
     }
-
 }

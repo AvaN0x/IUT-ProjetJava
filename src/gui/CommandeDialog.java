@@ -11,11 +11,12 @@ import javax.swing.table.*;
 
 import app.Client;
 import app.Commande;
+import app.Emprunt;
 
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener {
     private boolean dateCreationValid;
     private Calendar dateCreation;
-    private TableauProduits produitsComm;
+    private TableauEmprunts emprunts;
 
     private JList<Client> l_clients;
     private JButton btn_newUser;
@@ -28,8 +29,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private TableRowSorter<TableModel> t_produitsDispoSorter;
     private JButton btn_prodDispo;
     private JButton btn_prodComm;
-    private JTable t_produitsComm;
-    private TableRowSorter<TableModel> t_produitsCommSorter;
+    private JTable t_emprunts;
+    private TableRowSorter<TableModel> t_empruntsSorter;
     private JButton btn_valider;
     private JButton btn_cancel;
 
@@ -78,8 +79,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_dateCreationSelect = new Panel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
-        var defCalendar = Calendar.getInstance();
-        var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
+        dateCreation = Calendar.getInstance();
+        var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
         tf_dateCreation.setText(
                   (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
                 + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
@@ -146,11 +147,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         var pnl_produitTables = new JPanel(new FlowLayout());
 
-        produitsComm = new TableauProduits();
-        t_produitsComm = new JTable(produitsComm);
-        t_produitsCommSorter = new TableRowSorter<TableModel>(t_produitsComm.getModel());
-        t_produitsCommSorter.setSortsOnUpdates(true);
-        t_produitsComm.setRowSorter(t_produitsCommSorter);
+        emprunts = new TableauEmprunts();
+        t_emprunts = new JTable(emprunts);
+        t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
+        t_empruntsSorter.setSortsOnUpdates(true);
+        t_emprunts.setRowSorter(t_empruntsSorter);
 
         var pnl_produitsBtns = new JPanel(new GridLayout(2, 1));
 
@@ -170,7 +171,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_produitsDispoSorter.setSortsOnUpdates(true);
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);
 
-        pnl_produitTables.add(new JScrollPane(t_produitsComm));
+        pnl_produitTables.add(new JScrollPane(t_emprunts));
         pnl_produitTables.add(pnl_produitsBtns);
         pnl_produitTables.add(new JScrollPane(t_produitsDispo));
 
@@ -199,7 +200,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
-            setEnabled(false);
+            setEnabled(false);        
         } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
             owner.clients.removeElement(l_clients.getSelectedValue());
@@ -223,9 +224,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 // owner.produits.getProduit(t_produitsDispo.getSelectedRow()).emprunter();
             }    
         } else if (e.getSource() == btn_prodDispo) {
-            if (t_produitsComm.getSelectedRow() != -1) {
-                // produitsComm.getProduit(t_produitsComm.getSelectedRow()).rendre();;
-                produitsComm.remove(t_produitsComm.getSelectedRow());
+            if (t_emprunts.getSelectedRow() != -1) {
+                emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
         }
@@ -246,7 +246,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void checkBtnValider() {
-        if (l_clients.getSelectedIndex() != -1 && dateCreationValid && produitsComm.getRowCount() > 0)
+        if (l_clients.getSelectedIndex() != -1 && dateCreationValid && emprunts.getRowCount() > 0)
             btn_valider.setEnabled(true);
         else
             btn_valider.setEnabled(false);
