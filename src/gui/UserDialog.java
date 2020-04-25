@@ -93,7 +93,7 @@ public class UserDialog extends JDialog implements ActionListener {
         else if (e.getSource() == btn_cancel) {
             setVisible(false);
             var owner = (CommandeDialog) getOwner();
-            owner.userDialogReturn();
+            owner.dialogReturn();
             this.dispose();
         }
     }

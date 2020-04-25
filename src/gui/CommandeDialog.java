@@ -260,7 +260,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         dispose();
     }
 
-    public void userDialogReturn() {
+    public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
     }
