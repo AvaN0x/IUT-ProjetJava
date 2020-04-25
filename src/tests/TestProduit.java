@@ -11,7 +11,7 @@ public class TestProduit {
         // test de creation de commande 
         ClientFidele cltf = new ClientFidele("nom", "prenom");
 
-        Commande cde = new Commande(cltf);
+        Commande cde = new Commande(cltf, Calendar.getInstance());
         DVD dvd1 = new DVD("dvd1", 1, 2, "qqun");
         DVD dvd2 = new DVD("dvd2", 2, 1, "encore qqun");
 
