@@ -20,6 +20,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JList<Client> l_clients;
     private JButton btn_newUser;
     private JButton btn_delUser;
+    private JButton btn_infoUser;
     private JLabel lbl_dateCreation;
     private JLabel lbl_dateCreationWarn;
     private JTextField tf_dateCreation;
@@ -54,7 +55,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         l_clients.setVisibleRowCount(5);
         var l_clientsScrollPane = new JScrollPane(l_clients);
 
-        var pnl_clientsbtns = new JPanel(new GridLayout(2, 1));
+        var pnl_clientsbtns = new JPanel(new GridLayout(3, 1));
         btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
         btn_newUser.setToolTipText("Ajouter un client");
         btn_newUser.addActionListener(this);
@@ -62,8 +63,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
         btn_delUser.setEnabled(false);
+        btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoUser.setToolTipText("Plus d'informations à propos du client");
+        btn_infoUser.addActionListener(this);
+        btn_infoUser.setEnabled(false);        
         pnl_clientsbtns.add(btn_newUser);
         pnl_clientsbtns.add(btn_delUser);
+        pnl_clientsbtns.add(btn_infoUser);
 
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(pnl_clientsbtns);
@@ -197,6 +203,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
             owner.clients.removeElement(l_clients.getSelectedValue());
+        } else if (e.getSource() == btn_infoUser) {
+            new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
         } else if (e.getSource() == btn_valider) {
             var commande = new Commande(l_clients.getSelectedValue());
             setVisible(false);
@@ -227,9 +235,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         if (e.getValueIsAdjusting() == false) {
             if (l_clients.getSelectedIndex() == -1) {
                 btn_delUser.setEnabled(false);
+                btn_infoUser.setEnabled(false);
                 checkBtnValider();
             } else {
                 btn_delUser.setEnabled(true);
+                btn_infoUser.setEnabled(true);
                 checkBtnValider();
             }
         }
