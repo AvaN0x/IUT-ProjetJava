@@ -22,7 +22,7 @@ public class ProduitInfo extends JDialog {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        var pnl_fields = new Panel(new GridLayout(6,1));
+        var pnl_fields = new Panel(new GridLayout(7,1));
 
         var pnl_title = new Panel(new FlowLayout());
         var lbl_titleStatic = new JLabel("Titre :");
@@ -48,7 +48,16 @@ public class ProduitInfo extends JDialog {
         pnl_class.add(lbl_classStatic);
         pnl_class.add(lbl_class);
 
-        // TODO ajouter l'option differente a chaque prod
+        var pnl_option1 = new Panel(new FlowLayout());
+        var lbl_option1Static = new JLabel();
+        for (int i = 0; i < Utils.produits.length; i++) {
+            if (Utils.produits[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
+                lbl_option1Static.setText(Utils.produits[i][1] + " :");
+        }
+        
+        var lbl_option1 = new JLabel((String) produit.getOption1());
+        pnl_option1.add(lbl_option1Static);
+        pnl_option1.add(lbl_option1);
 
         var pnl_dispoPrice = new Panel(new FlowLayout());
         var lbl_dispoPriceStatic = new JLabel("Disponibles :");
@@ -66,6 +75,7 @@ public class ProduitInfo extends JDialog {
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_dailyPrice);
         pnl_fields.add(pnl_class);
+        pnl_fields.add(pnl_option1);
         pnl_fields.add(pnl_dispoPrice);
         pnl_fields.add(pnl_loue);
 
