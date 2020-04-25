@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
@@ -41,12 +43,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new TableauCommandes();
 
-        produits.add(new DVD("DVD1", .8, 2, "Une personne connue1"));
-        produits.add(new DVD("DVD2", 2, 1, "Une personne connue2"));
-        produits.add(new DVD("DVD3", .2, 4, "Une personne connue3"));
-        produits.add(new DVD("DVD4", 1.5, 1, "Une personne connue4"));
+        produits.add(new DVD("DVD1", .8, 2, "Une personne connue 1"));
+        produits.add(new DVD("DVD2", 2, 1, "Une personne connue 2"));
+        produits.add(new DVD("DVD3", .2, 4, "Une personne connue 3"));
+        produits.add(new DVD("DVD4", 1.5, 1, "Une personne connue 4"));
         produits.add(new Dictionnaire("dico1", .5, 1, "FR"));
-        produits.add(new Roman("roman1", 5.5, 5, "Une personne connue5"));
+        produits.add(new Roman("roman1", 5.5, 5, "Une personne connue 5"));
+        produits.add(new CD("cd1", .6, 2, Calendar.getInstance()));
+        produits.add(new BD("bd1", .9, 5, "Une personne connue 6"));
+        produits.add(new ManuelScolaire("ManuelScolaire1", 5.1, 12, "Une personne connue 7"));
+        produits.add(new Roman("roman2", 4.4, 5, "Une personne connue 8"));
+
         clients.addElement(new ClientFidele("nom", "prenom"));
 
 
