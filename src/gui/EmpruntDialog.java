@@ -41,6 +41,10 @@ public class EmpruntDialog extends JDialog implements ActionListener {
         var lbl_dateFin = new JLabel("Date de fin : ");
         tf_dateFin = new JTextField(10);
         dateFin = Calendar.getInstance();
+        dateFin.set(Calendar.MILLISECOND, 0);
+        dateFin.set(Calendar.SECOND, 0);
+        dateFin.set(Calendar.MINUTE, 0);
+        dateFin.set(Calendar.HOUR_OF_DAY, 0);
         var defDate = new int[] { dateFin.get(Calendar.DATE), (dateFin.get(Calendar.MONTH) + 1), dateFin.get(Calendar.YEAR) };
         tf_dateFin.setText(
                     (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
@@ -74,7 +78,6 @@ public class EmpruntDialog extends JDialog implements ActionListener {
                     int dateFinYear = Integer.parseInt(dateValueTab[2]);
                     // TODO verification si dateFin < dateCreation
                     if (dateFinYear >= 1970 && dateFinMonth >= 0 && dateFinMonth <= 11) {
-                        dateFin = Calendar.getInstance();
                         dateFin.set(Calendar.MONTH, dateFinMonth);
                         dateFin.set(Calendar.YEAR, dateFinYear);
                         if (dateFinDay >= dateFin.getActualMinimum(Calendar.DAY_OF_MONTH)

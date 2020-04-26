@@ -80,6 +80,10 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
         dateCreation = Calendar.getInstance();
+        dateCreation.set(Calendar.MILLISECOND, 0);
+        dateCreation.set(Calendar.SECOND, 0);
+        dateCreation.set(Calendar.MINUTE, 0);
+        dateCreation.set(Calendar.HOUR_OF_DAY, 0);
         var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
         tf_dateCreation.setText(
                   (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
@@ -113,7 +117,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                     int dateCreationYear = Integer.parseInt(dateValueTab[2]);
 
                     if (dateCreationYear >= 1970 && dateCreationMonth >= 0 && dateCreationMonth <= 11) {
-                        dateCreation = Calendar.getInstance();
                         dateCreation.set(Calendar.MONTH, dateCreationMonth);
                         dateCreation.set(Calendar.YEAR, dateCreationYear);
                         if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
