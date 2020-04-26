@@ -62,4 +62,8 @@ public class TableauCommandes extends AbstractTableModel{
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
+    public Commande getCommande(int index) {
+        return commandes.get(index);
+    }
+
 }

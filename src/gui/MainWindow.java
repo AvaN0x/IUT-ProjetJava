@@ -212,6 +212,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
+        } else if(e.getSource() == btn_infoCommande) {
+            if (t_commandes.getSelectedRow() != -1) {
+                new CommandeInfo(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
+            }
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);

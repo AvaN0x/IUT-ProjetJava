@@ -79,4 +79,9 @@ public class Commande {
     public ArrayList<Emprunt> getEmprunts() {
         return emprunts;
     }
+
+    public String getId() {
+        return this.id;
+    }
+
 }
