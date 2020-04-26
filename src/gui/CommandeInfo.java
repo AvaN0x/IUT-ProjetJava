@@ -48,7 +48,7 @@ public class CommandeInfo extends JDialog {
 
         var pnl_reduc = new Panel(new FlowLayout());
         var lbl_reducStatic = new JLabel("Reduction :");
-        var lbl_reduc = new JLabel(Double.toString(commande.getReduction()));
+        var lbl_reduc = new JLabel(Double.toString(commande.getReduction() * 100) + " %");
         pnl_reduc.add(lbl_reducStatic);
         pnl_reduc.add(lbl_reduc);
 

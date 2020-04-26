@@ -39,7 +39,7 @@ public class TableauCommandes extends AbstractTableModel{
                 "/" + ((dateCreation.get(Calendar.MONTH) > 8) ? (dateCreation.get(Calendar.MONTH) + 1) : ("0" + (dateCreation.get(Calendar.MONTH) + 1))) + 
                 "/" + dateCreation.get(Calendar.YEAR);
             case 2:
-                return commandes.get(rowIndex).getReduction();
+                return commandes.get(rowIndex).getReduction() * 100 + " %";
             case 3:
                 return commandes.get(rowIndex).getTotalCost() + " €";
             case 4:
