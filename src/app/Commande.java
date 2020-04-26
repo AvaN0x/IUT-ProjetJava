@@ -39,7 +39,7 @@ public class Commande {
         for(Emprunt e : emprunts) {
             cost += e.getCost();
         }
-        return cost;
+        return cost; // TODO renvoyer que 2 décimales
     }
     public double getTotalCost() {
         return getTotalCostNoReduc() * (1 - reduction);
