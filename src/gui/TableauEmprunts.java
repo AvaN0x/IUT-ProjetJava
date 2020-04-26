@@ -13,9 +13,13 @@ private final String[] categories = new String[] { "Nom", "Prix / jour", "Catég
     
         public TableauEmprunts(){
             super();
-    
             emprunts = new ArrayList<Emprunt>();
         }
+        public TableauEmprunts(ArrayList<Emprunt> emprunts){
+            super();
+            this.emprunts = emprunts;
+        }
+
     
         public int getRowCount() {
             return emprunts.size();

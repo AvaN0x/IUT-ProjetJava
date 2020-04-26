@@ -4,18 +4,24 @@ import java.awt.*;
 import java.util.Calendar;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import app.Commande;
 
-public class CommandeInfo extends JDialog {
+public class CommandeInfo extends JDialog /*implements ActionListener*/ {
+    private TableauEmprunts emprunts;
+    private JTable t_emprunts;
+    private TableRowSorter<TableModel> t_empruntsSorter;
+
     Commande commande;
 
     public CommandeInfo(Window owner, Commande commande) {
         super(owner, "Gestion vidéothèque - Information commande");
         this.commande = commande;
-
+        
         setLocation(300, 200);
-        setSize(320, 220);
+        setSize(400, 320);
 
         initComponents();
     }
@@ -23,7 +29,7 @@ public class CommandeInfo extends JDialog {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        var pnl_fields = new Panel(new GridLayout(7,1));
+        var pnl_fields = new Panel(new GridLayout(6,1));
 
         var pnl_client = new Panel(new FlowLayout());
         var lbl_clientStatic = new JLabel("Client :");
@@ -74,9 +80,17 @@ public class CommandeInfo extends JDialog {
             pnl_fields.add(pnl_coutReduc);    
         }
 
+        emprunts = new TableauEmprunts(commande.getEmprunts());
+        t_emprunts = new JTable(emprunts);
+        t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
+        t_empruntsSorter.setSortsOnUpdates(true);
+        t_emprunts.setRowSorter(t_empruntsSorter);
+
         // TODO pouvoir supprimer ou ajouter des emprunts a la commande
 
-        add(pnl_fields, BorderLayout.CENTER);
+        add(pnl_fields, BorderLayout.NORTH);
+        add(new JScrollPane(t_emprunts), BorderLayout.CENTER);
+
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
