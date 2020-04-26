@@ -119,7 +119,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
-        //TODO boutton pour supprimer une commande
 
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_remCommande);
