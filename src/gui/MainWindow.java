@@ -46,18 +46,41 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new TableauCommandes();
 
-        produits.add(new DVD("DVD1", .8, 2, "Une personne connue 1"));
-        produits.add(new DVD("DVD2", 2, 1, "Une personne connue 2"));
-        produits.add(new DVD("DVD3", .2, 4, "Une personne connue 3"));
-        produits.add(new DVD("DVD4", 1.5, 1, "Une personne connue 4"));
-        produits.add(new Dictionnaire("dico1", .5, 1, "FR"));
-        produits.add(new Roman("roman1", 5.5, 5, "Une personne connue 5"));
-        produits.add(new CD("cd1", .6, 2, Calendar.getInstance()));
-        produits.add(new BD("bd1", .9, 5, "Une personne connue 6"));
-        produits.add(new ManuelScolaire("ManuelScolaire1", 5.1, 12, "Une personne connue 7"));
-        produits.add(new Roman("roman2", 4.4, 5, "Une personne connue 8"));
+        clients.addElement(new ClientFidele("ricatte", "clément"));
+        clients.addElement(new ClientFidele("sublet", "tom"));
+        clients.addElement(new ClientOccas("hochet", "ric"));
+        clients.addElement(new ClientFidele("térieur", "alex"));
+        clients.addElement(new ClientOccas("térieur", "alain"));
 
-        clients.addElement(new ClientFidele("nom", "prenom"));
+        produits.add(new Roman("Harry Potter à l'école des sorciers", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et la chambre des secrets", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et le Prisonnier d'Azkaban", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et la Coupe de feu", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et l'Ordre du phénix", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et le Prince de Sang-Mêlé", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et les Reliques de la Mort", 0.99, 3, "J. K. Rowling"));
+        produits.add(new Roman("Harry Potter et l'enfant maudit", 0.99, 4, "J. K. Rowling"));
+        produits.add(new Dictionnaire("LAROUSSE", .65, 5, "FR"));
+        produits.add(new ManuelScolaire("Objectif BAC Term S - BAC 2020", .99, 2, "hachette"));
+        produits.add(new DVD("Le voyage de Chihiro", 1.99, 1, "Hayao Miyazaki"));
+        produits.add(new BD("Les Simpson - Camping en délire", .75, 2, "Jungle!"));
+        produits.add(new BD("Les Simpson - Un sacré foin !", .75, 1, "Jungle!"));
+        var dateAdibou = Calendar.getInstance();
+        dateAdibou.set(2003, 9, 24);
+        produits.add(new CD("Adibou & le Secret de Paziral", .1, 1, dateAdibou));
+
+        Calendar dateCreation = Calendar.getInstance();
+        dateCreation.set(2020, Calendar.APRIL, 26);
+        commandes.add(new Commande(clients.get(0), dateCreation));
+        Calendar dateFin = Calendar.getInstance();
+        dateFin.set(2020, Calendar.JUNE, 26);
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(0));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(1));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(2));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(3));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(4));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(5));
+        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(6));
 
 
         initComponents();
