@@ -27,6 +27,7 @@ public class Commande {
         if (produit.getDispo() > 0) {
             Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
             emprunts.add(emprunt);
+            produit.emprunter();
             return true;
         }
         else
