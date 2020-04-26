@@ -63,11 +63,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
-        btn_delUser.setEnabled(false);
         btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoUser.setToolTipText("Plus d'informations à propos du client");
         btn_infoUser.addActionListener(this);
-        btn_infoUser.setEnabled(false);        
+        if (l_clients.getModel().getSize() == 0) {
+            btn_delUser.setEnabled(false);
+            btn_infoUser.setEnabled(false);
+        } else {
+            btn_delUser.setEnabled(true);
+            btn_infoUser.setEnabled(true);
+        }   
         pnl_clientsbtns.add(btn_newUser);
         pnl_clientsbtns.add(btn_delUser);
         pnl_clientsbtns.add(btn_infoUser);

@@ -192,11 +192,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
-        btn_delUser.setEnabled(false);
         btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoUser.setToolTipText("Plus d'informations à propos du client");
         btn_infoUser.addActionListener(this);
-        btn_infoUser.setEnabled(false);
+        if (l_clients.getModel().getSize() == 0) {
+            btn_delUser.setEnabled(false);
+            btn_infoUser.setEnabled(false);
+        } else {
+            btn_delUser.setEnabled(true);
+            btn_infoUser.setEnabled(true);
+        }
         pnl_clientsbtns.add(btn_delUser);
         pnl_clientsbtns.add(btn_infoUser);
         
@@ -281,7 +286,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void valueChanged(ListSelectionEvent e) {
-        // TODO fix le cas ou il y a deja un client a l'ouverture du programme, il y a du coup aucuns boutons d'actifs
         if (e.getValueIsAdjusting() == false) {
             if (l_clients.getSelectedIndex() == -1) {
                 btn_delUser.setEnabled(false);
