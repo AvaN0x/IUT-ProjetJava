@@ -19,20 +19,22 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JTabbedPane tab;
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
+
     private JButton btn_delUser;
     private JButton btn_infoUser;
-
     private JList<Client> l_clients;
 
     private JTable t_produits;
     private TableRowSorter<TableModel> t_produitsSorter;
-    private JTable t_commandes;
-    private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newProd;
     private JButton btn_remProd;
     private JButton btn_addQuantityProd;
     private JButton btn_infoProd;
+
+    private JTable t_commandes;
+    private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newCommande;
+    private JButton btn_remCommande;
     private JButton btn_infoCommande;
 
     public MainWindow() {
@@ -107,16 +109,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandes.add(pnl_filter);
         pnl_commandes.add(pnl_produitTable);
 
-        var pnl_commandesbtns = new JPanel(new GridLayout(2, 1));
+        var pnl_commandesbtns = new JPanel(new GridLayout(3, 1));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_newCommande.setToolTipText("Ajouter une commande");
         btn_newCommande.addActionListener(this);
+        btn_remCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
+        btn_remCommande.setToolTipText("Supprimer une commande");
+        btn_remCommande.addActionListener(this);
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
         //TODO boutton pour supprimer une commande
 
         pnl_commandesbtns.add(btn_newCommande);
+        pnl_commandesbtns.add(btn_remCommande);
         pnl_commandesbtns.add(btn_infoCommande);
         pnl_commandes.add(pnl_commandesbtns);
 
@@ -212,6 +218,15 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if(e.getSource() == btn_infoCommande) {
             if (t_commandes.getSelectedRow() != -1) {
                 new CommandeInfo(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
+            }
+        } else if(e.getSource() == btn_remCommande) {
+            if (t_commandes.getSelectedRow() != -1) {
+                if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer la commande ?", "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    for (Emprunt emprunt : commandes.getCommande(t_commandes.getSelectedRow()).getEmprunts()) {
+                        emprunt.getProduit().rendre();
+                    }
+                    commandes.remove(t_commandes.getSelectedRow());
+                }
             }
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
             var ProduitDialog = new ProduitDialog(this);
