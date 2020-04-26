@@ -89,10 +89,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
 
     private JPanel initComponentsCommandes() {
-        var pnl_commandesTab = new JPanel();
+        var pnl_commandesTab = new JPanel(new BorderLayout());
 
         var lbl_commandesTab = new JLabel("Liste des commandes :");
-        // TODO fix l'affichage
 
         var pnl_commandes = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -119,19 +118,18 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_infoCommande);
+        pnl_commandes.add(pnl_commandesbtns);
 
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_commandesTab.add(pnl_commandes, BorderLayout.CENTER);
-        pnl_commandesTab.add(pnl_commandesbtns);
 
         return pnl_commandesTab;
     }
 
     private JPanel initComponentsProduits() {
-        var pnl_produitsTab = new JPanel();
+        var pnl_produitsTab = new JPanel(new BorderLayout());
 
         var lbl_commandesTab = new JLabel("Liste des produits :");
-        // TODO fix l'affichage
 
         var pnl_produits = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -165,18 +163,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_prodbtns.add(btn_addQuantityProd);
         pnl_prodbtns.add(btn_infoProd);
 
+        pnl_produits.add(pnl_prodbtns);
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
-        pnl_produitsTab.add(pnl_prodbtns);
 
         return pnl_produitsTab;
     }
 
     private JPanel initComponentsClients() {
-        var pnl_clientsTab = new JPanel();
+        var pnl_clientsTab = new JPanel(new BorderLayout());
 
         var lbl_clientsTab = new JLabel("Liste des clients :");
-        // TODO fix l'affichage
 
         var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
@@ -199,9 +196,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_clientsbtns.add(btn_infoUser);
         
         pnl_clients.add(l_clientsScrollPane);
+        pnl_clients.add(pnl_clientsbtns);
         pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
-        pnl_clientsTab.add(pnl_clients, BorderLayout.EAST);
-        pnl_clientsTab.add(pnl_clientsbtns);
+        pnl_clientsTab.add(pnl_clients, BorderLayout.CENTER);
 
 
         return pnl_clientsTab;
