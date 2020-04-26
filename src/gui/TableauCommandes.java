@@ -49,8 +49,8 @@ public class TableauCommandes extends AbstractTableModel{
         }
     }
  
-    public void add(Commande prod) {
-        commandes.add(prod);
+    public void add(Commande commande) {
+        commandes.add(commande);
  
         fireTableRowsInserted(commandes.size() -1, commandes.size() -1);
     }
