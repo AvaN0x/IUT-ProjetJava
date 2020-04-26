@@ -34,7 +34,7 @@ private final String[] categories = new String[] { "Nom", "Prix / jour", "Catég
                 case 0:
                     return emprunts.get(rowIndex).getProduit().getTitle();
                 case 1:
-                    return emprunts.get(rowIndex).getProduit().getDailyPrice();
+                    return emprunts.get(rowIndex).getProduit().getDailyPrice() + " €";
                 case 2:
                     return emprunts.get(rowIndex).getProduit().getClass().getSimpleName();
                 case 3:
@@ -43,7 +43,7 @@ private final String[] categories = new String[] { "Nom", "Prix / jour", "Catég
                         "/" + ((dateFin.get(Calendar.MONTH) > 8) ? (dateFin.get(Calendar.MONTH) + 1) : ("0" + (dateFin.get(Calendar.MONTH) + 1))) + 
                         "/" + dateFin.get(Calendar.YEAR);
                 case 4:
-                    return emprunts.get(rowIndex).getCost();
+                    return emprunts.get(rowIndex).getCost() + " €";
                 default:
                     return null;
             }

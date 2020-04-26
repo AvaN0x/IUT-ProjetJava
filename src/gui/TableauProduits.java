@@ -32,7 +32,7 @@ public class TableauProduits extends AbstractTableModel{
             case 0:
                 return produits.get(rowIndex).getTitle();
             case 1:
-                return produits.get(rowIndex).getDailyPrice();
+                return produits.get(rowIndex).getDailyPrice() + " €";
             case 2:
                 return produits.get(rowIndex).getClass().getSimpleName();
             case 3:

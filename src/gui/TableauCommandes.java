@@ -41,7 +41,7 @@ public class TableauCommandes extends AbstractTableModel{
             case 2:
                 return commandes.get(rowIndex).getReduction();
             case 3:
-                return commandes.get(rowIndex).getTotalCost();
+                return commandes.get(rowIndex).getTotalCost() + " €";
             case 4:
                 return commandes.get(rowIndex).getEmprunts();
                 //TODO fix affichage : supprimer la colonne et les afficher dans CommandeInfo.java (TODO)
