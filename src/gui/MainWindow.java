@@ -91,7 +91,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsCommandes() {
         var pnl_commandesTab = new JPanel(new BorderLayout());
 
-        var lbl_commandesTab = new JLabel("Liste des commandes :");
+        var lbl_commandesTab = new JLabel("Liste des commandes :", SwingConstants.CENTER);
 
         var pnl_commandes = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -129,7 +129,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsProduits() {
         var pnl_produitsTab = new JPanel(new BorderLayout());
 
-        var lbl_commandesTab = new JLabel("Liste des produits :");
+        var lbl_commandesTab = new JLabel("Liste des produits :", SwingConstants.CENTER);
 
         var pnl_produits = new JPanel(new FlowLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -173,7 +173,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsClients() {
         var pnl_clientsTab = new JPanel(new BorderLayout());
 
-        var lbl_clientsTab = new JLabel("Liste des clients :");
+        var lbl_clientsTab = new JLabel("Liste des clients :", SwingConstants.CENTER);
 
         var pnl_clients = new JPanel(new FlowLayout());
         l_clients = new JList<Client>(clients);
