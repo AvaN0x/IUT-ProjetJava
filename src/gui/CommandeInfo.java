@@ -58,18 +58,21 @@ public class CommandeInfo extends JDialog {
         pnl_cout.add(lbl_coutStatic);
         pnl_cout.add(lbl_cout);
 
-        var pnl_coutReduc = new Panel(new FlowLayout());
-        var lbl_coutReducStatic = new JLabel("Cout après reduction :");
-        var lbl_coutReduc = new JLabel(Double.toString(commande.getTotalCost()) + " €");
-        pnl_coutReduc.add(lbl_coutReducStatic);
-        pnl_coutReduc.add(lbl_coutReduc);
-
         pnl_fields.add(pnl_client);
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_dateCreation);
         pnl_fields.add(pnl_reduc);
         pnl_fields.add(pnl_cout);
-        pnl_fields.add(pnl_coutReduc);
+
+        if (commande.getReduction() != 0) {
+            var pnl_coutReduc = new Panel(new FlowLayout());
+            var lbl_coutReducStatic = new JLabel("Cout après reduction :");
+            var lbl_coutReduc = new JLabel(Double.toString(commande.getTotalCost()) + " €");
+            pnl_coutReduc.add(lbl_coutReducStatic);
+            pnl_coutReduc.add(lbl_coutReduc);
+    
+            pnl_fields.add(pnl_coutReduc);    
+        }
 
         // TODO pouvoir supprimer ou ajouter des emprunts a la commande
 
