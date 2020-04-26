@@ -33,6 +33,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_addQuantityProd;
     private JButton btn_infoProd;
     private JButton btn_newCommande;
+    private JButton btn_infoCommande;
 
     public MainWindow() {
         super("Gestion vidéothèque");
@@ -107,14 +108,21 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandes.add(pnl_filter);
         pnl_commandes.add(pnl_produitTable);
 
+        var pnl_commandesbtns = new JPanel(new GridLayout(2, 1));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_newCommande.setToolTipText("Ajouter une commande");
         btn_newCommande.addActionListener(this);
+        btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoCommande.setToolTipText("Information sur la commande");
+        btn_infoCommande.addActionListener(this);
         //TODO boutton pour supprimer une commande
+
+        pnl_commandesbtns.add(btn_newCommande);
+        pnl_commandesbtns.add(btn_infoCommande);
 
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_commandesTab.add(pnl_commandes, BorderLayout.CENTER);
-        pnl_commandesTab.add(btn_newCommande);
+        pnl_commandesTab.add(pnl_commandesbtns);
 
         return pnl_commandesTab;
     }
