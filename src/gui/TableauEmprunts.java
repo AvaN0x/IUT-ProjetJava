@@ -64,5 +64,10 @@ private final String[] categories = new String[] { "Nom", "Prix / jour", "Catég
         public Emprunt getEmprunt(int index) {
             return emprunts.get(index);
         }
+
+        public ArrayList<Emprunt> getEmprunts() {
+            return emprunts;
+        }
+
     }
     

@@ -209,18 +209,10 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             owner.clients.removeElement(l_clients.getSelectedValue());
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
-        } else if (e.getSource() == btn_valider) {
-            var commande = new Commande(l_clients.getSelectedValue(), dateCreation);
-            setVisible(false);
-            var owner = (MainWindow) getOwner();
-            owner.commandeDialogReturn(commande);
-            dispose();
-        } else if (e.getSource() == btn_cancel) {
-            quit();
         } else if (e.getSource() == btn_prodComm) {
             if (t_produitsDispo.getSelectedRow() != -1) {
                 var owner = (MainWindow) getOwner();
-                // TODO demander la date de fin
+                // TODO gerer en fonction du stock dispo
                 // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
                 new EmpruntDialog(this, owner.produits.getProduit(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
             }    
@@ -229,7 +221,17 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
-        }
+        } else if (e.getSource() == btn_valider) {
+            var commande = new Commande(l_clients.getSelectedValue(), dateCreation);
+            for (Emprunt emprunt : emprunts.getEmprunts())
+                commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());
+            setVisible(false);
+            var owner = (MainWindow) getOwner();
+            owner.commandeDialogReturn(commande);
+            dispose();
+        } else if (e.getSource() == btn_cancel) {
+            quit();
+        } 
     }
 
     public void valueChanged(ListSelectionEvent e) {

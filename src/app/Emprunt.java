@@ -12,7 +12,7 @@ public class Emprunt {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.produit = produit;
-        produit.emprunter();
+        // produit.emprunter();
     }
     
     public double getCost() {
