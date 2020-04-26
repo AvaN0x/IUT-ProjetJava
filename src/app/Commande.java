@@ -39,10 +39,10 @@ public class Commande {
         for(Emprunt e : emprunts) {
             cost += e.getCost();
         }
-        return cost; // TODO renvoyer que 2 décimales
+        return Math.round(cost * 100) / 100.;
     }
     public double getTotalCost() {
-        return getTotalCostNoReduc() * (1 - reduction);
+        return Math.round(getTotalCostNoReduc() * (1 - reduction) * 100) / 100.;
     }
 
     // seulement pour les tests en console

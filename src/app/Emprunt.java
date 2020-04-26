@@ -17,7 +17,7 @@ public class Emprunt {
     
     public double getCost() {
         int amountOfDays = (int) Duration.between(dateDebut.toInstant(), dateFin.toInstant()).toDays();
-        return amountOfDays * produit.getDailyPrice();
+        return Math.round(amountOfDays * produit.getDailyPrice() * 100) / 100.;
     }
 
     public Produit getProduit() {
