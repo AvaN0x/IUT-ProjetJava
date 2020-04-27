@@ -109,7 +109,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         tab.addTab("Produits", initComponentsProduits());
         tab.addTab("Clients", initComponentsClients());
 
-        add(tab);
+        add(tab, BorderLayout.CENTER);
     }
 
 
@@ -126,11 +126,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
-        var pnl_produitTable = new JPanel();
-        pnl_produitTable.add(new JScrollPane(t_commandes));
+        var pnl_commandesTable = new JPanel();
+        pnl_commandesTable.add(new JScrollPane(t_commandes));
 
         pnl_commandes.add(pnl_filter);
-        pnl_commandes.add(pnl_produitTable);
+        pnl_commandes.add(pnl_commandesTable);
 
         var pnl_commandesbtns = new JPanel(new GridLayout(3, 1));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
