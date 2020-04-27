@@ -348,6 +348,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
+        if (tab.getSelectedIndex() == 0)
+            t_commandes.repaint();
+        else if (tab.getSelectedIndex() == 1)
+            t_produits.repaint();
     }
 
     public void commandeDialogReturn(Commande commande) {
