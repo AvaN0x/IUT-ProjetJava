@@ -97,4 +97,7 @@ public class Commande {
         this.dateCreation = dateCreation;
     }
 
+    public void emptyEmprunts() {
+        emprunts = new ArrayList<Emprunt>();
+    }
 }
