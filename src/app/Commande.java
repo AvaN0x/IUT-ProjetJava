@@ -85,4 +85,16 @@ public class Commande {
         return this.id;
     }
 
+	public void setClient(Client client) {
+        this.client = client;
+        if (client instanceof ClientFidele)
+            this.reduction = .1;
+        else
+            this.reduction = 0;
+
+    }
+    public void setDateCreation(Calendar dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
 }
