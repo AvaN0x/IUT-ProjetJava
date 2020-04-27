@@ -281,7 +281,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 new ProduitInfo(this, produits.getProduit(t_produits.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_delUser) {
-            // TODO verifier que l'utilisateur n'a pas de commande en cours
+            for (int i = 0; i < commandes.getRowCount(); i++) {
+                if(l_clients.getSelectedValue() == commandes.getValueAt(0, i))
+                {
+                    JOptionPane.showMessageDialog(this, "L'utilisateur à une commande en cours !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
             if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le client ?", "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 clients.removeElement(l_clients.getSelectedValue());
 
