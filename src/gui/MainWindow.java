@@ -13,7 +13,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
-public class MainWindow extends JFrame implements ActionListener, ListSelectionListener {
+public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     protected DefaultListModel<Client> clients;
     protected TableauProduits produits;
     protected TableauCommandes commandes;
@@ -22,6 +22,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
 
+    private JButton btn_newUser;
     private JButton btn_delUser;
     private JButton btn_infoUser;
     private JList<Client> l_clients;
@@ -137,7 +138,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
         attributes.put(TextAttribute.SIZE, 16);
-        //TODO: Changer taille
+        // TODO: Changer taille
         lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
@@ -181,7 +182,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produitsTab = new JPanel(new BorderLayout());
 
         var lbl_commandesTab = new JLabel("Liste des produits :", SwingConstants.CENTER);
-        //TODO changer taille
+        // TODO changer taille
 
         var pnl_produits = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -227,7 +228,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_clientsTab = new JPanel(new BorderLayout());
 
         var lbl_clientsTab = new JLabel("Liste des clients :", SwingConstants.CENTER);
-        //TODO changer taille
+        // TODO changer taille
 
         var pnl_clients = new JPanel(new BorderLayout());
         l_clients = new JList<Client>(clients);
@@ -239,7 +240,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var l_clientsScrollPane = new JScrollPane(l_clients);
         var pnl_clientsbtns = new JPanel();
         pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
-        //TODO: add a client
+        btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
+        btn_newUser.setToolTipText("Ajouter un client");
+        btn_newUser.addActionListener(this);
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
@@ -253,6 +256,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             btn_delUser.setEnabled(true);
             btn_infoUser.setEnabled(true);
         }
+        pnl_clientsbtns.add(btn_newUser);
         pnl_clientsbtns.add(btn_delUser);
         pnl_clientsbtns.add(btn_infoUser);
 
@@ -320,6 +324,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_produits.getSelectedRow() != -1) {
                 new ProduitInfo(this, produits.getProduit(t_produits.getSelectedRow())).setVisible(true);
             }
+        } else if (e.getSource() == btn_newUser) {
+            var userDialog = new UserDialog(this);
+            userDialog.setVisible(true);
+            setEnabled(false);    
         } else if (e.getSource() == btn_delUser) {
             for (int i = 0; i < commandes.getRowCount(); i++) {
                 if (l_clients.getSelectedValue() == commandes.getValueAt(0, i)) {
@@ -352,6 +360,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits.add(produit);
         dialogReturn();
         tab.setSelectedIndex(1);
+    }
+
+    public void userDialogReturn(Client client) {
+        clients.addElement(client);
+        dialogReturn();
     }
 
     public void valueChanged(ListSelectionEvent e) {

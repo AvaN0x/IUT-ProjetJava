@@ -89,13 +89,13 @@ public class UserDialog extends JDialog implements ActionListener {
             else
                 client = new ClientOccas(tf_nom.getText(), tf_prenom.getText());
             setVisible(false);
-            var owner = (CommandeDialog) getOwner();
+            var owner = (IMyUserDialogOwner) getOwner();
             owner.userDialogReturn(client);
             this.dispose();
         }
         else if (e.getSource() == btn_cancel) {
             setVisible(false);
-            var owner = (CommandeDialog) getOwner();
+            var owner = (IMyUserDialogOwner) getOwner();
             owner.dialogReturn();
             this.dispose();
         }

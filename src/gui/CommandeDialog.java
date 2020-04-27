@@ -13,7 +13,7 @@ import app.Client;
 import app.Commande;
 import app.Emprunt;
 
-public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener {
+public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     private boolean dateCreationValid;
     private Calendar dateCreation;
     private TableauEmprunts emprunts;
