@@ -132,7 +132,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandes.add(pnl_commandesTable);
         pnl_commandes.add(pnl_filter, BorderLayout.WEST);
 
-        var pnl_commandesbtns = new JPanel(new GridLayout(3, 1));
+        var pnl_commandesbtns = new JPanel();
+        pnl_commandesbtns.setLayout(new BoxLayout(pnl_commandesbtns, BoxLayout.PAGE_AXIS));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_newCommande.setToolTipText("Ajouter une commande");
         btn_newCommande.addActionListener(this);
@@ -173,7 +174,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_produits.add(pnl_filter, BorderLayout.WEST);
         pnl_produits.add(pnl_produitTable, BorderLayout.CENTER);
 
-        var pnl_prodbtns = new JPanel(new GridLayout(4, 1));
+        var pnl_prodbtns = new JPanel();
+        pnl_prodbtns.setLayout(new BoxLayout(pnl_prodbtns, BoxLayout.PAGE_AXIS));
         btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         btn_newProd.setToolTipText("Ajouter un produit");
         btn_newProd.addActionListener(this);
@@ -211,7 +213,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         l_clients.setVisibleRowCount(5);
 
         var l_clientsScrollPane = new JScrollPane(l_clients);
-        var pnl_clientsbtns = new JPanel(new GridLayout(2, 1));
+        var pnl_clientsbtns = new JPanel();
+        pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
