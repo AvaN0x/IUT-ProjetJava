@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Calendar;
 
 import javax.swing.*;
@@ -9,19 +10,23 @@ import javax.swing.table.TableRowSorter;
 
 import app.Commande;
 
-public class CommandeInfo extends JDialog /*implements ActionListener*/ {
+public class CommandeInfo extends JDialog implements ActionListener {
     private TableauEmprunts emprunts;
     private JTable t_emprunts;
     private TableRowSorter<TableModel> t_empruntsSorter;
 
     Commande commande;
+    
+    private JButton btn_newEmprunt;
+    private JButton btn_remEmprunt;
+    private JButton btn_infoProdEmprunt;
 
     public CommandeInfo(Window owner, Commande commande) {
         super(owner, "Gestion vidéothèque - Information commande");
         this.commande = commande;
         
         setLocation(300, 200);
-        setSize(400, 320);
+        setSize(450, 400);
 
         initComponents();
     }
@@ -86,10 +91,27 @@ public class CommandeInfo extends JDialog /*implements ActionListener*/ {
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
 
-        // TODO pouvoir supprimer ou ajouter des emprunts a la commande
+        // TODO enlever add et remove, faire un bouton edit, qui ouvre une commandedialog avec la commande(penser a freeze les fenetres)
 
+        var pnl_empruntsbtns = new JPanel();
+        pnl_empruntsbtns.setLayout(new BoxLayout(pnl_empruntsbtns, BoxLayout.X_AXIS));
+        btn_newEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
+        btn_newEmprunt.setToolTipText("Ajouter un emprunt");
+        btn_newEmprunt.addActionListener(this);
+        btn_remEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
+        btn_remEmprunt.setToolTipText("Supprimer un emprunt");
+        btn_remEmprunt.addActionListener(this);
+        btn_infoProdEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoProdEmprunt.setToolTipText("Information sur le produit de l'emprunt");
+        btn_infoProdEmprunt.addActionListener(this);
+
+        pnl_empruntsbtns.add(btn_newEmprunt);
+        pnl_empruntsbtns.add(btn_remEmprunt);
+        pnl_empruntsbtns.add(btn_infoProdEmprunt);
+        
         add(pnl_fields, BorderLayout.NORTH);
         add(new JScrollPane(t_emprunts), BorderLayout.CENTER);
+        add(pnl_empruntsbtns, BorderLayout.SOUTH);
 
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -100,4 +122,21 @@ public class CommandeInfo extends JDialog /*implements ActionListener*/ {
             }
         });
     }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btn_newEmprunt) {
+
+        } else if (e.getSource() == btn_remEmprunt) {
+            if (t_emprunts.getSelectedRow() != -1)
+                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
+                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    emprunts.remove(t_emprunts.getSelectedRow());
+
+        } else if (e.getSource() == btn_infoProdEmprunt) {
+            if (t_emprunts.getSelectedRow() != -1) {
+                new ProduitInfo(this, emprunts.getEmprunt(t_emprunts.getSelectedRow()).getProduit()).setVisible(true);
+            }
+        } 
+    }
+
 }
