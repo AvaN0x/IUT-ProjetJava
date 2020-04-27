@@ -185,9 +185,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
+        btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
         btn_valider.setEnabled(false);
         btn_cancel = new JButton("Annuler");
+        btn_cancel.setIcon(new ImageIcon(getClass().getResource(".\\icons\\no.png")));
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
         pnl_validate.add(btn_cancel);

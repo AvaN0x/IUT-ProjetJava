@@ -76,8 +76,10 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         var pnl_validate = new Panel(new FlowLayout());
         btn_valider = new JButton("Valider");
+        btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
         btn_cancel = new JButton("Annuler");
+        btn_cancel.setIcon(new ImageIcon(getClass().getResource(".\\icons\\no.png")));
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
         pnl_validate.add(btn_cancel);
