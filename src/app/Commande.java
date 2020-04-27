@@ -98,6 +98,8 @@ public class Commande {
     }
 
     public void emptyEmprunts() {
+        for (Emprunt emprunt : emprunts)
+            emprunt.getProduit().rendre();
         emprunts = new ArrayList<Emprunt>();
     }
 }
