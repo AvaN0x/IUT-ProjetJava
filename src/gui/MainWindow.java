@@ -118,7 +118,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var lbl_commandesTab = new JLabel("Liste des commandes :", SwingConstants.CENTER);
 
-        var pnl_commandes = new JPanel(new FlowLayout());
+        var pnl_commandes = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
         //TODO checkbox for filter
 
@@ -126,11 +126,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
-        var pnl_commandesTable = new JPanel();
+        var pnl_commandesTable = new JPanel(new BorderLayout());
         pnl_commandesTable.add(new JScrollPane(t_commandes));
 
-        pnl_commandes.add(pnl_filter);
         pnl_commandes.add(pnl_commandesTable);
+        pnl_commandes.add(pnl_filter, BorderLayout.WEST);
 
         var pnl_commandesbtns = new JPanel(new GridLayout(3, 1));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
@@ -146,7 +146,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_remCommande);
         pnl_commandesbtns.add(btn_infoCommande);
-        pnl_commandes.add(pnl_commandesbtns);
+        pnl_commandes.add(pnl_commandesbtns, BorderLayout.EAST);
 
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_commandesTab.add(pnl_commandes, BorderLayout.CENTER);
@@ -159,7 +159,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var lbl_commandesTab = new JLabel("Liste des produits :", SwingConstants.CENTER);
 
-        var pnl_produits = new JPanel(new FlowLayout());
+        var pnl_produits = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
         //TODO checkbox for filter
 
@@ -167,11 +167,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
-        var pnl_produitTable = new JPanel();
+        var pnl_produitTable = new JPanel(new BorderLayout());
         pnl_produitTable.add(new JScrollPane(t_produits));
 
-        pnl_produits.add(pnl_filter);
-        pnl_produits.add(pnl_produitTable);
+        pnl_produits.add(pnl_filter, BorderLayout.WEST);
+        pnl_produits.add(pnl_produitTable, BorderLayout.CENTER);
 
         var pnl_prodbtns = new JPanel(new GridLayout(4, 1));
         btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
@@ -191,7 +191,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_prodbtns.add(btn_addQuantityProd);
         pnl_prodbtns.add(btn_infoProd);
 
-        pnl_produits.add(pnl_prodbtns);
+        pnl_produits.add(pnl_prodbtns, BorderLayout.EAST);
         pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
 
@@ -203,7 +203,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var lbl_clientsTab = new JLabel("Liste des clients :", SwingConstants.CENTER);
 
-        var pnl_clients = new JPanel(new FlowLayout());
+        var pnl_clients = new JPanel(new BorderLayout());
         l_clients = new JList<Client>(clients);
         l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         l_clients.setSelectedIndex(0);
@@ -228,8 +228,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_clientsbtns.add(btn_delUser);
         pnl_clientsbtns.add(btn_infoUser);
         
-        pnl_clients.add(l_clientsScrollPane);
-        pnl_clients.add(pnl_clientsbtns);
+        pnl_clients.add(l_clientsScrollPane, BorderLayout.CENTER);
+        pnl_clients.add(pnl_clientsbtns, BorderLayout.EAST);
         pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
         pnl_clientsTab.add(pnl_clients, BorderLayout.CENTER);
 
