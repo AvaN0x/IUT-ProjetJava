@@ -260,7 +260,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_remProd) {
-            // TODO verifier que le produit n'est pas dans une commande en cours
+            for (int i = 0; i < commandes.getRowCount(); i++)
+                for (var emprunt : commandes.getCommande(i).getEmprunts())
+                    if(produits.getProduit(t_produits.getSelectedRow()) == emprunt.getProduit())
+                    {
+                        JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
             if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le produit ?", "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     produits.remove(t_produits.getSelectedRow());
