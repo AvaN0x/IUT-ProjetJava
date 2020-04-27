@@ -273,7 +273,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_addQuantityProd) {
             if (t_produits.getSelectedRow() != -1) {
                 try {
-                    int quantity = Integer.parseInt(JOptionPane.showInputDialog("Combien voulez-vous rajouter au stock ?", 0));
+                    var dialogResult = JOptionPane.showInputDialog("Combien voulez-vous rajouter au stock ?", 0);
+                    if(dialogResult==null)
+                        return;
+                    int quantity = Integer.parseInt(dialogResult);
                     if (quantity < 0)
                         JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     produits.getProduit(t_produits.getSelectedRow()).addQuantity(quantity);
