@@ -17,6 +17,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private boolean dateCreationValid;
     private Calendar dateCreation;
     private TableauEmprunts emprunts;
+    private Commande commande;
 
     private JList<Client> l_clients;
     private JButton btn_newUser;
@@ -39,8 +40,40 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setLocation(300, 200);
         setSize(1100, 625);
 
+        dateCreation = Calendar.getInstance();
+        dateCreation.set(Calendar.MILLISECOND, 0);
+        dateCreation.set(Calendar.SECOND, 0);
+        dateCreation.set(Calendar.MINUTE, 0);
+        dateCreation.set(Calendar.HOUR_OF_DAY, 0);
+
         initComponents();
+
+        this.commande = null;
     }
+
+    public CommandeDialog(Window owner, Commande commande) {
+        super(owner, "Gestion vidéothèque - Modification commande");
+        setLocation(300, 200);
+        setSize(1100, 625);
+        
+        this.commande = commande;
+        dateCreation = commande.getDateCreation();
+
+        initComponents();
+
+        for (int i = 0; i < l_clients.getModel().getSize(); i++) {
+            if (commande.getClient().getId() == l_clients.getModel().getElementAt(i).getId()) {
+                l_clients.setSelectedIndex(i);
+                break;
+            }
+        }
+        for (Emprunt emprunt : commande.getEmprunts()) {
+            emprunts.add(new Emprunt(dateCreation, emprunt.getDateFin(), emprunt.getProduit()));
+        }
+        
+        checkBtnValider();
+    }
+
 
     private void initComponents() {
         var owner = (MainWindow) getOwner();
@@ -84,11 +117,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_dateCreationSelect = new Panel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
-        dateCreation = Calendar.getInstance();
-        dateCreation.set(Calendar.MILLISECOND, 0);
-        dateCreation.set(Calendar.SECOND, 0);
-        dateCreation.set(Calendar.MINUTE, 0);
-        dateCreation.set(Calendar.HOUR_OF_DAY, 0);
         var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
         tf_dateCreation.setText(
                   (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
@@ -161,6 +189,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
+        // TODO pouvoir changer la dateFin d'un emprunt
 
         var pnl_produitsBtns = new JPanel(new GridLayout(2, 1));
 
@@ -230,13 +259,25 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 checkBtnValider();
             }
         } else if (e.getSource() == btn_valider) {
-            var commande = new Commande(l_clients.getSelectedValue(), dateCreation);
-            for (Emprunt emprunt : emprunts.getEmprunts())
-                commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());
-            setVisible(false);
-            var owner = (MainWindow) getOwner();
-            owner.commandeDialogReturn(commande);
-            dispose();
+            if (commande == null) { // Nouvelle commande
+                commande = new Commande(l_clients.getSelectedValue(), dateCreation);
+                for (Emprunt emprunt : emprunts.getEmprunts())
+                    commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());  
+
+                setVisible(false);
+                var owner = (MainWindow) getOwner();
+                owner.commandeDialogReturn(commande);
+                dispose();
+            } else { // Edit de commande
+                commande.setClient(l_clients.getSelectedValue());
+                commande.setDateCreation(dateCreation);
+                commande.emptyEmprunts();
+                for (Emprunt emprunt : emprunts.getEmprunts()) {
+                    commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());    
+                }
+    
+                quit();
+            }
         } else if (e.getSource() == btn_cancel) {
             quit();
         } 

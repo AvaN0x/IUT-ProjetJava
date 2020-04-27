@@ -38,6 +38,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newCommande;
     private JButton btn_remCommande;
+    private JButton btn_editCommande;
     private JButton btn_infoCommande;
 
     public MainWindow() {
@@ -163,12 +164,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_remCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
         btn_remCommande.setToolTipText("Supprimer une commande");
         btn_remCommande.addActionListener(this);
+        btn_editCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
+        btn_editCommande.setToolTipText("Modifier la commande");
+        btn_editCommande.addActionListener(this);
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
 
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_remCommande);
+        pnl_commandesbtns.add(btn_editCommande);
         pnl_commandesbtns.add(btn_infoCommande);
         pnl_commandes.add(pnl_commandesbtns, BorderLayout.EAST);
 
@@ -287,6 +292,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     commandes.remove(t_commandes.getSelectedRow());
                 }
             }
+        } else if (e.getSource() == btn_editCommande) {
+            if (t_commandes.getSelectedRow() != -1) {
+                new CommandeDialog(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
+            }
+
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
