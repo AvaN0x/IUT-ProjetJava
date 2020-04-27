@@ -2,7 +2,9 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.TextAttribute;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -131,6 +133,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_commandesTab = new JPanel(new BorderLayout());
 
         var lbl_commandesTab = new JLabel("Liste des commandes :", SwingConstants.CENTER);
+        var attributes = new HashMap<TextAttribute, Object>();
+        attributes.put(TextAttribute.FAMILY, Font.DIALOG);
+        attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        attributes.put(TextAttribute.SIZE, 16);
+        lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -229,6 +236,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var l_clientsScrollPane = new JScrollPane(l_clients);
         var pnl_clientsbtns = new JPanel();
         pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
+        //TODO: add a client
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
         btn_delUser.setToolTipText("Supprimer un client sélectionné");
         btn_delUser.addActionListener(this);
