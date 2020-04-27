@@ -39,6 +39,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     public MainWindow() {
         super("Gestion vidéothèque");
+        setLookNFeel();
         setLocation(300, 200);
         setSize(1280, 720);
 
@@ -82,8 +83,22 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(5));
         commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(6));
 
-
         initComponents();
+    }
+
+    private void setLookNFeel() {
+        try {
+            // Set System L&F
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException e) {
+            // handle exception
+        } catch (ClassNotFoundException e) {
+            // handle exception
+        } catch (InstantiationException e) {
+            // handle exception
+        } catch (IllegalAccessException e) {
+            // handle exception
+        }
     }
 
     private void initComponents() {
@@ -112,7 +127,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         add(tab, BorderLayout.CENTER);
     }
 
-
     private JPanel initComponentsCommandes() {
         var pnl_commandesTab = new JPanel(new BorderLayout());
 
@@ -120,7 +134,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var pnl_commandes = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
-        //TODO checkbox for filter
+        // TODO checkbox for filter
 
         t_commandes = new JTable(commandes);
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
@@ -162,7 +176,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var pnl_produits = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
-        //TODO checkbox for filter
+        // TODO checkbox for filter
 
         t_produits = new JTable(produits);
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
@@ -230,12 +244,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         }
         pnl_clientsbtns.add(btn_delUser);
         pnl_clientsbtns.add(btn_infoUser);
-        
+
         pnl_clients.add(l_clientsScrollPane, BorderLayout.CENTER);
         pnl_clients.add(pnl_clientsbtns, BorderLayout.EAST);
         pnl_clientsTab.add(lbl_clientsTab, BorderLayout.NORTH);
         pnl_clientsTab.add(pnl_clients, BorderLayout.CENTER);
-
 
         return pnl_clientsTab;
     }
@@ -245,13 +258,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
-        } else if(e.getSource() == btn_infoCommande) {
+        } else if (e.getSource() == btn_infoCommande) {
             if (t_commandes.getSelectedRow() != -1) {
                 new CommandeInfo(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
             }
-        } else if(e.getSource() == btn_remCommande) {
+        } else if (e.getSource() == btn_remCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer la commande ?", "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
+                        "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     for (Emprunt emprunt : commandes.getCommande(t_commandes.getSelectedRow()).getEmprunts()) {
                         emprunt.getProduit().rendre();
                     }
@@ -265,27 +279,30 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_remProd) {
             for (int i = 0; i < commandes.getRowCount(); i++)
                 for (var emprunt : commandes.getCommande(i).getEmprunts())
-                    if(produits.getProduit(t_produits.getSelectedRow()) == emprunt.getProduit())
-                    {
-                        JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    if (produits.getProduit(t_produits.getSelectedRow()) == emprunt.getProduit()) {
+                        JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur",
+                                JOptionPane.ERROR_MESSAGE);
                         return;
                     }
             if (t_produits.getSelectedRow() != -1)
-                if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le produit ?", "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
+                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                     produits.remove(t_produits.getSelectedRow());
         } else if (e.getSource() == btn_addQuantityProd) {
             if (t_produits.getSelectedRow() != -1) {
                 try {
                     var dialogResult = JOptionPane.showInputDialog("Combien voulez-vous rajouter au stock ?", 0);
-                    if(dialogResult==null)
+                    if (dialogResult == null)
                         return;
                     int quantity = Integer.parseInt(dialogResult);
                     if (quantity < 0)
-                        JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur",
+                                JOptionPane.ERROR_MESSAGE);
                     produits.getProduit(t_produits.getSelectedRow()).addQuantity(quantity);
                     t_produits.repaint();
                 } catch (Exception error) {
-                    JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else if (e.getSource() == btn_infoProd) {
@@ -294,13 +311,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         } else if (e.getSource() == btn_delUser) {
             for (int i = 0; i < commandes.getRowCount(); i++) {
-                if(l_clients.getSelectedValue() == commandes.getValueAt(0, i))
-                {
-                    JOptionPane.showMessageDialog(this, "L'utilisateur à une commande en cours !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                if (l_clients.getSelectedValue() == commandes.getValueAt(0, i)) {
+                    JOptionPane.showMessageDialog(this, "L'utilisateur à une commande en cours !", "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
-            if (JOptionPane.showConfirmDialog(this,"Voulez vous vraiment supprimer le client ?", "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
+                    "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 clients.removeElement(l_clients.getSelectedValue());
 
         } else if (e.getSource() == btn_infoUser) {
@@ -308,7 +326,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         }
     }
 
-    
     public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
