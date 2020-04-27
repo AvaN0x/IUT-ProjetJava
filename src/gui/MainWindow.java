@@ -137,6 +137,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
         attributes.put(TextAttribute.SIZE, 16);
+        //TODO: Changer taille
         lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
@@ -180,6 +181,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produitsTab = new JPanel(new BorderLayout());
 
         var lbl_commandesTab = new JLabel("Liste des produits :", SwingConstants.CENTER);
+        //TODO changer taille
 
         var pnl_produits = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -225,6 +227,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_clientsTab = new JPanel(new BorderLayout());
 
         var lbl_clientsTab = new JLabel("Liste des clients :", SwingConstants.CENTER);
+        //TODO changer taille
 
         var pnl_clients = new JPanel(new BorderLayout());
         l_clients = new JList<Client>(clients);
