@@ -17,8 +17,6 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
     Commande commande;
     
-    private JButton btn_newEmprunt;
-    private JButton btn_remEmprunt;
     private JButton btn_infoProdEmprunt;
 
     public CommandeInfo(Window owner, Commande commande) {
@@ -95,18 +93,10 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
         var pnl_empruntsbtns = new JPanel();
         pnl_empruntsbtns.setLayout(new BoxLayout(pnl_empruntsbtns, BoxLayout.X_AXIS));
-        btn_newEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
-        btn_newEmprunt.setToolTipText("Ajouter un emprunt");
-        btn_newEmprunt.addActionListener(this);
-        btn_remEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
-        btn_remEmprunt.setToolTipText("Supprimer un emprunt");
-        btn_remEmprunt.addActionListener(this);
         btn_infoProdEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoProdEmprunt.setToolTipText("Information sur le produit de l'emprunt");
         btn_infoProdEmprunt.addActionListener(this);
 
-        pnl_empruntsbtns.add(btn_newEmprunt);
-        pnl_empruntsbtns.add(btn_remEmprunt);
         pnl_empruntsbtns.add(btn_infoProdEmprunt);
         
         add(pnl_fields, BorderLayout.NORTH);
@@ -124,18 +114,9 @@ public class CommandeInfo extends JDialog implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_newEmprunt) {
-
-        } else if (e.getSource() == btn_remEmprunt) {
+    if (e.getSource() == btn_infoProdEmprunt) {
             if (t_emprunts.getSelectedRow() != -1)
-                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
-                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-                    emprunts.remove(t_emprunts.getSelectedRow());
-
-        } else if (e.getSource() == btn_infoProdEmprunt) {
-            if (t_emprunts.getSelectedRow() != -1) {
                 new ProduitInfo(this, emprunts.getEmprunt(t_emprunts.getSelectedRow()).getProduit()).setVisible(true);
-            }
         } 
     }
 
