@@ -129,6 +129,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
                             lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
+                            t_emprunts.repaint();
                             checkBtnValider();
                         } else
                             notValid();
