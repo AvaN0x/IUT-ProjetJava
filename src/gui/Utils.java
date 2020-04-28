@@ -9,4 +9,6 @@ public class Utils {
                                                        {"DVD", "Réalisateur"}};
 
     static final String savingDir = "data/";
+
+    static LogStream logStream = new LogStream("bin/buche.log");
 }
