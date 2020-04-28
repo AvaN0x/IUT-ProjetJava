@@ -2,13 +2,14 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.table.*;
 import app.Commande;
 
 @SuppressWarnings("serial")
 public class TableauCommandes extends AbstractTableModel implements IMyTableModel<Commande>{
-    private ArrayList<Commande> commandes;
+    private List<Commande> commandes;
 
     private final String[] categories = new String[] { "Client", "Date de Création", "Réduction", "Cout total", "Emprunts" };
 
@@ -70,11 +71,11 @@ public class TableauCommandes extends AbstractTableModel implements IMyTableMode
     }
 
     @Override
-    public ArrayList<Commande> getList() {
+    public List<Commande> getList() {
         return commandes;
     }
     @Override
-    public void setList(ArrayList<Commande> list) {
+    public void setList(List<Commande> list) {
         commandes = list;
     }
 

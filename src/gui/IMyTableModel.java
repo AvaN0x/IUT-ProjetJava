@@ -1,6 +1,6 @@
 package gui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IMyTableModel<T> {
     public final int[] columnSizeModifier = new int[] { 3, 1, 1, 1, 1 };
@@ -11,7 +11,7 @@ public interface IMyTableModel<T> {
 
     public T getItem(int index);
 
-    public ArrayList<T> getList();
+    public List<T> getList();
     
-    public void setList(ArrayList<T> list);
+    public void setList(List<T> list);
 }

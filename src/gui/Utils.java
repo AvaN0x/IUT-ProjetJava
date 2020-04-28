@@ -8,5 +8,5 @@ public class Utils {
                                                        {"CD", "Date de sortie"}, 
                                                        {"DVD", "Réalisateur"}};
 
-    static Serialisation serial = new Serialisation();
+    static final String savingDir = "data/";
 }

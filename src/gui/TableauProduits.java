@@ -1,12 +1,14 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.table.*;
 import app.Produit;
 
 @SuppressWarnings("serial")
 public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit>{
-    private ArrayList<Produit> produits;
+    private List<Produit> produits;
     private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
 
     public TableauProduits(){
@@ -64,11 +66,11 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
     }
 
     @Override
-    public ArrayList<Produit> getList() {
+    public List<Produit> getList() {
         return produits;
     }
     @Override
-    public void setList(ArrayList<Produit> list) {
+    public void setList(List<Produit> list) {
         produits = list;
     }
 }

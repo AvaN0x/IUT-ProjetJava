@@ -1,11 +1,12 @@
 package gui;
 
+import java.util.List;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -14,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
-@SuppressWarnings("serial")
+@SuppressWarnings("serial") //! https://stackoverflow.com/a/509230/13257820
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     protected DefaultListModel<Client> clients;
     protected TableauProduits produits;
@@ -55,7 +56,26 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new TableauCommandes();
 
-        /*clients.addElement(new ClientFidele("ricatte", "clément"));
+        if(new File(Utils.savingDir + "data.ser").exists()){
+            try{
+                InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
+                var input = new ObjectInputStream(fileStream);
+
+                commandes.setList((List<Commande>) input.readObject());
+
+                produits.setList((List<Produit>) input.readObject());
+
+                clients = (DefaultListModel<Client>) input.readObject();
+
+                input.close();
+            } catch (IOException ex) {
+
+            } catch (ClassNotFoundException ex) {
+
+            }
+        }
+        else{/*
+        clients.addElement(new ClientFidele("ricatte", "clément"));
         clients.addElement(new ClientFidele("sublet", "tom"));
         clients.addElement(new ClientOccas("hochet", "ric"));
         clients.addElement(new ClientFidele("térieur", "alex"));
@@ -90,24 +110,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(4));
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(5));
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));*/
-
-        if(new File("data/commandes.ser").exists()){
-            Utils.serial.loadFromFile("commandes.ser");
-            commandes.setList((ArrayList<Commande>) Utils.serial.read());
-            //! https://stackoverflow.com/a/509230/13257820
         }
 
-        if(new File("data/produits.ser").exists()){
-            Utils.serial.loadFromFile("produits.data");
-            produits.setList((ArrayList<Produit>) Utils.serial.read());
-            //! https://stackoverflow.com/a/509230/13257820
-        }
 
-        if(new File("data/clients.ser").exists()){
-            Utils.serial.loadFromFile("clients.ser");
-            clients = (DefaultListModel<Client>) Utils.serial.read();
-            //! https://stackoverflow.com/a/509230/13257820
-        }
         initComponents();
     }
 
@@ -155,7 +160,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 save();
-                Utils.serial.close();
             }
         });
     }
@@ -430,13 +434,22 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void save(){
-        Utils.serial.write(commandes.getList());
-        Utils.serial.saveToFile("commandes.ser");
+        try{
+            var saveFile = new File(Utils.savingDir + "data.ser");
+            if (!new File(Utils.savingDir).exists())
+                new File(Utils.savingDir).mkdir();
+            if (!saveFile.exists())
+                saveFile.createNewFile();
+            OutputStream fileStream = new FileOutputStream(saveFile);
+            var output = new ObjectOutputStream(fileStream);
 
-        Utils.serial.write(produits.getList());
-        Utils.serial.saveToFile("produits.ser");
-        
-        Utils.serial.write(clients);
-        Utils.serial.saveToFile("clients.ser");
+            output.writeObject(commandes.getList());
+            output.writeObject(produits.getList());
+            output.writeObject(clients);
+
+            output.close();
+        } catch (IOException ex) {
+
+        }
     }
 }

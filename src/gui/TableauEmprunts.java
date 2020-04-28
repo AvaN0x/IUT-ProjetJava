@@ -2,13 +2,14 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.table.*;
 import app.Emprunt;
 
 @SuppressWarnings("serial")
 public class TableauEmprunts extends AbstractTableModel implements IMyTableModel<Emprunt> {
-        private ArrayList<Emprunt> emprunts;
+        private List<Emprunt> emprunts;
     
         private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Date de fin", "Cout" };
     
@@ -74,11 +75,11 @@ public class TableauEmprunts extends AbstractTableModel implements IMyTableModel
         }
 
         @Override
-        public ArrayList<Emprunt> getList() {
+        public List<Emprunt> getList() {
             return emprunts;
         }
         @Override
-        public void setList(ArrayList<Emprunt> list) {
+        public void setList(List<Emprunt> list) {
             emprunts = list;
         }
 
