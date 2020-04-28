@@ -1,9 +1,10 @@
 package app;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.Calendar;
 
-public class Emprunt {
+public class Emprunt implements Serializable {
     protected Calendar dateDebut; // égale a la date de création de la commande
     protected Calendar dateFin;
     protected Produit produit;

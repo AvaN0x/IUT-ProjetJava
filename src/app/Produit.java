@@ -1,8 +1,9 @@
 package app;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Produit {
+public abstract class Produit implements Serializable {
     protected String id;
     protected String title;
     protected double dailyPrice;

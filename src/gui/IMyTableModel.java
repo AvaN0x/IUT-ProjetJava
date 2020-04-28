@@ -12,4 +12,6 @@ public interface IMyTableModel<T> {
     public T getItem(int index);
 
     public ArrayList<T> getList();
+    
+    public void setList(ArrayList<T> list);
 }

@@ -3,7 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
-import java.util.Calendar;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -52,7 +53,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         produits = new TableauProduits();
         commandes = new TableauCommandes();
 
-        clients.addElement(new ClientFidele("ricatte", "clément"));
+        /*clients.addElement(new ClientFidele("ricatte", "clément"));
         clients.addElement(new ClientFidele("sublet", "tom"));
         clients.addElement(new ClientOccas("hochet", "ric"));
         clients.addElement(new ClientFidele("térieur", "alex"));
@@ -86,8 +87,22 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(3));
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(4));
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(5));
-        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));*/
 
+        if(new File("bin/commandes.data").exists()){
+            Utils.serial.loadFromFile("commandes.data");
+            commandes.setList((ArrayList<Commande>) Utils.serial.read());
+        }
+
+        if(new File("bin/produits.data").exists()){
+            Utils.serial.loadFromFile("produits.data");
+            produits.setList((ArrayList<Produit>) Utils.serial.read());
+        }
+
+        if(new File("bin/clients.data").exists()){
+            Utils.serial.loadFromFile("clients.data");
+            clients = (DefaultListModel<Client>) Utils.serial.read();
+        }
         initComponents();
     }
 
@@ -130,6 +145,19 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         tab.addTab("Clients", initComponentsClients());
 
         add(tab, BorderLayout.CENTER);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                Utils.serial.write(commandes.getList());
+                Utils.serial.saveToFile("commandes.data");
+                Utils.serial.write(produits.getList());
+                Utils.serial.saveToFile("produits.data");
+                Utils.serial.write(clients);
+                Utils.serial.saveToFile("clients.data");
+                Utils.serial.close();
+            }
+        });
     }
 
     private JPanel initComponentsCommandes() {
@@ -143,13 +171,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
-        
+
         t_commandes = new JTable(commandes);
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
         for (var i = 0; i < commandes.getColumnCount(); i++)
-            t_commandes.getColumnModel().getColumn(i).setPreferredWidth(IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
+            t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
+                    IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
         var pnl_commandesTable = new JPanel(new BorderLayout());
         pnl_commandesTable.add(new JScrollPane(t_commandes));
 
@@ -199,7 +228,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
         for (var i = 0; i < produits.getColumnCount(); i++)
-            t_produits.getColumnModel().getColumn(i).setPreferredWidth(IMyTableModel.columnSizeModifier[i] * t_produits.getColumnModel().getColumn(i).getWidth());
+            t_produits.getColumnModel().getColumn(i).setPreferredWidth(
+                    IMyTableModel.columnSizeModifier[i] * t_produits.getColumnModel().getColumn(i).getWidth());
         var pnl_produitTable = new JPanel(new BorderLayout());
         pnl_produitTable.add(new JScrollPane(t_produits));
 
@@ -343,7 +373,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
-            setEnabled(false);    
+            setEnabled(false);
         } else if (e.getSource() == btn_delUser) {
             for (int i = 0; i < commandes.getRowCount(); i++) {
                 if (l_clients.getSelectedValue() == commandes.getValueAt(0, i)) {

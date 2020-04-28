@@ -1,8 +1,9 @@
 package app;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Client {
+public abstract class Client implements Serializable {
     protected String id;
     protected String nom;
     protected String prenom;

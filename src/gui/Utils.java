@@ -7,4 +7,6 @@ public class Utils {
                                                        {"Dictionnaire", "Langue"}, 
                                                        {"CD", "Date de sortie"}, 
                                                        {"DVD", "Réalisateur"}};
+
+    static Serialisation serial = new Serialisation();
 }

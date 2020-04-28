@@ -1,10 +1,11 @@
 package app;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
-public class Commande {
+public class Commande implements Serializable  {
     protected String id;
     protected Client client;
     protected Calendar dateCreation;

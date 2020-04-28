@@ -76,6 +76,10 @@ public class TableauEmprunts extends AbstractTableModel implements IMyTableModel
         public ArrayList<Emprunt> getList() {
             return emprunts;
         }
+        @Override
+        public void setList(ArrayList<Emprunt> list) {
+            emprunts = list;
+        }
 
     }
     

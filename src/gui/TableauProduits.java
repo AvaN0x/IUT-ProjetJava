@@ -66,4 +66,8 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
     public ArrayList<Produit> getList() {
         return produits;
     }
+    @Override
+    public void setList(ArrayList<Produit> list) {
+        produits = list;
+    }
 }

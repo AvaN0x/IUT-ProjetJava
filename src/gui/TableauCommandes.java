@@ -72,5 +72,9 @@ public class TableauCommandes extends AbstractTableModel implements IMyTableMode
     public ArrayList<Commande> getList() {
         return commandes;
     }
+    @Override
+    public void setList(ArrayList<Commande> list) {
+        commandes = list;
+    }
 
 }
