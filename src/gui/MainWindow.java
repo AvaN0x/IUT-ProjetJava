@@ -143,9 +143,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
-        var pnl_filter = new JPanel(new GridLayout(0, 1));
-        // TODO checkbox for filter
-
+        
         t_commandes = new JTable(commandes);
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
@@ -156,7 +154,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_commandesTable.add(new JScrollPane(t_commandes));
 
         pnl_commandes.add(pnl_commandesTable);
-        pnl_commandes.add(pnl_filter, BorderLayout.WEST);
 
         var pnl_commandesbtns = new JPanel();
         pnl_commandesbtns.setLayout(new BoxLayout(pnl_commandesbtns, BoxLayout.PAGE_AXIS));
@@ -196,8 +193,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         lbl_prduitsTab.setFont(Font.getFont(attributes));
 
         var pnl_produits = new JPanel(new BorderLayout());
-        var pnl_filter = new JPanel(new GridLayout(0, 1));
-        // TODO checkbox for filter
 
         t_produits = new JTable(produits);
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
@@ -208,7 +203,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produitTable = new JPanel(new BorderLayout());
         pnl_produitTable.add(new JScrollPane(t_produits));
 
-        pnl_produits.add(pnl_filter, BorderLayout.WEST);
         pnl_produits.add(pnl_produitTable, BorderLayout.CENTER);
 
         var pnl_prodbtns = new JPanel();
