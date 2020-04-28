@@ -134,12 +134,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsCommandes() {
         var pnl_commandesTab = new JPanel(new BorderLayout());
 
-        var lbl_commandesTab = new JLabel("Liste des commandes :", SwingConstants.CENTER);
+        var lbl_commandesTab = new JLabel("Liste des commandes", SwingConstants.CENTER);
         var attributes = new HashMap<TextAttribute, Object>();
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
         attributes.put(TextAttribute.SIZE, 16);
-        // TODO: Changer taille
         lbl_commandesTab.setFont(Font.getFont(attributes));
 
         var pnl_commandes = new JPanel(new BorderLayout());
@@ -186,8 +185,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsProduits() {
         var pnl_produitsTab = new JPanel(new BorderLayout());
 
-        var lbl_commandesTab = new JLabel("Liste des produits :", SwingConstants.CENTER);
-        // TODO changer taille
+        var lbl_prduitsTab = new JLabel("Liste des produits", SwingConstants.CENTER);
+        var attributes = new HashMap<TextAttribute, Object>();
+        attributes.put(TextAttribute.FAMILY, Font.DIALOG);
+        attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        attributes.put(TextAttribute.SIZE, 16);
+        lbl_prduitsTab.setFont(Font.getFont(attributes));
 
         var pnl_produits = new JPanel(new BorderLayout());
         var pnl_filter = new JPanel(new GridLayout(0, 1));
@@ -223,7 +226,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         pnl_prodbtns.add(btn_infoProd);
 
         pnl_produits.add(pnl_prodbtns, BorderLayout.EAST);
-        pnl_produitsTab.add(lbl_commandesTab, BorderLayout.NORTH);
+        pnl_produitsTab.add(lbl_prduitsTab, BorderLayout.NORTH);
         pnl_produitsTab.add(pnl_produits, BorderLayout.CENTER);
 
         return pnl_produitsTab;
@@ -232,8 +235,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsClients() {
         var pnl_clientsTab = new JPanel(new BorderLayout());
 
-        var lbl_clientsTab = new JLabel("Liste des clients :", SwingConstants.CENTER);
-        // TODO changer taille
+        var lbl_clientsTab = new JLabel("Liste des clients", SwingConstants.CENTER);
+        var attributes = new HashMap<TextAttribute, Object>();
+        attributes.put(TextAttribute.FAMILY, Font.DIALOG);
+        attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        attributes.put(TextAttribute.SIZE, 16);
+        lbl_clientsTab.setFont(Font.getFont(attributes));
 
         var pnl_clients = new JPanel(new BorderLayout());
         l_clients = new JList<Client>(clients);
