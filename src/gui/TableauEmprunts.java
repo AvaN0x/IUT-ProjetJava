@@ -6,10 +6,10 @@ import java.util.Calendar;
 import javax.swing.table.*;
 import app.Emprunt;
 
-public class TableauEmprunts extends AbstractTableModel {
+public class TableauEmprunts extends AbstractTableModel implements IMyTableModel<Emprunt> {
         private ArrayList<Emprunt> emprunts;
     
-private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Date de fin", "Cout" };
+        private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Date de fin", "Cout" };
     
         public TableauEmprunts(){
             super();
@@ -53,23 +53,27 @@ private final String[] categories = new String[] { "Nom", "Prix / jour", "Catég
             }
         }
      
+        @Override
         public void add(Emprunt emprunt) {
             emprunts.add(emprunt);
      
             fireTableRowsInserted(emprunts.size() -1, emprunts.size() -1);
         }
      
+        @Override
         public void remove(int rowIndex) {
             emprunts.remove(rowIndex);
      
             fireTableRowsDeleted(rowIndex, rowIndex);
         }
     
-        public Emprunt getEmprunt(int index) {
+        @Override
+        public Emprunt getItem(int index) {
             return emprunts.get(index);
         }
 
-        public ArrayList<Emprunt> getEmprunts() {
+        @Override
+        public ArrayList<Emprunt> getList() {
             return emprunts;
         }
 

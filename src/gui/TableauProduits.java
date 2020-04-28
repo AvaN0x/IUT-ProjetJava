@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.table.*;
 import app.Produit;
 
-public class TableauProduits extends AbstractTableModel{
+public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit>{
     private ArrayList<Produit> produits;
     // TODO set la taille des colonnes sur tous les tableaux
     private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
@@ -44,19 +44,27 @@ public class TableauProduits extends AbstractTableModel{
         }
     }
  
+    @Override
     public void add(Produit prod) {
         produits.add(prod);
  
         fireTableRowsInserted(produits.size() -1, produits.size() -1);
     }
  
+    @Override
     public void remove(int rowIndex) {
         produits.remove(rowIndex);
  
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
-    public Produit getProduit(int index) {
+    @Override
+    public Produit getItem(int index) {
         return produits.get(index);
+    }
+
+    @Override
+    public ArrayList<Produit> getList() {
+        return produits;
     }
 }

@@ -251,7 +251,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 var owner = (MainWindow) getOwner();
                 // TODO gerer en fonction du stock dispo
                 // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
-                new EmpruntDialog(this, owner.produits.getProduit(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
+                new EmpruntDialog(this, owner.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
             }    
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
@@ -261,7 +261,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         } else if (e.getSource() == btn_valider) {
             if (commande == null) { // Nouvelle commande
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
-                for (Emprunt emprunt : emprunts.getEmprunts())
+                for (Emprunt emprunt : emprunts.getList())
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());  
 
                 setVisible(false);
@@ -272,7 +272,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 commande.setClient(l_clients.getSelectedValue());
                 commande.setDateCreation(dateCreation);
                 commande.emptyEmprunts();
-                for (Emprunt emprunt : emprunts.getEmprunts()) {
+                for (Emprunt emprunt : emprunts.getList()) {
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());    
                 }
     

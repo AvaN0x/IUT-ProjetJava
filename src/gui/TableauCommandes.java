@@ -6,7 +6,7 @@ import java.util.Calendar;
 import javax.swing.table.*;
 import app.Commande;
 
-public class TableauCommandes extends AbstractTableModel{
+public class TableauCommandes extends AbstractTableModel implements IMyTableModel<Commande>{
     private ArrayList<Commande> commandes;
 
     private final String[] categories = new String[] { "Client", "Date de Création", "Réduction", "Cout total", "Emprunts" };
@@ -49,20 +49,28 @@ public class TableauCommandes extends AbstractTableModel{
         }
     }
  
+    @Override
     public void add(Commande commande) {
         commandes.add(commande);
  
         fireTableRowsInserted(commandes.size() -1, commandes.size() -1);
     }
  
+    @Override
     public void remove(int rowIndex) {
         commandes.remove(rowIndex);
  
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
-    public Commande getCommande(int index) {
+    @Override
+    public Commande getItem(int index) {
         return commandes.get(index);
+    }
+
+    @Override
+    public ArrayList<Commande> getList() {
+        return commandes;
     }
 
 }

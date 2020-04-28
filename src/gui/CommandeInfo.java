@@ -114,7 +114,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btn_infoProdEmprunt) {
             if (t_emprunts.getSelectedRow() != -1)
-                new ProduitInfo(this, emprunts.getEmprunt(t_emprunts.getSelectedRow()).getProduit()).setVisible(true);
+                new ProduitInfo(this, emprunts.getItem(t_emprunts.getSelectedRow()).getProduit()).setVisible(true);
         } 
     }
 

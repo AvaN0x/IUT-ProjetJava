@@ -79,13 +79,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.add(new Commande(clients.get(0), dateCreation));
         Calendar dateFin = Calendar.getInstance();
         dateFin.set(2020, Calendar.JUNE, 26);
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(0));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(1));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(2));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(3));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(4));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(5));
-        commandes.getCommande(0).addEmprunt(dateFin, produits.getProduit(6));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(0));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(1));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(2));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(3));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(4));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(5));
+        commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));
 
         initComponents();
     }
@@ -129,6 +129,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         tab.addTab("Clients", initComponentsClients());
 
         add(tab, BorderLayout.CENTER);
+
+        //TODO Event closing handler -> quitter l'application COMPELETEMENT
     }
 
     private JPanel initComponentsCommandes() {
@@ -287,13 +289,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             this.setEnabled(false);
         } else if (e.getSource() == btn_infoCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                new CommandeInfo(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
+                new CommandeInfo(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_remCommande) {
             if (t_commandes.getSelectedRow() != -1) {
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    for (Emprunt emprunt : commandes.getCommande(t_commandes.getSelectedRow()).getEmprunts()) {
+                    for (Emprunt emprunt : commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
                         emprunt.getProduit().rendre();
                     }
                     commandes.remove(t_commandes.getSelectedRow());
@@ -301,7 +303,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         } else if (e.getSource() == btn_editCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                new CommandeDialog(this, commandes.getCommande(t_commandes.getSelectedRow())).setVisible(true);
+                new CommandeDialog(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
 
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
@@ -310,8 +312,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             this.setEnabled(false);
         } else if (e.getSource() == btn_remProd) {
             for (int i = 0; i < commandes.getRowCount(); i++)
-                for (var emprunt : commandes.getCommande(i).getEmprunts())
-                    if (produits.getProduit(t_produits.getSelectedRow()) == emprunt.getProduit()) {
+                for (var emprunt : commandes.getItem(i).getEmprunts())
+                    if (produits.getItem(t_produits.getSelectedRow()) == emprunt.getProduit()) {
                         JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
@@ -330,7 +332,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     if (quantity < 0)
                         JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
-                    produits.getProduit(t_produits.getSelectedRow()).addQuantity(quantity);
+                    produits.getItem(t_produits.getSelectedRow()).addQuantity(quantity);
                     t_produits.repaint();
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur",
@@ -339,7 +341,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         } else if (e.getSource() == btn_infoProd) {
             if (t_produits.getSelectedRow() != -1) {
-                new ProduitInfo(this, produits.getProduit(t_produits.getSelectedRow())).setVisible(true);
+                new ProduitInfo(this, produits.getItem(t_produits.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_newUser) {
             var userDialog = new UserDialog(this);
