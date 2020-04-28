@@ -34,6 +34,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private TableRowSorter<TableModel> t_empruntsSorter;
     private JButton btn_valider;
     private JButton btn_cancel;
+    private JButton btn_edit;
 
     public CommandeDialog(Window owner) {
         super(owner, "Gestion vidéothèque - Nouvelle commande");
@@ -189,9 +190,9 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
-        // TODO pouvoir changer la dateFin d'un emprunt
 
-        var pnl_produitsBtns = new JPanel(new GridLayout(2, 1));
+        var pnl_produitsBtns = new JPanel();
+        pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
 
         btn_prodComm = new JButton("←");
         btn_prodComm.setToolTipText("Ajouter un produit à la commande");
@@ -201,8 +202,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         btn_prodDispo.setToolTipText("Retire un produit de la commande");
         btn_prodDispo.addActionListener(this);
 
+        btn_edit = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
+        btn_edit.setToolTipText("Edite un produit de la commande");
+        btn_edit.addActionListener(this);
+
         pnl_produitsBtns.add(btn_prodComm);
         pnl_produitsBtns.add(btn_prodDispo);
+        pnl_produitsBtns.add(btn_edit);
 
         t_produitsDispo = new JTable(owner.produits);
         t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
@@ -258,6 +264,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
+        } else if (e.getSource() == btn_edit) {
+            // edit de produit
         } else if (e.getSource() == btn_valider) {
             if (commande == null) { // Nouvelle commande
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
