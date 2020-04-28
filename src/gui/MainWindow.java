@@ -154,12 +154,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                Utils.serial.write(commandes.getList());
-                Utils.serial.saveToFile("commandes.data");
-                Utils.serial.write(produits.getList());
-                Utils.serial.saveToFile("produits.data");
-                Utils.serial.write(clients);
-                Utils.serial.saveToFile("clients.data");
+                save();
                 Utils.serial.close();
             }
         });
@@ -432,5 +427,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_infoUser.setEnabled(true);
             }
         }
+    }
+
+    public void save(){
+        Utils.serial.write(commandes.getList());
+        Utils.serial.saveToFile("commandes.data");
+
+        Utils.serial.write(produits.getList());
+        Utils.serial.saveToFile("produits.data");
+        
+        Utils.serial.write(clients);
+        Utils.serial.saveToFile("clients.data");
     }
 }
