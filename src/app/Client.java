@@ -3,6 +3,7 @@ package app;
 import java.io.Serializable;
 import java.util.UUID;
 
+@SuppressWarnings("serial")
 public abstract class Client implements Serializable {
     protected String id;
     protected String nom;

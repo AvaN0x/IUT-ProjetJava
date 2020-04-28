@@ -2,6 +2,7 @@ package app;
 
 import java.util.Calendar;
 
+@SuppressWarnings("serial")
 public class CD extends SupportNum {
     public Calendar releaseDate;
 

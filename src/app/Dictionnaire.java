@@ -1,5 +1,6 @@
 package app;
 
+@SuppressWarnings("serial")
 public class Dictionnaire extends Document {
     protected String langue;
 

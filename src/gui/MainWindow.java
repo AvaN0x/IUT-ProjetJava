@@ -14,6 +14,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     protected DefaultListModel<Client> clients;
     protected TableauProduits produits;
@@ -42,6 +43,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_editCommande;
     private JButton btn_infoCommande;
 
+    @SuppressWarnings("unchecked")
     public MainWindow() {
         super("Gestion vidéothèque");
         setLookNFeel();
@@ -92,16 +94,19 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         if(new File("bin/commandes.data").exists()){
             Utils.serial.loadFromFile("commandes.data");
             commandes.setList((ArrayList<Commande>) Utils.serial.read());
+            //! https://stackoverflow.com/a/509230/13257820
         }
 
         if(new File("bin/produits.data").exists()){
             Utils.serial.loadFromFile("produits.data");
             produits.setList((ArrayList<Produit>) Utils.serial.read());
+            //! https://stackoverflow.com/a/509230/13257820
         }
 
         if(new File("bin/clients.data").exists()){
             Utils.serial.loadFromFile("clients.data");
             clients = (DefaultListModel<Client>) Utils.serial.read();
+            //! https://stackoverflow.com/a/509230/13257820
         }
         initComponents();
     }

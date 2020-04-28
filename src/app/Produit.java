@@ -3,6 +3,7 @@ package app;
 import java.io.Serializable;
 import java.util.UUID;
 
+@SuppressWarnings("serial")
 public abstract class Produit implements Serializable {
     protected String id;
     protected String title;

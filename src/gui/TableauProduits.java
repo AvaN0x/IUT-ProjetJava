@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.swing.table.*;
 import app.Produit;
 
+@SuppressWarnings("serial")
 public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit>{
     private ArrayList<Produit> produits;
     private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };

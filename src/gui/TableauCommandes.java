@@ -6,6 +6,7 @@ import java.util.Calendar;
 import javax.swing.table.*;
 import app.Commande;
 
+@SuppressWarnings("serial")
 public class TableauCommandes extends AbstractTableModel implements IMyTableModel<Commande>{
     private ArrayList<Commande> commandes;
 

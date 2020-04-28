@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+@SuppressWarnings("serial")
 public class Commande implements Serializable  {
     protected String id;
     protected Client client;

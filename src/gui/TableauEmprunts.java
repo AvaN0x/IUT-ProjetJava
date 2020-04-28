@@ -6,6 +6,7 @@ import java.util.Calendar;
 import javax.swing.table.*;
 import app.Emprunt;
 
+@SuppressWarnings("serial")
 public class TableauEmprunts extends AbstractTableModel implements IMyTableModel<Emprunt> {
         private ArrayList<Emprunt> emprunts;
     

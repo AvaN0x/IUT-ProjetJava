@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import app.Produit;
 
+@SuppressWarnings("serial")
 public class ProduitInfo extends JDialog {
     Produit produit;
 

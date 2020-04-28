@@ -6,6 +6,7 @@ import javax.swing.*;
 import app.Client;
 import app.ClientFidele;
 
+@SuppressWarnings("serial")
 public class UserInfo extends JDialog {
     Client client;
 

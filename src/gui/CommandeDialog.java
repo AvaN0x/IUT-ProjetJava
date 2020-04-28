@@ -13,6 +13,7 @@ import app.Client;
 import app.Commande;
 import app.Emprunt;
 
+@SuppressWarnings("serial")
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     private boolean dateCreationValid;
     private Calendar dateCreation;

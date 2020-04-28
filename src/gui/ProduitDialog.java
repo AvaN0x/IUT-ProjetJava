@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import app.*;
 
+@SuppressWarnings("serial")
 public class ProduitDialog extends JDialog implements ActionListener, ItemListener {
     private JLabel lbl_title;
     private JLabel lbl_price;

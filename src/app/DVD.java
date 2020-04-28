@@ -1,5 +1,6 @@
 package app;
 
+@SuppressWarnings("serial")
 public class DVD extends SupportNum {
     protected String realisateur;
 

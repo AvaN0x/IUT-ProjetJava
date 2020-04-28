@@ -11,6 +11,7 @@ import javax.swing.event.*;
 import app.Emprunt;
 import app.Produit;
 
+@SuppressWarnings("serial")
 public class EmpruntDialog extends JDialog implements ActionListener {
     private Produit produit;
     private Calendar dateCreation;

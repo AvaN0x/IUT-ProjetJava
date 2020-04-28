@@ -10,6 +10,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.Commande;
 
+@SuppressWarnings("serial")
 public class CommandeInfo extends JDialog implements ActionListener {
     private TableauEmprunts emprunts;
     private JTable t_emprunts;

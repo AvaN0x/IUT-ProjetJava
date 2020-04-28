@@ -1,5 +1,6 @@
 package app;
 
+@SuppressWarnings("serial")
 public abstract class Livre extends Document {
     protected String auteur;
 

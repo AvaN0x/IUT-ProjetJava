@@ -8,6 +8,7 @@ import app.Client;
 import app.ClientFidele;
 import app.ClientOccas;
 
+@SuppressWarnings("serial")
 public class UserDialog extends JDialog implements ActionListener {
     private JLabel lbl_nom;
     private JLabel lbl_prenom;
