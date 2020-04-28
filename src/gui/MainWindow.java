@@ -91,20 +91,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(5));
         commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));*/
 
-        if(new File("bin/commandes.data").exists()){
-            Utils.serial.loadFromFile("commandes.data");
+        if(new File("data/commandes.ser").exists()){
+            Utils.serial.loadFromFile("commandes.ser");
             commandes.setList((ArrayList<Commande>) Utils.serial.read());
             //! https://stackoverflow.com/a/509230/13257820
         }
 
-        if(new File("bin/produits.data").exists()){
+        if(new File("data/produits.ser").exists()){
             Utils.serial.loadFromFile("produits.data");
             produits.setList((ArrayList<Produit>) Utils.serial.read());
             //! https://stackoverflow.com/a/509230/13257820
         }
 
-        if(new File("bin/clients.data").exists()){
-            Utils.serial.loadFromFile("clients.data");
+        if(new File("data/clients.ser").exists()){
+            Utils.serial.loadFromFile("clients.ser");
             clients = (DefaultListModel<Client>) Utils.serial.read();
             //! https://stackoverflow.com/a/509230/13257820
         }
@@ -431,12 +431,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     public void save(){
         Utils.serial.write(commandes.getList());
-        Utils.serial.saveToFile("commandes.data");
+        Utils.serial.saveToFile("commandes.ser");
 
         Utils.serial.write(produits.getList());
-        Utils.serial.saveToFile("produits.data");
+        Utils.serial.saveToFile("produits.ser");
         
         Utils.serial.write(clients);
-        Utils.serial.saveToFile("clients.data");
+        Utils.serial.saveToFile("clients.ser");
     }
 }

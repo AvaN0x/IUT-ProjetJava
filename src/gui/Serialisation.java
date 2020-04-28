@@ -35,6 +35,7 @@ public class Serialisation {
     public void saveToFile(String filename) {
         try (var outputStream = new FileOutputStream("data/" + filename)) {
             data.writeTo(outputStream);
+            outputStream.close();
         } catch (IOException ex) {
             // Catch exception
         }
