@@ -46,6 +46,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setLookNFeel();
         setLocation(300, 200);
         setSize(1280, 720);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         clients = new DefaultListModel<Client>();
         produits = new TableauProduits();
@@ -129,8 +130,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         tab.addTab("Clients", initComponentsClients());
 
         add(tab, BorderLayout.CENTER);
-
-        //TODO Event closing handler -> quitter l'application COMPELETEMENT
     }
 
     private JPanel initComponentsCommandes() {
