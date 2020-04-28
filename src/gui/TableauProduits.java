@@ -6,7 +6,6 @@ import app.Produit;
 
 public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit>{
     private ArrayList<Produit> produits;
-    // TODO set la taille des colonnes sur tous les tableaux
     private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
 
     public TableauProduits(){

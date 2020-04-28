@@ -151,6 +151,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
+        for (var i = 0; i < commandes.getColumnCount(); i++)
+            t_commandes.getColumnModel().getColumn(i).setPreferredWidth(IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
         var pnl_commandesTable = new JPanel(new BorderLayout());
         pnl_commandesTable.add(new JScrollPane(t_commandes));
 
@@ -202,6 +204,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
+        for (var i = 0; i < produits.getColumnCount(); i++)
+            t_produits.getColumnModel().getColumn(i).setPreferredWidth(IMyTableModel.columnSizeModifier[i] * t_produits.getColumnModel().getColumn(i).getWidth());
         var pnl_produitTable = new JPanel(new BorderLayout());
         pnl_produitTable.add(new JScrollPane(t_produits));
 
