@@ -121,13 +121,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             // Set System L&F
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
+            Utils.logStream.Error(e);
         } catch (ClassNotFoundException e) {
-            // handle exception
+            Utils.logStream.Error(e);
         } catch (InstantiationException e) {
-            // handle exception
+            Utils.logStream.Error(e);
         } catch (IllegalAccessException e) {
-            // handle exception
+            Utils.logStream.Error(e);
         }
     }
 
@@ -449,7 +449,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
             output.close();
         } catch (IOException ex) {
-
+            Utils.logStream.Error(ex);
         }
     }
 }
