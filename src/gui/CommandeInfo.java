@@ -89,8 +89,6 @@ public class CommandeInfo extends JDialog implements ActionListener {
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
 
-        // TODO enlever add et remove, faire un bouton edit, qui ouvre une commandedialog avec la commande(penser a freeze les fenetres)
-
         var pnl_empruntsbtns = new JPanel();
         pnl_empruntsbtns.setLayout(new BoxLayout(pnl_empruntsbtns, BoxLayout.X_AXIS));
         btn_infoProdEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
