@@ -1,37 +1,43 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import app.Client;
 import app.ClientFidele;
+import app.Commande;
 
 @SuppressWarnings("serial")
-public class UserInfo extends JDialog {
+public class UserInfo extends JDialog implements ActionListener {
     private Client client;
     private TableauCommandes commandes;
     private JTable t_commandes;
     private TableRowSorter<TableModel> t_commandesSorter;
 
+    private JButton btn_infoCommande;
 
     public UserInfo(Window owner, Client client, TableauCommandes commandes) {
         super(owner, "Gestion vidéothèque - Information client");
         this.client = client;
         this.commandes = commandes;
+        // TODO à fix, j'en ai marre
+        // for (int i = 0; i < commandes.getList().size(); i++)
+        //     if (commandes.getList().get(i).getClient().getId() == client.getId())
+        //         this.commandes.add(commandes.getList().get(i));
 
         setLocation(300, 200);
-        setSize(320, 180);
+        setSize(480, 380);
 
         initComponents();
     }
 
     public void initComponents() {
         setLayout(new BorderLayout());
-
-        var pnl_fields = new Panel(new GridLayout(4,1));
-
+        var pnl_fields = new Panel(new GridLayout(5, 1)); // TODO fix l'affichage
+        
         var pnl_nom = new Panel(new FlowLayout());
         var lbl_nomStatic = new JLabel("Nom :");
         var lbl_nom = new JLabel(client.getNom());
@@ -59,6 +65,7 @@ public class UserInfo extends JDialog {
             cb_fidel.setSelected(false);
         pnl_fidel.add(cb_fidel);
         
+
         t_commandes = new JTable(commandes);
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
@@ -66,16 +73,22 @@ public class UserInfo extends JDialog {
         for (var i = 0; i < commandes.getColumnCount(); i++)
             t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
+
+        btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
+        btn_infoCommande.setToolTipText("Information sur la commande");
+        btn_infoCommande.addActionListener(this);
+
         var pnl_commandesTable = new JPanel(new BorderLayout());
-        pnl_commandesTable.add(new JScrollPane(t_commandes));
+        pnl_commandesTable.add(new JScrollPane(t_commandes), BorderLayout.CENTER);
+        pnl_commandesTable.add(btn_infoCommande, BorderLayout.EAST);
 
         pnl_fields.add(pnl_nom);
         pnl_fields.add(pnl_prenom);
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_fidel);
+        
         pnl_fields.add(pnl_commandesTable);
-
-        add(pnl_fields, BorderLayout.CENTER);
+        add(pnl_fields);
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -85,4 +98,13 @@ public class UserInfo extends JDialog {
             }
         });
     }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btn_infoCommande) {
+            if (t_commandes.getSelectedRow() != -1) {
+                new CommandeInfo(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
+            }
+        }
+    }
+
 }
