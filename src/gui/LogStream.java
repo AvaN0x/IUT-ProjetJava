@@ -59,5 +59,6 @@ public class LogStream {
     public void Log(Object value, String status){
         writer.println("[" + status + "] " + new SimpleDateFormat("HH:mm:ss").format(new Date()) + " - " + value.toString());
         writer.flush();
+        System.out.println("[" + status + "] " + new SimpleDateFormat("HH:mm:ss").format(new Date()) + " - " + value.toString());
     }
 }
