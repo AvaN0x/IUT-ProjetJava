@@ -21,7 +21,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     protected TableauProduits produits;
     protected TableauCommandes commandes;
 
+    private JMenuItem mnui_save;
+    private JMenuItem mnui_newUser;
+    private JMenuItem mnui_newCommande;
+    private JMenuItem mnui_newProd;
+
     private JTabbedPane tab;
+    private JButton btn_toolbarNewUser;
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
     private JButton btn_toolbarSave;
@@ -134,24 +140,63 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     private void initComponents() {
         setLayout(new BorderLayout());
+
+        var mnu = new JMenuBar();
+        
+        var mnu_file = new JMenu("Fichier");
+        
+        mnui_save = new JMenuItem("Sauvegarder");
+        mnui_save.setIcon(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
+        mnui_save.addActionListener(this);
+        mnu_file.add(mnui_save);
+
+        mnu.add(mnu_file);
+
+        var mnu_edit = new JMenu("Edition");
+
+        mnui_newUser = new JMenuItem("Nouveau client");
+        mnui_newUser.setIcon(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
+        mnui_newUser.addActionListener(this);
+        mnu_edit.add(mnui_newUser);
+
+        mnui_newCommande = new JMenuItem("Nouvelle commande");
+        mnui_newCommande.setIcon(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
+        mnui_newCommande.addActionListener(this);
+        mnu_edit.add(mnui_newCommande);
+
+        mnui_newProd = new JMenuItem("Nouveau produit");
+        mnui_newProd.setIcon(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        mnui_newProd.addActionListener(this);
+        mnu_edit.add(mnui_newProd);
+
+        mnu.add(mnu_edit);
+
+        setJMenuBar(mnu);
+        
         var toolbar = new JToolBar(null, JToolBar.VERTICAL);
         toolbar.setFloatable(false);
-
+        
+        btn_toolbarNewUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
+        btn_toolbarNewUser.setToolTipText("Ajouter un client");
+        btn_toolbarNewUser.addActionListener(this);
+        
         btn_toolbarNewCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         btn_toolbarNewCommande.setToolTipText("Ajouter une commande");
         btn_toolbarNewCommande.addActionListener(this);
-
+        
         btn_toolbarNewProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         btn_toolbarNewProd.setToolTipText("Ajouter un produit");
         btn_toolbarNewProd.addActionListener(this);
-
+        
         btn_toolbarSave = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
         btn_toolbarSave.setToolTipText("Sauvegarder");
         btn_toolbarSave.addActionListener(this);
 
+        toolbar.add(btn_toolbarNewUser);
         toolbar.add(btn_toolbarNewCommande);
         toolbar.add(btn_toolbarNewProd);
         toolbar.addSeparator();
+        toolbar.add(btn_toolbarSave);
         add(toolbar, BorderLayout.WEST);
 
         tab = new JTabbedPane();
@@ -319,7 +364,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn_toolbarNewCommande || e.getSource() == btn_newCommande) {
+        if (e.getSource() == btn_toolbarNewCommande || e.getSource() == btn_newCommande || e.getSource() == mnui_newCommande) {
             var commandeDialog = new CommandeDialog(this);
             commandeDialog.setVisible(true);
             this.setEnabled(false);
@@ -342,7 +387,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 new CommandeDialog(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
 
-        } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd) {
+        } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
@@ -379,7 +424,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_produits.getSelectedRow() != -1) {
                 new ProduitInfo(this, produits.getItem(t_produits.getSelectedRow())).setVisible(true);
             }
-        } else if (e.getSource() == btn_newUser) {
+        } else if (e.getSource() == btn_newUser || e.getSource() == btn_toolbarNewUser || e.getSource() == mnui_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
             setEnabled(false);
@@ -397,7 +442,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
-        } else if (e.getSource() == btn_toolbarSave) {
+        } else if (e.getSource() == btn_toolbarSave || e.getSource() == mnui_save) {
             save();
         }
     }
