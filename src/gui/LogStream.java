@@ -48,8 +48,7 @@ public class LogStream {
     *  @param value the thing that need to be logged
     */
     public void Log(Object value){
-        writer.println("[INFO] " + new SimpleDateFormat("HH:mm:ss").format(new Date()) + " - " + value.toString());
-        writer.flush();
+        Log(value, "INFO");
     }
 
     /**
