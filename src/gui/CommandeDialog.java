@@ -195,11 +195,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_produitsBtns = new JPanel();
         pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
 
-        btn_prodComm = new JButton("←");
+        btn_prodComm = new JButton(new ImageIcon(getClass().getResource(".\\icons\\left.png")));
         btn_prodComm.setToolTipText("Ajouter un produit à la commande");
         btn_prodComm.addActionListener(this);
 
-        btn_prodDispo = new JButton("→");
+        btn_prodDispo = new JButton(new ImageIcon(getClass().getResource(".\\icons\\right.png")));
         btn_prodDispo.setToolTipText("Retire un produit de la commande");
         btn_prodDispo.addActionListener(this);
 
