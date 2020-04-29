@@ -250,6 +250,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             setEnabled(false);        
         } else if (e.getSource() == btn_delUser) {
             var owner = (MainWindow) getOwner();
+            Utils.logStream.Log("User " + l_clients.getSelectedValue().getId() + "removed");
             owner.clients.removeElement(l_clients.getSelectedValue());
         } else if (e.getSource() == btn_infoUser) {
             var owner = (MainWindow) getOwner();
@@ -263,11 +264,12 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             }    
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
+                Utils.logStream.Log("Loaning " + emprunts.getItem(t_emprunts.getSelectedRow()).getId() + " removed");
                 emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
         } else if (e.getSource() == btn_edit) {
-            // edit de produit
+            //TODO edit de produit
         } else if (e.getSource() == btn_valider) {
             if (commande == null) { // Nouvelle commande
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
@@ -332,11 +334,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var owner = (MainWindow) getOwner();
         owner.clients.addElement(client);
         dialogReturn();
+        Utils.logStream.Log("User " + client.getId() + "added");
     }
 
     public void empruntDialogReturn(Emprunt emprunt) {
         emprunts.add(emprunt);
         dialogReturn();
+        Utils.logStream.Log("Loaning " + emprunt.getId() + "added");
     }
 
 }
