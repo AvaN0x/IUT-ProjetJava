@@ -381,7 +381,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     for (Emprunt emprunt : commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
                         emprunt.getProduit().rendre();
                     }
-                    Utils.logStream.Log("order "+ commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
+                    Utils.logStream.Log("Order "+ commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
                     commandes.remove(t_commandes.getSelectedRow());
                 }
             }
@@ -405,7 +405,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
                         "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                    Utils.logStream.Log("product " + produits.getItem(t_produits.getSelectedRow()) + "removed");
+                    Utils.logStream.Log("Product " + produits.getItem(t_produits.getSelectedRow()) + "removed");
                     produits.remove(t_produits.getSelectedRow());
                 }
         } else if (e.getSource() == btn_addQuantityProd) {
@@ -419,7 +419,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                         JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
                     produits.getItem(t_produits.getSelectedRow()).addQuantity(quantity);
-                    Utils.logStream.Log("quantity added to product " + produits.getItem(t_produits.getSelectedRow()).getId());
+                    Utils.logStream.Log("Quantity added to product " + produits.getItem(t_produits.getSelectedRow()).getId());
                     t_produits.repaint();
                 } catch (NumberFormatException error) {
                     JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur",
@@ -444,7 +444,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
             if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
                     "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                Utils.logStream.Log("client " + l_clients.getSelectedValue().getId() + " removed");
+                Utils.logStream.Log("Client " + l_clients.getSelectedValue().getId() + " removed");
                 clients.removeElement(l_clients.getSelectedValue());
             }
 
