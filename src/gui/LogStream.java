@@ -13,8 +13,11 @@ public class LogStream {
      */
     public LogStream(String path){
         try{
-            if((new File(path)).exists())
-                (new File(path)).createNewFile();
+            var file = new File(path);
+            if(!file.getParentFile().exists())
+                file.getParentFile().mkdir();
+            if(file.exists())
+                file.createNewFile();
             writer = new PrintWriter(path);
         }
         catch (FileNotFoundException ex){
