@@ -16,7 +16,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
     private JTable t_emprunts;
     private TableRowSorter<TableModel> t_empruntsSorter;
 
-    Commande commande;
+    private Commande commande;
     
     private JButton btn_infoProdEmprunt;
 

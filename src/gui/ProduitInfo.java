@@ -7,7 +7,7 @@ import app.Produit;
 
 @SuppressWarnings("serial")
 public class ProduitInfo extends JDialog {
-    Produit produit;
+    private Produit produit;
 
     public ProduitInfo(Window owner, Produit produit) {
         super(owner, "Gestion vidéothèque - Information produit");

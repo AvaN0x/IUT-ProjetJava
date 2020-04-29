@@ -8,7 +8,7 @@ import app.ClientFidele;
 
 @SuppressWarnings("serial")
 public class UserInfo extends JDialog {
-    Client client;
+    private Client client;
 
     public UserInfo(Window owner, Client client) {
         super(owner, "Gestion vidéothèque - Information client");
