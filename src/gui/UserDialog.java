@@ -70,7 +70,7 @@ public class UserDialog extends JDialog implements ActionListener {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 setVisible(false);
-                var owner = (CommandeDialog) getOwner();
+                var owner = (IMyUserDialogOwner) getOwner();
                 owner.dialogReturn();
                 dispose();
             }
