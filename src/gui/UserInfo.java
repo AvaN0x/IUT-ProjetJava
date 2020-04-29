@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import app.Client;
 import app.ClientFidele;
@@ -9,10 +11,15 @@ import app.ClientFidele;
 @SuppressWarnings("serial")
 public class UserInfo extends JDialog {
     private Client client;
+    private TableauCommandes commandes;
+    private JTable t_commandes;
+    private TableRowSorter<TableModel> t_commandesSorter;
 
-    public UserInfo(Window owner, Client client) {
+
+    public UserInfo(Window owner, Client client, TableauCommandes commandes) {
         super(owner, "Gestion vidéothèque - Information client");
         this.client = client;
+        this.commandes = commandes;
 
         setLocation(300, 200);
         setSize(320, 180);
@@ -52,12 +59,21 @@ public class UserInfo extends JDialog {
             cb_fidel.setSelected(false);
         pnl_fidel.add(cb_fidel);
         
-        // TODO ajouter les commandes de l'utilisateur ?
+        t_commandes = new JTable(commandes);
+        t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
+        t_commandesSorter.setSortsOnUpdates(true);
+        t_commandes.setRowSorter(t_commandesSorter);
+        for (var i = 0; i < commandes.getColumnCount(); i++)
+            t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
+                    IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
+        var pnl_commandesTable = new JPanel(new BorderLayout());
+        pnl_commandesTable.add(new JScrollPane(t_commandes));
 
         pnl_fields.add(pnl_nom);
         pnl_fields.add(pnl_prenom);
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_fidel);
+        pnl_fields.add(pnl_commandesTable);
 
         add(pnl_fields, BorderLayout.CENTER);
 

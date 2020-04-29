@@ -252,7 +252,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             var owner = (MainWindow) getOwner();
             owner.clients.removeElement(l_clients.getSelectedValue());
         } else if (e.getSource() == btn_infoUser) {
-            new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
+            var owner = (MainWindow) getOwner();
+            new UserInfo(this, l_clients.getSelectedValue(), owner.commandes).setVisible(true);
         } else if (e.getSource() == btn_prodComm) {
             if (t_produitsDispo.getSelectedRow() != -1) {
                 var owner = (MainWindow) getOwner();

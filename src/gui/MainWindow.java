@@ -441,7 +441,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 clients.removeElement(l_clients.getSelectedValue());
 
         } else if (e.getSource() == btn_infoUser) {
-            new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
+            new UserInfo(this, l_clients.getSelectedValue(), commandes).setVisible(true);
         } else if (e.getSource() == btn_toolbarSave || e.getSource() == mnui_save) {
             save();
         }
