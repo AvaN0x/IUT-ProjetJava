@@ -468,20 +468,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.add(commande);
         dialogReturn();
         tab.setSelectedIndex(0);
-        Utils.logStream.Log("New commande added");
+        Utils.logStream.Log("Order " + commande.getId() + " added");
     }
     
     public void produitDialogReturn(Produit produit) {
         produits.add(produit);
         dialogReturn();
         tab.setSelectedIndex(1);
-        Utils.logStream.Log("New produit added");
+        Utils.logStream.Log("Product " + produit.getId() + " added");
     }
     
     public void userDialogReturn(Client client) {
         clients.addElement(client);
         dialogReturn();
-        Utils.logStream.Log("New client added");
+        Utils.logStream.Log("User " + client.getId() + "added");
     }
 
     public void valueChanged(ListSelectionEvent e) {
