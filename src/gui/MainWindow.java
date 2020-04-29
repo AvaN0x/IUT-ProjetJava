@@ -137,7 +137,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } catch (IllegalAccessException e) {
             Utils.logStream.Error(e);
         }
-        Utils.logStream.Log("Look and feel lodaded : " + UIManager.getSystemLookAndFeelClassName());
+        Utils.logStream.Log("Look and feel lodaded !");
     }
 
     private void initComponents() {
