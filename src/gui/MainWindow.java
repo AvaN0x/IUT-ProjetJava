@@ -75,10 +75,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 clients = (DefaultListModel<Client>) input.readObject();
 
                 input.close();
+                Utils.logStream.Log("Data loaded");
             } catch (IOException ex) {
-
+                Utils.logStream.Error(ex);
             } catch (ClassNotFoundException ex) {
-
+                Utils.logStream.Error(ex);
             }
         }
         else{/*
@@ -136,6 +137,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } catch (IllegalAccessException e) {
             Utils.logStream.Error(e);
         }
+        Utils.logStream.Log("Look and feel lodaded : " + UIManager.getSystemLookAndFeelClassName());
     }
 
     private void initComponents() {
@@ -379,6 +381,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     for (Emprunt emprunt : commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
                         emprunt.getProduit().rendre();
                     }
+                    Utils.logStream.Log("order "+ commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
                     commandes.remove(t_commandes.getSelectedRow());
                 }
             }
@@ -401,8 +404,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     }
             if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
-                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                    Utils.logStream.Log("product " + produits.getItem(t_produits.getSelectedRow()) + "removed");
                     produits.remove(t_produits.getSelectedRow());
+                }
         } else if (e.getSource() == btn_addQuantityProd) {
             if (t_produits.getSelectedRow() != -1) {
                 try {
@@ -414,8 +419,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                         JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
                     produits.getItem(t_produits.getSelectedRow()).addQuantity(quantity);
+                    Utils.logStream.Log("quantity added to product " + produits.getItem(t_produits.getSelectedRow()).getId());
                     t_produits.repaint();
-                } catch (Exception error) {
+                } catch (NumberFormatException error) {
                     JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -437,8 +443,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 }
             }
             if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
-                    "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                Utils.logStream.Log("client " + l_clients.getSelectedValue().getId() + " removed");
                 clients.removeElement(l_clients.getSelectedValue());
+            }
 
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
@@ -460,17 +468,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         commandes.add(commande);
         dialogReturn();
         tab.setSelectedIndex(0);
+        Utils.logStream.Log("New commande added");
     }
-
+    
     public void produitDialogReturn(Produit produit) {
         produits.add(produit);
         dialogReturn();
         tab.setSelectedIndex(1);
+        Utils.logStream.Log("New produit added");
     }
-
+    
     public void userDialogReturn(Client client) {
         clients.addElement(client);
         dialogReturn();
+        Utils.logStream.Log("New client added");
     }
 
     public void valueChanged(ListSelectionEvent e) {
@@ -500,6 +511,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             output.writeObject(clients);
 
             output.close();
+            Utils.logStream.Log("Data saved");
         } catch (IOException ex) {
             Utils.logStream.Error(ex);
         }
