@@ -24,6 +24,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JTabbedPane tab;
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
+    private JButton btn_toolbarSave;
 
     private JButton btn_newUser;
     private JButton btn_delUser;
@@ -143,6 +144,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_toolbarNewProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         btn_toolbarNewProd.setToolTipText("Ajouter un produit");
         btn_toolbarNewProd.addActionListener(this);
+
+        btn_toolbarSave = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
+        btn_toolbarSave.setToolTipText("Sauvegarder");
+        btn_toolbarSave.addActionListener(this);
 
         toolbar.add(btn_toolbarNewCommande);
         toolbar.add(btn_toolbarNewProd);
@@ -392,6 +397,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue()).setVisible(true);
+        } else if (e.getSource() == btn_toolbarSave) {
+            save();
         }
     }
 
