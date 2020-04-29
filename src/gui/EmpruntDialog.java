@@ -46,6 +46,7 @@ public class EmpruntDialog extends JDialog implements ActionListener {
         dateFin.set(Calendar.SECOND, 0);
         dateFin.set(Calendar.MINUTE, 0);
         dateFin.set(Calendar.HOUR_OF_DAY, 0);
+        dateFin.add(Calendar.DAY_OF_YEAR, 1);
         var defDate = new int[] { dateFin.get(Calendar.DATE), (dateFin.get(Calendar.MONTH) + 1), dateFin.get(Calendar.YEAR) };
         tf_dateFin.setText(
                     (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
@@ -77,15 +78,19 @@ public class EmpruntDialog extends JDialog implements ActionListener {
                     int dateFinDay = Integer.parseInt(dateValueTab[0]);
                     int dateFinMonth = Integer.parseInt(dateValueTab[1]) - 1;
                     int dateFinYear = Integer.parseInt(dateValueTab[2]);
-                    // TODO verification si dateFin < dateCreation
                     if (dateFinYear >= 1970 && dateFinMonth >= 0 && dateFinMonth <= 11) {
                         dateFin.set(Calendar.MONTH, dateFinMonth);
                         dateFin.set(Calendar.YEAR, dateFinYear);
                         if (dateFinDay >= dateFin.getActualMinimum(Calendar.DAY_OF_MONTH)
-                                && dateFinDay <= dateFin.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                                && dateFinDay <= dateFin.getActualMaximum(Calendar.DAY_OF_MONTH)) {    
                             dateFin.set(Calendar.DAY_OF_MONTH, dateFinDay);
-                            lbl_dateFinWarn.setText("");
-                            dateFinValid = true;
+                            if (dateFin.getTimeInMillis() > dateCreation.getTimeInMillis()) {
+                                lbl_dateFinWarn.setText("");
+                                dateFinValid = true;
+                            } else {
+                                lbl_dateFinWarn.setText("Date inférieur à la date de création");
+                                dateFinValid = false;
+                            }
                             checkBtnValider();
                         } else
                             notValid();
