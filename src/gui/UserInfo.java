@@ -22,11 +22,11 @@ public class UserInfo extends JDialog implements ActionListener {
     public UserInfo(Window owner, Client client, TableauCommandes commandes) {
         super(owner, "Gestion vidéothèque - Information client");
         this.client = client;
-        this.commandes = commandes;
-        // TODO à fix, j'en ai marre
-        // for (int i = 0; i < commandes.getList().size(); i++)
-        //     if (commandes.getList().get(i).getClient().getId() == client.getId())
-        //         this.commandes.add(commandes.getList().get(i));
+        this.commandes = new TableauCommandes();
+        for (int i = 0; i < commandes.getList().size(); i++)
+            if (commandes.getItem(i).getClient().getId() == client.getId())
+                this.commandes.add(commandes.getItem(i));
+        Utils.logStream.Log("Commandes of " + client.getId() + " have been loaded");
 
         setLocation(300, 200);
         setSize(480, 380);
