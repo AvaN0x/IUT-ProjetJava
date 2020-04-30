@@ -1,7 +1,6 @@
 package gui;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.table.*;
@@ -36,10 +35,7 @@ public class TableauCommandes extends AbstractTableModel implements IMyTableMode
             case 0:
                 return commandes.get(rowIndex).getClient();
             case 1:
-                var dateCreation = commandes.get(rowIndex).getDateCreation();
-                return ((dateCreation.get(Calendar.DAY_OF_MONTH) > 9) ? dateCreation.get(Calendar.DAY_OF_MONTH) : ("0" + dateCreation.get(Calendar.DAY_OF_MONTH))) + 
-                "/" + ((dateCreation.get(Calendar.MONTH) > 8) ? (dateCreation.get(Calendar.MONTH) + 1) : ("0" + (dateCreation.get(Calendar.MONTH) + 1))) + 
-                "/" + dateCreation.get(Calendar.YEAR);
+                return Utils.dateToString(commandes.get(rowIndex).getDateCreation());
             case 2:
                 return commandes.get(rowIndex).getReduction() * 100 + " %";
             case 3:
