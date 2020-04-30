@@ -85,10 +85,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         for (Produit prod : Utils.produits.getList()) {
             prodStock.put(prod.getId(), prod.getDispo());
         }
-
-        // prodStock.entrySet().forEach(entry->{
-        //     System.out.println(entry.getKey() + " " +  + " " + entry.getValue());  
-        //  });
     }
 
 
@@ -176,6 +172,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
                             t_emprunts.repaint();
+                            // TODO verification que la dateCreation ne soit pas inferieur aux datesFin 
                             checkBtnValider();
                         } else
                             notValid();
