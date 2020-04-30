@@ -232,6 +232,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
+        t_commandes.getSelectionModel().addListSelectionListener(this);
         for (var i = 0; i < commandes.getColumnCount(); i++)
             t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
@@ -248,12 +249,15 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_remCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
         btn_remCommande.setToolTipText("Supprimer une commande");
         btn_remCommande.addActionListener(this);
+        btn_remCommande.setEnabled(false);
         btn_editCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
         btn_editCommande.setToolTipText("Modifier la commande");
         btn_editCommande.addActionListener(this);
+        btn_editCommande.setEnabled(false);
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
+        btn_infoCommande.setEnabled(false);
 
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_remCommande);
@@ -283,6 +287,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
+        t_produits.getSelectionModel().addListSelectionListener(this);
         for (var i = 0; i < produits.getColumnCount(); i++)
             t_produits.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_produits.getColumnModel().getColumn(i).getWidth());
@@ -299,12 +304,15 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_remProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remProd.png")));
         btn_remProd.setToolTipText("Supprimer le produit");
         btn_remProd.addActionListener(this);
+        btn_remProd.setEnabled(false);
         btn_editProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\editProd.png")));
         btn_editProd.setToolTipText("Modifier le produit");
         btn_editProd.addActionListener(this);
+        btn_editProd.setEnabled(false);
         btn_infoProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoProd.setToolTipText("Plus d'informations à propos du produit");
         btn_infoProd.addActionListener(this);
+        btn_infoProd.setEnabled(false);
         pnl_prodbtns.add(btn_newProd);
         pnl_prodbtns.add(btn_remProd);
         pnl_prodbtns.add(btn_editProd);
@@ -480,6 +488,26 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             } else {
                 btn_delUser.setEnabled(true);
                 btn_infoUser.setEnabled(true);
+            }
+
+            if (t_commandes.getSelectedRow() == -1) {
+                btn_remCommande.setEnabled(false);
+                btn_editCommande.setEnabled(false);
+                btn_infoCommande.setEnabled(false);
+            } else {
+                btn_remCommande.setEnabled(true);
+                btn_editCommande.setEnabled(true);
+                btn_infoCommande.setEnabled(true);
+            }
+            
+            if (t_produits.getSelectedRow() == -1) {
+                btn_remProd.setEnabled(false);
+                btn_editProd.setEnabled(false);
+                btn_infoProd.setEnabled(false);
+            } else {
+                btn_remProd.setEnabled(true);
+                btn_editProd.setEnabled(true);
+                btn_infoProd.setEnabled(true);
             }
         }
     }
