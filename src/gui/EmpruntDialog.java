@@ -12,7 +12,7 @@ import app.Emprunt;
 import app.Produit;
 
 @SuppressWarnings("serial")
-public class EmpruntDialog extends JDialog implements ActionListener {
+public class EmpruntDialog extends JDialog implements ActionListener { //TODO héritage de MyJDialog possible
     private Produit produit;
     private Calendar dateCreation;
 
@@ -25,7 +25,7 @@ public class EmpruntDialog extends JDialog implements ActionListener {
     private JButton btn_cancel;
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
-        super(owner, "Gestion vidéothèque - Nouvelle emprunt");
+        super(owner, "Gestion vidéothèque - Nouvelle emprunt"); //? On laisse le nom de base ou pas ?
         setSize(200, 140);
         setLocationRelativeTo(null);
 

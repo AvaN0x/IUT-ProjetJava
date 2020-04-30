@@ -42,7 +42,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JButton btn_edit;
 
     public CommandeDialog(Window owner) {
-        super(owner, "Gestion vidéothèque - Nouvelle commande");
+        super(owner, "Gestion vidéothèque - Nouvelle commande"); //? On laisse le nom de base ou pas ?
         setSize(1100, 625);
         setLocationRelativeTo(null);
 
@@ -57,7 +57,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public CommandeDialog(Window owner, Commande commande) {
-        super(owner, "Gestion vidéothèque - Modification commande");
+        super(owner, "Gestion vidéothèque - Modification commande"); //? On laisse le nom de base ou pas ?
         setSize(1100, 625);
         setLocationRelativeTo(null);
         

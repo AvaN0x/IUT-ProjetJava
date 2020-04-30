@@ -21,7 +21,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
     private JButton btn_infoProdEmprunt;
 
     public CommandeInfo(Window owner, Commande commande) {
-        super(owner, "Gestion vidéothèque - Information commande");
+        super(owner, "Gestion vidéothèque - Information commande"); //? On laisse le nom de base ou pas ?
         this.commande = commande;
         
         setSize(450, 400);
