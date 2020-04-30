@@ -55,6 +55,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setSize(1280, 720);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\newProd.png")));
+
 
         Utils.clients = new DefaultListModel<Client>();
         Utils.produits = new TableauProduits();
