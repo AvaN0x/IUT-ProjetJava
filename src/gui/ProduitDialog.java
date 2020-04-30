@@ -47,7 +47,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         var pnl_title = new JPanel(new FlowLayout());
         lbl_title = new JLabel("Titre :");
-        tf_title = new JTextField(10);
+        tf_title = new JTextField(20);
         pnl_title.add(lbl_title);
         pnl_title.add(tf_title);
         pnl_fields.add(pnl_title);
@@ -109,6 +109,12 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                 JOptionPane.showMessageDialog(this, "L'un des champs est vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            Calendar releaseDate = Calendar.getInstance();
+            releaseDate.set(Calendar.MILLISECOND, 0);
+            releaseDate.set(Calendar.SECOND, 0);
+            releaseDate.set(Calendar.MINUTE, 0);
+            releaseDate.set(Calendar.HOUR_OF_DAY, 0);
+    
             if (cbx_type.getSelectedIndex() == 4) { // It's a CD
                 Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
                 Matcher m = regex.matcher(tf_option1.getText());
@@ -121,28 +127,11 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                     int releaseDateYear = Integer.parseInt(dateValueTab[2]);
 
                     if (releaseDateYear >= 1970 && releaseDateMonth >= 0 && releaseDateMonth <= 11) {
-                        Calendar releaseDate = Calendar.getInstance();
                         releaseDate.set(Calendar.MONTH, releaseDateMonth);
                         releaseDate.set(Calendar.YEAR, releaseDateYear);
                         if (releaseDateDay >= releaseDate.getActualMinimum(Calendar.DAY_OF_MONTH)
                                 && releaseDateDay <= releaseDate.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             releaseDate.set(Calendar.DAY_OF_MONTH, releaseDateDay);
-
-                            setVisible(false);
-
-                            Produit produit;
-                            try {
-                                produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
-         
-                            } catch (Exception error) {
-                                JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                                setVisible(true);
-                                return;           
-                            }
-                            var owner = (MainWindow) getOwner();
-                            owner.produitDialogReturn(produit);
-                            this.dispose();
-                            return;
                         } else {
                             JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                             return;
@@ -167,6 +156,8 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                     produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
                 else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
                     produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                else if (cbx_type.getSelectedIndex() == 4) // It's a CD
+                    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
                 else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
                     produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
                 else // It's a BD (the first one who is selected by default)
