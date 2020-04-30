@@ -55,38 +55,40 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        var pnl_fields = new JPanel(new GridLayout(5, 1));
-
+        var pnl_fields = new JPanel();
+        pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
+        
         cbx_type = new JComboBox<String>();
         for (var item : Utils.produitsTypes) {
             cbx_type.addItem(item[0]);
         }
         cbx_type.addItemListener(this);
         pnl_fields.add(cbx_type);
-
-
+        
+        
         var pnl_title = new JPanel(new FlowLayout());
         var lbl_title = new JLabel("Titre :");
         tf_title = new JTextField(20);
         pnl_title.add(lbl_title);
         pnl_title.add(tf_title);
         pnl_fields.add(pnl_title);
-
+        
         var pnl_price = new JPanel(new FlowLayout());
         var lbl_price = new JLabel("Prix / jour :");
         tf_price = new JTextField(5);
         pnl_price.add(lbl_price);
         pnl_price.add(tf_price);
         pnl_fields.add(pnl_price);
-
+        
         var pnl_quantity = new JPanel(new FlowLayout());
         var lbl_quantity = new JLabel("Quantitée :");
         tf_quantity = new JTextField(3);
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);
         pnl_fields.add(pnl_quantity);
-
-        var pnl_optionfields = new JPanel(new GridLayout(1, 1));
+        
+        var pnl_optionfields = new JPanel();
+        pnl_optionfields.setLayout(new BoxLayout(pnl_optionfields, BoxLayout.PAGE_AXIS));
         var pnl_option1 = new JPanel(new FlowLayout());
         lbl_option1 = new JLabel(Utils.produitsTypes[cbx_type.getSelectedIndex()][1] + " :");
         tf_option1 = new JTextField(10);
