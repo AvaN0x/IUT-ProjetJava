@@ -14,7 +14,7 @@ import app.Commande;
 import app.Emprunt;
 
 @SuppressWarnings("serial")
-public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
+public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyEmpruntDialogOwner {
     private boolean dateCreationValid;
     private Calendar dateCreation;
     private TableauEmprunts emprunts;
