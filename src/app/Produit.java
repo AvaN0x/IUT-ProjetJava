@@ -48,7 +48,9 @@ public abstract class Produit implements Serializable {
     }
 
     public void setQuantity(int quantity) {
+        int tempUsed = this.quantity - this.dispo;
         this.quantity = quantity;
+        this.dispo = quantity - tempUsed;
     }
 
     public void addQuantity(int quantity) {
@@ -82,4 +84,5 @@ public abstract class Produit implements Serializable {
     }
 
     public abstract Object getOption1();
+    public abstract void setOption1(Object option1);
 }

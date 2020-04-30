@@ -12,6 +12,8 @@ import app.*;
 
 @SuppressWarnings("serial")
 public class ProduitDialog extends JDialog implements ActionListener, ItemListener {
+    private Produit produit;
+    
     private JLabel lbl_title;
     private JLabel lbl_price;
     private JLabel lbl_quantity;
@@ -30,7 +32,28 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
         setSize(240, 210);
 
         initComponents();
+
+        this.produit = null;
     }
+
+    public ProduitDialog(Window owner, Produit produit) {
+        super(owner, "Gestion vidéothèque - Modification produit");
+        setLocation(300, 200);
+        setSize(240, 210);
+        
+        this.produit = produit;
+
+        initComponents();
+        cbx_type.setEnabled(false);
+        for (int i = 0; i < Utils.produits.length; i++)
+            if (Utils.produits[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
+                cbx_type.setSelectedIndex(i);
+        tf_title.setText(produit.getTitle());
+        tf_price.setText(Double.toString(produit.getDailyPrice()));
+        tf_quantity.setText(Integer.toString(produit.getQuantity()));
+        tf_option1.setText((String) produit.getOption1());
+    }
+
 
     public void initComponents() {
         setLayout(new BorderLayout());
@@ -109,6 +132,14 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
                 JOptionPane.showMessageDialog(this, "L'un des champs est vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (produit != null) {
+                if (Double.parseDouble(tf_price.getText()) < (produit.getQuantity() - produit.getDispo()))
+                {
+                    JOptionPane.showMessageDialog(this, "La quantité ne peut pas être inférieur au nombre de produit loués.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } 
+            }
+
             Calendar releaseDate = Calendar.getInstance();
             releaseDate.set(Calendar.MILLISECOND, 0);
             releaseDate.set(Calendar.SECOND, 0);
@@ -147,28 +178,37 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             }
 
             setVisible(false);
-
-            Produit produit;
-            try {
-                if(cbx_type.getSelectedIndex() == 1) // It's a Roman
-                    produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
-                    produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
-                    produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                else if (cbx_type.getSelectedIndex() == 4) // It's a CD
-                    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
-                else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
-                    produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                else // It's a BD (the first one who is selected by default)
-                    produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-            } catch (Exception error) {
-                JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                setVisible(true);
-                return;
-            }
             var owner = (MainWindow) getOwner();
-            owner.produitDialogReturn(produit);
+            if (produit == null) {
+                try {
+                    if(cbx_type.getSelectedIndex() == 1) // It's a Roman
+                        produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
+                        produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
+                        produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    else if (cbx_type.getSelectedIndex() == 4) // It's a CD
+                        produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
+                    else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
+                        produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    else // It's a BD (the first one who is selected by default)
+                        produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                } catch (Exception error) {
+                    JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    setVisible(true);
+                    return;
+                }
+                owner.produitDialogReturn(produit);
+            } else {
+                produit.setTitle(tf_title.getText());
+                produit.setDailyPrice(Double.parseDouble(tf_price.getText().trim()));
+                produit.setQuantity(Integer.parseInt(tf_quantity.getText().trim()));
+                if (cbx_type.getSelectedIndex() == 4) // It's a CD
+                    produit.setOption1(releaseDate);
+                else
+                    produit.setOption1(tf_option1.getText());
+                owner.dialogReturn();
+            }
             this.dispose();
 
         } else if (e.getSource() == btn_cancel) {

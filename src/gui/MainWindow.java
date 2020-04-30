@@ -410,21 +410,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 }
         } else if (e.getSource() == btn_addQuantityProd) {
             if (t_produits.getSelectedRow() != -1) {
-                try {
-                    var dialogResult = JOptionPane.showInputDialog("Combien voulez-vous rajouter au stock ?", 0);
-                    if (dialogResult == null)
-                        return;
-                    int quantity = Integer.parseInt(dialogResult);
-                    if (quantity < 0)
-                        JOptionPane.showMessageDialog(this, "L'entrée est négative ou nulle.", "Erreur",
-                                JOptionPane.ERROR_MESSAGE);
-                    produits.getItem(t_produits.getSelectedRow()).addQuantity(quantity);
-                    Utils.logStream.Log("Quantity added to product " + produits.getItem(t_produits.getSelectedRow()).getId());
-                    t_produits.repaint();
-                } catch (NumberFormatException error) {
-                    JOptionPane.showMessageDialog(this, "L'entrée n'est pas un nombre.", "Erreur",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+                var ProduitDialog = new ProduitDialog(this, produits.getItem(t_produits.getSelectedRow()));
+                ProduitDialog.setVisible(true);
+                this.setEnabled(false);    
             }
         } else if (e.getSource() == btn_infoProd) {
             if (t_produits.getSelectedRow() != -1) {

@@ -12,4 +12,9 @@ public class DVD extends SupportNum {
     public String getOption1() {
         return realisateur;
     }
+
+    public void setOption1(Object option1) {
+        realisateur = (String) option1;
+    }
+
 }

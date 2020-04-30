@@ -11,4 +11,8 @@ public abstract class Livre extends Document {
     public String getOption1() {
         return auteur;
     }
+    public void setOption1(Object option1) {
+        auteur = (String) option1;
+    }
+
 }

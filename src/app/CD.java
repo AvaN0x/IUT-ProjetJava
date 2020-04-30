@@ -16,4 +16,9 @@ public class CD extends SupportNum {
         "/" + ((releaseDate.get(Calendar.MONTH) > 8) ? (releaseDate.get(Calendar.MONTH) + 1) : ("0" + (releaseDate.get(Calendar.MONTH) + 1))) + 
         "/" + releaseDate.get(Calendar.YEAR);
     }
+    
+    public void setOption1(Object option1) {
+        releaseDate = (Calendar) option1;
+    }
+
 }

@@ -12,4 +12,9 @@ public class Dictionnaire extends Document {
     public String getOption1() {
         return langue;
     }
+
+    public void setOption1(Object option1) {
+        langue = (String) option1;
+    }
+
 }
