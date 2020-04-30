@@ -38,7 +38,6 @@ public class ExportDialog extends JDialog implements ActionListener {
         cbx_type = new JComboBox<String>();
         cbx_type.addItem("txt file");
         cbx_type.addItem("csv file");
-        cbx_type.addItem("pdf file");
 
         pnl_content.add(cbx_type);
 
@@ -58,45 +57,52 @@ public class ExportDialog extends JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
-            if (cbx_type.getSelectedIndex() == 0) // csv file
+            if (cbx_type.getSelectedIndex() == 1) // csv file
                 exportToCSV();
-            else if (cbx_type.getSelectedIndex() == 0) // pdf file
-                exportToPDF();
             else // txt file
                 exportToTXT();
+            Utils.logStream.Log("Order " + commande.getId() + " exported");
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();
         }
     }
 
-    
     private void exportToCSV() {
         try {
             var file = new File("bin/commande_" + commande.getId() + ".csv");
             Utils.createFileIfNotExists(file);
-            var writer = new PrintWriter(file.getPath());
-            // TODO export in csv
+            var writer = new PrintWriter(file.getPath(), "Windows-1252"); //* Only with Excel & Windows
+
+            writer.println("Commande;" + commande.getId());
+            writer.println("Client;" + commande.getClient().getId());
+            writer.println(";" + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n");
+
+            writer.println("Nombre d'emprunts : " + commande.getEmprunts().size());
+            for (var emprunt : commande.getEmprunts()) {
+                writer.println(emprunt.getProduit().getTitle());
+                writer.println(";" + emprunt.getProduit().getOption1());
+                writer.println(";Type :;" + emprunt.getProduit().getClass().getSimpleName());
+                writer.println(";Prix journalier :;" + emprunt.getProduit().getDailyPrice() + "€");
+                writer.println(";Coût :;" + emprunt.getCost() + "€");
+                writer.println(";" + Utils.dateToString(commande.getDateCreation()) + " -> "
+                        + Utils.dateToString(emprunt.getDateFin()) + " ("
+                        + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
+                                .toDays()
+                        + " jours)");
+            }
+            writer.println("\nTotal HR:;" + commande.getTotalCostNoReduc() + "€");
+            writer.println("Réduction :;" + commande.getReduction() * 100 + "%");
+            writer.println("Total  :;" + commande.getTotalCost() + "€");
+
+            writer.flush();
         } catch (FileNotFoundException ex) {
             Utils.logStream.Error(ex);
         } catch (IOException ex) {
             Utils.logStream.Error(ex);
         }
     }
-    
-    private void exportToPDF() {
-        try {
-            var file = new File("bin/commande_" + commande.getId() + ".pdf");
-            Utils.createFileIfNotExists(file);
-            var writer = new PrintWriter(file.getPath());
-            // TODO export in pdf
-        } catch (FileNotFoundException ex) {
-            Utils.logStream.Error(ex);
-        } catch (IOException ex) {
-            Utils.logStream.Error(ex);
-        }
-    }
-    
+
     private void exportToTXT() {
         try {
             var file = new File("bin/commande_" + commande.getId() + ".txt");
@@ -118,14 +124,13 @@ public class ExportDialog extends JDialog implements ActionListener {
                         + Utils.dateToString(emprunt.getDateFin()) + " ("
                         + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
                                 .toDays()
-                        + " jours)"); // TODO afficher nombre de jours
+                        + " jours)"); //
             }
             writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
             writer.println("Réduction : " + commande.getReduction() * 100 + "%");
             writer.println("Total  : " + commande.getTotalCost() + "€");
 
             writer.flush();
-            Utils.logStream.Log("Order " + commande.getId() + " exported");
         } catch (FileNotFoundException ex) {
             Utils.logStream.Error(ex);
         } catch (IOException ex) {
