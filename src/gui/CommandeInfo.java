@@ -33,21 +33,21 @@ public class CommandeInfo extends JDialog implements ActionListener {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        var pnl_fields = new Panel(new GridLayout(6,1));
+        var pnl_fields = new JPanel(new GridLayout(6,1));
 
-        var pnl_client = new Panel(new FlowLayout());
+        var pnl_client = new JPanel(new FlowLayout());
         var lbl_clientStatic = new JLabel("Client :");
         var lbl_client = new JLabel(commande.getClient().toString());
         pnl_client.add(lbl_clientStatic);
         pnl_client.add(lbl_client);
         
-        var pnl_id = new Panel(new FlowLayout());
+        var pnl_id = new JPanel(new FlowLayout());
         var lbl_idStatic = new JLabel("ID :");
         var lbl_id = new JLabel(commande.getId());
         pnl_id.add(lbl_idStatic);
         pnl_id.add(lbl_id);
 
-        var pnl_dateCreation = new Panel(new FlowLayout());
+        var pnl_dateCreation = new JPanel(new FlowLayout());
         var lbl_dateCreationStatic = new JLabel("Date de création :");
         var dateCreation = commande.getDateCreation();
         var lbl_dateCreation = new JLabel(((dateCreation.get(Calendar.DAY_OF_MONTH) > 9) ? dateCreation.get(Calendar.DAY_OF_MONTH) : ("0" + dateCreation.get(Calendar.DAY_OF_MONTH))) + 
@@ -56,13 +56,13 @@ public class CommandeInfo extends JDialog implements ActionListener {
         pnl_dateCreation.add(lbl_dateCreationStatic);
         pnl_dateCreation.add(lbl_dateCreation);
 
-        var pnl_reduc = new Panel(new FlowLayout());
+        var pnl_reduc = new JPanel(new FlowLayout());
         var lbl_reducStatic = new JLabel("Reduction :");
         var lbl_reduc = new JLabel(Double.toString(commande.getReduction() * 100) + " %");
         pnl_reduc.add(lbl_reducStatic);
         pnl_reduc.add(lbl_reduc);
 
-        var pnl_cout = new Panel(new FlowLayout());
+        var pnl_cout = new JPanel(new FlowLayout());
         var lbl_coutStatic = new JLabel("Cout total :");
         var lbl_cout = new JLabel(Double.toString(commande.getTotalCostNoReduc()) + " €");
         pnl_cout.add(lbl_coutStatic);
@@ -75,7 +75,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
         pnl_fields.add(pnl_cout);
 
         if (commande.getReduction() != 0) {
-            var pnl_coutReduc = new Panel(new FlowLayout());
+            var pnl_coutReduc = new JPanel(new FlowLayout());
             var lbl_coutReducStatic = new JLabel("Cout après reduction :");
             var lbl_coutReduc = new JLabel(Double.toString(commande.getTotalCost()) + " €");
             pnl_coutReduc.add(lbl_coutReducStatic);

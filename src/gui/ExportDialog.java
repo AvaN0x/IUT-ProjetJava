@@ -69,7 +69,7 @@ public class ExportDialog extends JDialog implements ActionListener {
                     writer.println("\t " + Utils.dateToString(commande.getDateCreation()) + " -> " + Utils.dateToString(emprunt.getDateFin()) + " (" + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant()).toDays() + " jours)"); // TODO afficher nombre de jours
                 }
                 writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
-                writer.println("Réduction : " + commande.getReduction()*100 + "%");
+                writer.println("Réduction : " + commande.getReduction() * 100 + "%");
                 writer.println("Total  : " + commande.getTotalCost() + "€");
 
                 writer.flush();

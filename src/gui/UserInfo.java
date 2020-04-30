@@ -36,28 +36,28 @@ public class UserInfo extends JDialog implements ActionListener {
 
     public void initComponents() {
         setLayout(new BorderLayout());
-        var pnl_fields = new Panel();
+        var pnl_fields = new JPanel();
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
-        var pnl_nom = new Panel(new FlowLayout());
+        var pnl_nom = new JPanel(new FlowLayout());
         var lbl_nomStatic = new JLabel("Nom :");
         var lbl_nom = new JLabel(client.getNom());
         pnl_nom.add(lbl_nomStatic);
         pnl_nom.add(lbl_nom);
         
-        var pnl_prenom = new Panel(new FlowLayout());
+        var pnl_prenom = new JPanel(new FlowLayout());
         var lbl_prenomStatic = new JLabel("Prenom :");
         var lbl_prenom = new JLabel(client.getPrenom());
         pnl_prenom.add(lbl_prenomStatic);
         pnl_prenom.add(lbl_prenom);
 
-        var pnl_id = new Panel(new FlowLayout());
+        var pnl_id = new JPanel(new FlowLayout());
         var lbl_idStatic = new JLabel("ID :");
         var lbl_id = new JLabel(client.getId());
         pnl_id.add(lbl_idStatic);
         pnl_id.add(lbl_id);
 
-        var pnl_fidel = new Panel(new FlowLayout());
+        var pnl_fidel = new JPanel(new FlowLayout());
         var cb_fidel = new JCheckBox("Fidèle");
         cb_fidel.setEnabled(false);
         if (client instanceof ClientFidele)

@@ -115,7 +115,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_clients.add(pnl_clientsbtns);
 
         var pnl_dateCreation = new JPanel(new GridLayout(2, 1));
-        var pnl_dateCreationSelect = new Panel(new FlowLayout());
+        var pnl_dateCreationSelect = new JPanel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
         var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
