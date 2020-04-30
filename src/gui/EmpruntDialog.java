@@ -12,7 +12,7 @@ import app.Emprunt;
 import app.Produit;
 
 @SuppressWarnings("serial")
-public class EmpruntDialog extends JDialog implements ActionListener { //TODO h√©ritage de MyJDialog possible
+public class EmpruntDialog extends MyJDialog implements ActionListener {
     private Produit produit;
     private Calendar dateCreation;
 
@@ -25,36 +25,11 @@ public class EmpruntDialog extends JDialog implements ActionListener { //TODO h√
     private JButton btn_cancel;
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
-        super(owner, "Gestion vid√©oth√®que - Nouvelle emprunt"); //? On laisse le nom de base ou pas ?
-        setSize(200, 140);
-        setLocationRelativeTo(null);
+        super(owner, "Nouvelle emprunt", new Dimension(200,140));
 
         this.produit = produit;
         this.dateCreation = dateCreation;
 
-        initComponents();
-    }
-
-    private void initComponents() {
-        setLayout(new BorderLayout());
-
-        var pnl_dateFin = new JPanel(new GridLayout(3, 1));
-        var lbl_dateFin = new JLabel("Date de fin : ");
-        tf_dateFin = new JTextField(10);
-        dateFin = Calendar.getInstance();
-        dateFin.set(Calendar.MILLISECOND, 0);
-        dateFin.set(Calendar.SECOND, 0);
-        dateFin.set(Calendar.MINUTE, 0);
-        dateFin.set(Calendar.HOUR_OF_DAY, 0);
-        dateFin.add(Calendar.DAY_OF_YEAR, 1);
-        var defDate = new int[] { dateFin.get(Calendar.DATE), (dateFin.get(Calendar.MONTH) + 1), dateFin.get(Calendar.YEAR) };
-        tf_dateFin.setText(
-                    (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
-                + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
-                + defDate[2]);
-        dateFinValid = true;
-        lbl_dateFinWarn = new JLabel("");
-        lbl_dateFinWarn.setForeground(Color.RED);
         tf_dateFin.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 update();
@@ -105,6 +80,28 @@ public class EmpruntDialog extends JDialog implements ActionListener { //TODO h√
                 dateFinValid = false;
             }
         });
+    }
+
+    public void initComponents() {
+        setLayout(new BorderLayout());
+
+        var pnl_dateFin = new JPanel(new GridLayout(3, 1));
+        var lbl_dateFin = new JLabel("Date de fin : ");
+        tf_dateFin = new JTextField(10);
+        dateFin = Calendar.getInstance();
+        dateFin.set(Calendar.MILLISECOND, 0);
+        dateFin.set(Calendar.SECOND, 0);
+        dateFin.set(Calendar.MINUTE, 0);
+        dateFin.set(Calendar.HOUR_OF_DAY, 0);
+        dateFin.add(Calendar.DAY_OF_YEAR, 1);
+        var defDate = new int[] { dateFin.get(Calendar.DATE), (dateFin.get(Calendar.MONTH) + 1), dateFin.get(Calendar.YEAR) };
+        tf_dateFin.setText(
+                    (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
+                + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
+                + defDate[2]);
+        dateFinValid = true;
+        lbl_dateFinWarn = new JLabel("");
+        lbl_dateFinWarn.setForeground(Color.RED);
 
         pnl_dateFin.add(lbl_dateFin);
         pnl_dateFin.add(tf_dateFin);
@@ -149,12 +146,5 @@ public class EmpruntDialog extends JDialog implements ActionListener { //TODO h√
         else
             btn_valider.setEnabled(false);
 
-    }
-
-    private void quit() {
-        setVisible(false);
-        var owner = (IMyEmpruntDialogOwner) getOwner();
-        owner.dialogReturn();
-        dispose();
     }
 }
