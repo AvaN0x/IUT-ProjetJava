@@ -41,7 +41,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private TableRowSorter<TableModel> t_produitsSorter;
     private JButton btn_newProd;
     private JButton btn_remProd;
-    private JButton btn_addQuantityProd;
+    private JButton btn_editProd;
     private JButton btn_infoProd;
 
     private JTable t_commandes;
@@ -297,17 +297,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_newProd.setToolTipText("Ajouter un produit");
         btn_newProd.addActionListener(this);
         btn_remProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remProd.png")));
-        btn_remProd.setToolTipText("Supprimer un produit");
+        btn_remProd.setToolTipText("Supprimer le produit");
         btn_remProd.addActionListener(this);
-        btn_addQuantityProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addQuantityProd.png")));
-        btn_addQuantityProd.setToolTipText("Ajouter du stock à un produit");
-        btn_addQuantityProd.addActionListener(this);
+        btn_editProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\editProd.png")));
+        btn_editProd.setToolTipText("Modifier le produit");
+        btn_editProd.addActionListener(this);
         btn_infoProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoProd.setToolTipText("Plus d'informations à propos du produit");
         btn_infoProd.addActionListener(this);
         pnl_prodbtns.add(btn_newProd);
         pnl_prodbtns.add(btn_remProd);
-        pnl_prodbtns.add(btn_addQuantityProd);
+        pnl_prodbtns.add(btn_editProd);
         pnl_prodbtns.add(btn_infoProd);
 
         pnl_produits.add(pnl_prodbtns, BorderLayout.EAST);
@@ -408,7 +408,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     Utils.logStream.Log("Product " + produits.getItem(t_produits.getSelectedRow()) + "removed");
                     produits.remove(t_produits.getSelectedRow());
                 }
-        } else if (e.getSource() == btn_addQuantityProd) {
+        } else if (e.getSource() == btn_editProd) {
             if (t_produits.getSelectedRow() != -1) {
                 var ProduitDialog = new ProduitDialog(this, produits.getItem(t_produits.getSelectedRow()));
                 ProduitDialog.setVisible(true);
