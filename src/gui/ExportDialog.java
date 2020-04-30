@@ -11,9 +11,11 @@ import javax.swing.*;
 import app.Commande;
 
 @SuppressWarnings("serial")
-public class ExportDialog extends JDialog implements ActionListener {
+public class ExportDialog extends JDialog implements ActionListener, ItemListener {
     private Commande commande;
     
+    private JComboBox<String> cbx_type;
+
     private JButton btn_valider;
     private JButton btn_cancel;
 
@@ -32,7 +34,18 @@ public class ExportDialog extends JDialog implements ActionListener {
 
         // TODO exporter dans d'autres formats
 
-        var pnl_validate = new Panel(new FlowLayout());
+        var pnl_content = new JPanel();
+        pnl_content.setLayout(new BoxLayout(pnl_content, BoxLayout.PAGE_AXIS));
+        
+        cbx_type = new JComboBox<String>();
+        cbx_type.addItem("txt file");
+        cbx_type.addItem("cxv file");
+        cbx_type.addItem("pdf file");
+        cbx_type.addItemListener(this);
+
+        pnl_content.add(cbx_type);
+
+        var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
@@ -57,7 +70,8 @@ public class ExportDialog extends JDialog implements ActionListener {
                 var writer = new PrintWriter(file.getPath());
 
                 writer.println("Commande " + commande.getId());
-                writer.println("Client : " + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n");
+                writer.println("Client   " + commande.getClient().getId());
+                writer.println("\t\t " + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n");
                 
                 writer.println("Nombre d'emprunts : " + commande.getEmprunts().size());
                 for (var emprunt : commande.getEmprunts()) {
@@ -84,6 +98,10 @@ public class ExportDialog extends JDialog implements ActionListener {
         } else if (e.getSource() == btn_cancel) {
             quit();
         }
+    }
+
+    public void itemStateChanged(ItemEvent e){
+
     }
 
     private void quit(){
