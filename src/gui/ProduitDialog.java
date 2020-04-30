@@ -151,17 +151,17 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             Produit produit;
             try {
                 if(cbx_type.getSelectedIndex() == 1) // It's a Roman
-                    produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                    produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                 else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
-                    produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                    produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                 else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
-                    produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                    produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                 else if (cbx_type.getSelectedIndex() == 4) // It's a CD
-                    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), releaseDate);
+                    produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
                 else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
-                    produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                    produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                 else // It's a BD (the first one who is selected by default)
-                    produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText()), Integer.parseInt(tf_quantity.getText()), tf_option1.getText());
+                    produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
             } catch (Exception error) {
                 JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 setVisible(true);
