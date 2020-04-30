@@ -316,18 +316,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 btn_prodDispo.setEnabled(false);
                 if(t_produitsDispo.getSelectedRow() == -1)
                     btn_edit.setEnabled(false);
-            }
-            else{
+            } else {
                 btn_prodDispo.setEnabled(true);
                 btn_edit.setEnabled(true);
             }
             
-            if(t_produitsDispo.getSelectedRow() == -1){
+            if(t_produitsDispo.getSelectedRow() == -1) {
                 btn_prodComm.setEnabled(false);
                 if(t_emprunts.getSelectedRow() == -1)
                     btn_edit.setEnabled(false);
-            }
-            else{
+            } else {
                 btn_prodComm.setEnabled(true);
                 btn_edit.setEnabled(true);
             }
