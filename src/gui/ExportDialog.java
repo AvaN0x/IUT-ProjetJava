@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import java.io.*;
+import java.time.Duration;
 
 import javax.swing.*;
 
@@ -65,7 +66,7 @@ public class ExportDialog extends JDialog implements ActionListener {
                     writer.println("\t Type : " + emprunt.getProduit().getClass().getSimpleName());
                     writer.println("\t Prix journalier : " + emprunt.getProduit().getDailyPrice() + "€");
                     writer.println("\t Coût : " + emprunt.getCost() + "€");
-                    writer.println("\t " + Utils.dateToString(commande.getDateCreation()) + " -> " + Utils.dateToString(emprunt.getDateFin()) + " (" + emprunt.getDateFin().compareTo(commande.getDateCreation()) + " jours)"); // TODO afficher nombre de jours
+                    writer.println("\t " + Utils.dateToString(commande.getDateCreation()) + " -> " + Utils.dateToString(emprunt.getDateFin()) + " (" + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant()).toDays() + " jours)"); // TODO afficher nombre de jours
                 }
                 writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
                 writer.println("Réduction : " + commande.getReduction()*100 + "%");
