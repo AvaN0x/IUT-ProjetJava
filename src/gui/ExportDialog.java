@@ -6,8 +6,6 @@ import java.awt.event.*;
 import java.io.*;
 
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 
 import app.Commande;
 
@@ -81,9 +79,16 @@ public class ExportDialog extends JDialog implements ActionListener {
                 Utils.logStream.Error(ex);
             }
 
-            // TODO fermer fenêtre export
+            quit();
         } else if (e.getSource() == btn_cancel) {
-            // TODO annuler export
+            quit();
         }
+    }
+
+    private void quit(){
+        setVisible(false);
+        var owner = (IMyDialogOwner) getOwner();
+        owner.dialogReturn();
+        this.dispose();
     }
 }

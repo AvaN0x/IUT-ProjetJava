@@ -135,7 +135,7 @@ public class EmpruntDialog extends JDialog implements ActionListener {
         if (e.getSource() == btn_valider) {
             var emprunt = new Emprunt(dateCreation, dateFin, produit);
             setVisible(false);
-            var owner = (CommandeDialog) getOwner();
+            var owner = (IMyEmpruntDialogOwner) getOwner();
             owner.empruntDialogReturn(emprunt);
             dispose();
         } else if (e.getSource() == btn_cancel) {
@@ -153,7 +153,7 @@ public class EmpruntDialog extends JDialog implements ActionListener {
 
     private void quit() {
         setVisible(false);
-        var owner = (CommandeDialog) getOwner();
+        var owner = (IMyEmpruntDialogOwner) getOwner();
         owner.dialogReturn();
         dispose();
     }

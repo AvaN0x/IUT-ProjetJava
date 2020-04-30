@@ -50,9 +50,9 @@ public class ProduitInfo extends JDialog {
 
         var pnl_option1 = new Panel(new FlowLayout());
         var lbl_option1Static = new JLabel();
-        for (int i = 0; i < Utils.produits.length; i++) {
-            if (Utils.produits[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
-                lbl_option1Static.setText(Utils.produits[i][1] + " :");
+        for (int i = 0; i < Utils.produitsTypes.length; i++) {
+            if (Utils.produitsTypes[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
+                lbl_option1Static.setText(Utils.produitsTypes[i][1] + " :");
         }
         
         var lbl_option1 = new JLabel((String) produit.getOption1());

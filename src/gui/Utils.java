@@ -2,8 +2,16 @@ package gui;
 
 import java.util.Calendar;
 
+import javax.swing.DefaultListModel;
+import app.Client;
+
+
 public class Utils {
-    static final String[][] produits = new String[][] {{"BD", "Auteur"}, 
+    static DefaultListModel<Client> clients;
+    static TableauProduits produits;
+    static TableauCommandes commandes;
+
+    static final String[][] produitsTypes = new String[][] {{"BD", "Auteur"}, 
                                                        {"Roman", "Auteur"}, 
                                                        {"Manuel Scolaire", "Auteur"}, 
                                                        {"Dictionnaire", "Langue"}, 

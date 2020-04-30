@@ -78,13 +78,12 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
 
     private void initComponents() {
-        var owner = (MainWindow) getOwner();
         setLayout(new BorderLayout());
 
         var pnl_dateclient = new JPanel(new FlowLayout());
         var pnl_clients = new JPanel(new FlowLayout());
 
-        l_clients = new JList<Client>(owner.clients);
+        l_clients = new JList<Client>(Utils.clients);
         l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         l_clients.setSelectedIndex(0);
         l_clients.addListSelectionListener(this);
@@ -215,7 +214,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_produitsBtns.add(btn_prodDispo);
         pnl_produitsBtns.add(btn_edit);
         
-        t_produitsDispo = new JTable(owner.produits);
+        t_produitsDispo = new JTable(Utils.produits);
         t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);
@@ -254,18 +253,15 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             userDialog.setVisible(true);
             setEnabled(false);        
         } else if (e.getSource() == btn_delUser) {
-            var owner = (MainWindow) getOwner();
             Utils.logStream.Log("User " + l_clients.getSelectedValue().getId() + "removed");
-            owner.clients.removeElement(l_clients.getSelectedValue());
+            Utils.clients.removeElement(l_clients.getSelectedValue());
         } else if (e.getSource() == btn_infoUser) {
-            var owner = (MainWindow) getOwner();
-            new UserInfo(this, l_clients.getSelectedValue(), owner.commandes).setVisible(true);
+            new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_prodComm) {
             if (t_produitsDispo.getSelectedRow() != -1) {
-                var owner = (MainWindow) getOwner();
                 // TODO gerer en fonction du stock dispo
                 // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
-                new EmpruntDialog(this, owner.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
+                new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
             }    
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
@@ -282,7 +278,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());  
 
                 setVisible(false);
-                var owner = (MainWindow) getOwner();
+                var owner = (IMyCommandeDialog) getOwner();
                 owner.commandeDialogReturn(commande);
                 dispose();
             } else { // Edit de commande
@@ -342,7 +338,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
     private void quit() {
         setVisible(false);
-        var owner = (MainWindow) getOwner();
+        var owner = (IMyCommandeDialog) getOwner();
         owner.dialogReturn();
         dispose();
     }
@@ -354,8 +350,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void userDialogReturn(Client client) {
-        var owner = (MainWindow) getOwner();
-        owner.clients.addElement(client);
+        Utils.clients.addElement(client);
         dialogReturn();
         Utils.logStream.Log("User " + client.getId() + "added");
     }

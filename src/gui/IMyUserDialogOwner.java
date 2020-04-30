@@ -2,7 +2,6 @@ package gui;
 
 import app.Client;
 
-public interface IMyUserDialogOwner {
-    public void dialogReturn();
+public interface IMyUserDialogOwner extends IMyDialogOwner {
     public void userDialogReturn(Client client);
 }

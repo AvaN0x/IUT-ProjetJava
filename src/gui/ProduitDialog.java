@@ -45,8 +45,8 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         initComponents();
         cbx_type.setEnabled(false);
-        for (int i = 0; i < Utils.produits.length; i++)
-            if (Utils.produits[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
+        for (int i = 0; i < Utils.produitsTypes.length; i++)
+            if (Utils.produitsTypes[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
                 cbx_type.setSelectedIndex(i);
         tf_title.setText(produit.getTitle());
         tf_price.setText(Double.toString(produit.getDailyPrice()));
@@ -61,7 +61,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
         var pnl_fields = new JPanel(new GridLayout(5, 1));
 
         cbx_type = new JComboBox<String>();
-        for (var item : Utils.produits) {
+        for (var item : Utils.produitsTypes) {
             cbx_type.addItem(item[0]);
         }
         cbx_type.addItemListener(this);
@@ -91,7 +91,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         var pnl_optionfields = new JPanel(new GridLayout(1, 1));
         var pnl_option1 = new JPanel(new FlowLayout());
-        lbl_option1 = new JLabel(Utils.produits[cbx_type.getSelectedIndex()][1] + " :");
+        lbl_option1 = new JLabel(Utils.produitsTypes[cbx_type.getSelectedIndex()][1] + " :");
         tf_option1 = new JTextField(10);
         pnl_option1.add(lbl_option1);
         pnl_option1.add(tf_option1);
@@ -115,7 +115,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 setVisible(false);
-                var owner = (MainWindow) getOwner();
+                var owner = (IMyProduitDialogOwner) getOwner();
                 owner.dialogReturn();
                 dispose();
             }
@@ -178,7 +178,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             }
 
             setVisible(false);
-            var owner = (MainWindow) getOwner();
+            var owner = (IMyProduitDialogOwner) getOwner();
             if (produit == null) {
                 try {
                     if(cbx_type.getSelectedIndex() == 1) // It's a Roman
@@ -213,7 +213,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         } else if (e.getSource() == btn_cancel) {
             setVisible(false);
-            var owner = (MainWindow) getOwner();
+            var owner = (IMyProduitDialogOwner) getOwner();
             owner.dialogReturn();
             this.dispose();
         }
@@ -221,7 +221,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == cbx_type) {
-            lbl_option1.setText(Utils.produits[cbx_type.getSelectedIndex()][1] + " :");
+            lbl_option1.setText(Utils.produitsTypes[cbx_type.getSelectedIndex()][1] + " :");
             if (cbx_type.getSelectedIndex() == 4) { // It's a CD
                 var defCalendar = Calendar.getInstance();
                 var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };

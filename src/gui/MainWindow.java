@@ -16,11 +16,7 @@ import javax.swing.table.TableRowSorter;
 import app.*;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
-    protected DefaultListModel<Client> clients;
-    protected TableauProduits produits;
-    protected TableauCommandes commandes;
-
+public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialog {
     private JMenuItem mnui_save;
     private JMenuItem mnui_newUser;
     private JMenuItem mnui_newCommande;
@@ -60,20 +56,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        clients = new DefaultListModel<Client>();
-        produits = new TableauProduits();
-        commandes = new TableauCommandes();
+        Utils.clients = new DefaultListModel<Client>();
+        Utils.produits = new TableauProduits();
+        Utils.commandes = new TableauCommandes();
 
         if(new File(Utils.savingDir + "data.ser").exists()){
             try{
                 InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
                 var input = new ObjectInputStream(fileStream);
 
-                commandes.setList((List<Commande>) input.readObject());
+                Utils.commandes.setList((List<Commande>) input.readObject());
 
-                produits.setList((List<Produit>) input.readObject());
+                Utils.produits.setList((List<Produit>) input.readObject());
 
-                clients = (DefaultListModel<Client>) input.readObject();
+                Utils.clients = (DefaultListModel<Client>) input.readObject();
 
                 input.close();
                 Utils.logStream.Log("Data loaded");
@@ -229,12 +225,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var pnl_commandes = new JPanel(new BorderLayout());
 
-        t_commandes = new JTable(commandes);
+        t_commandes = new JTable(Utils.commandes);
         t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
         t_commandes.getSelectionModel().addListSelectionListener(this);
-        for (var i = 0; i < commandes.getColumnCount(); i++)
+        for (var i = 0; i < Utils.commandes.getColumnCount(); i++)
             t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
         var pnl_commandesTable = new JPanel(new BorderLayout());
@@ -289,12 +285,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var pnl_produits = new JPanel(new BorderLayout());
 
-        t_produits = new JTable(produits);
+        t_produits = new JTable(Utils.produits);
         t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
         t_produits.getSelectionModel().addListSelectionListener(this);
-        for (var i = 0; i < produits.getColumnCount(); i++)
+        for (var i = 0; i < Utils.produits.getColumnCount(); i++)
             t_produits.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_produits.getColumnModel().getColumn(i).getWidth());
         var pnl_produitTable = new JPanel(new BorderLayout());
@@ -342,7 +338,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         lbl_clientsTab.setFont(Font.getFont(attributes));
 
         var pnl_clients = new JPanel(new BorderLayout());
-        l_clients = new JList<Client>(clients);
+        l_clients = new JList<Client>(Utils.clients);
         l_clients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         l_clients.setSelectedIndex(0);
         l_clients.addListSelectionListener(this);
@@ -386,35 +382,35 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             this.setEnabled(false);
         } else if (e.getSource() == btn_infoCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                new CommandeInfo(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
+                new CommandeInfo(this, Utils.commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_remCommande) {
             if (t_commandes.getSelectedRow() != -1) {
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    for (Emprunt emprunt : commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
+                    for (Emprunt emprunt : Utils.commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
                         emprunt.getProduit().rendre();
                     }
-                    Utils.logStream.Log("Order "+ commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
-                    commandes.remove(t_commandes.getSelectedRow());
+                    Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
+                    Utils.commandes.remove(t_commandes.getSelectedRow());
                 }
             }
         } else if (e.getSource() == btn_editCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                new CommandeDialog(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
+                new CommandeDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_exportCommande) {
             // TODO export dialog à completer
-            var exportDialog = new ExportDialog(this, commandes.getItem(t_commandes.getSelectedRow()));
+            var exportDialog = new ExportDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow()));
             exportDialog.setVisible(true);
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_remProd) {
-            for (int i = 0; i < commandes.getRowCount(); i++)
-                for (var emprunt : commandes.getItem(i).getEmprunts())
-                    if (produits.getItem(t_produits.getSelectedRow()) == emprunt.getProduit()) {
+            for (int i = 0; i < Utils.commandes.getRowCount(); i++)
+                for (var emprunt : Utils.commandes.getItem(i).getEmprunts())
+                    if (Utils.produits.getItem(t_produits.getSelectedRow()) == emprunt.getProduit()) {
                         JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
@@ -422,26 +418,26 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
                         "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                    Utils.logStream.Log("Product " + produits.getItem(t_produits.getSelectedRow()) + "removed");
-                    produits.remove(t_produits.getSelectedRow());
+                    Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.getSelectedRow()) + "removed");
+                    Utils.produits.remove(t_produits.getSelectedRow());
                 }
         } else if (e.getSource() == btn_editProd) {
             if (t_produits.getSelectedRow() != -1) {
-                var ProduitDialog = new ProduitDialog(this, produits.getItem(t_produits.getSelectedRow()));
+                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produits.getSelectedRow()));
                 ProduitDialog.setVisible(true);
                 this.setEnabled(false);    
             }
         } else if (e.getSource() == btn_infoProd) {
             if (t_produits.getSelectedRow() != -1) {
-                new ProduitInfo(this, produits.getItem(t_produits.getSelectedRow())).setVisible(true);
+                new ProduitInfo(this, Utils.produits.getItem(t_produits.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_newUser || e.getSource() == btn_toolbarNewUser || e.getSource() == mnui_newUser) {
             var userDialog = new UserDialog(this);
             userDialog.setVisible(true);
             setEnabled(false);
         } else if (e.getSource() == btn_delUser) {
-            for (int i = 0; i < commandes.getRowCount(); i++) {
-                if (l_clients.getSelectedValue() == commandes.getValueAt(0, i)) {
+            for (int i = 0; i < Utils.commandes.getRowCount(); i++) {
+                if (l_clients.getSelectedValue() == Utils.commandes.getValueAt(0, i)) {
                     JOptionPane.showMessageDialog(this, "L'utilisateur à une commande en cours !", "Erreur",
                             JOptionPane.ERROR_MESSAGE);
                     return;
@@ -450,11 +446,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
                     "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 Utils.logStream.Log("Client " + l_clients.getSelectedValue().getId() + " removed");
-                clients.removeElement(l_clients.getSelectedValue());
+                Utils.clients.removeElement(l_clients.getSelectedValue());
             }
 
         } else if (e.getSource() == btn_infoUser) {
-            new UserInfo(this, l_clients.getSelectedValue(), commandes).setVisible(true);
+            new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_toolbarSave || e.getSource() == mnui_save) {
             save();
         }
@@ -470,21 +466,21 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void commandeDialogReturn(Commande commande) {
-        commandes.add(commande);
+        Utils.commandes.add(commande);
         dialogReturn();
         tab.setSelectedIndex(0);
         Utils.logStream.Log("Order " + commande.getId() + " added");
     }
     
     public void produitDialogReturn(Produit produit) {
-        produits.add(produit);
+        Utils.produits.add(produit);
         dialogReturn();
         tab.setSelectedIndex(1);
         Utils.logStream.Log("Product " + produit.getId() + " added");
     }
     
     public void userDialogReturn(Client client) {
-        clients.addElement(client);
+        Utils.clients.addElement(client);
         dialogReturn();
         Utils.logStream.Log("User " + client.getId() + "added");
     }
@@ -533,9 +529,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             OutputStream fileStream = new FileOutputStream(saveFile);
             var output = new ObjectOutputStream(fileStream);
 
-            output.writeObject(commandes.getList());
-            output.writeObject(produits.getList());
-            output.writeObject(clients);
+            output.writeObject(Utils.commandes.getList());
+            output.writeObject(Utils.produits.getList());
+            output.writeObject(Utils.clients);
 
             output.close();
             Utils.logStream.Log("Data saved");
