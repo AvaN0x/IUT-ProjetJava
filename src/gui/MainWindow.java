@@ -400,9 +400,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 new CommandeDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_exportCommande) {
-            // TODO export dialog à completer
             var exportDialog = new ExportDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow()));
             exportDialog.setVisible(true);
+            this.setEnabled(false);
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
