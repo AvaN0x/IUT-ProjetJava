@@ -52,8 +52,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public MainWindow() {
         super("Gestion vidéothèque");
         setLookNFeel();
-        setLocation(300, 200);
         setSize(1280, 720);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Utils.clients = new DefaultListModel<Client>();
