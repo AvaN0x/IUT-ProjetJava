@@ -16,7 +16,7 @@ import javax.swing.table.TableRowSorter;
 import app.*;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialog {
+public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialogOwner {
     private JMenuItem mnui_save;
     private JMenuItem mnui_newUser;
     private JMenuItem mnui_newCommande;
