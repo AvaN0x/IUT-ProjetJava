@@ -58,13 +58,16 @@ public class ExportDialog extends JDialog implements ActionListener {
                 var writer = new PrintWriter(file.getPath());
 
                 writer.println("Commande " + commande.getId());
-                writer.println("Client " + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n");
+                writer.println("Client : " + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n");
                 
                 writer.println("Nombre d'emprunts : " + commande.getEmprunts().size());
                 for (var emprunt : commande.getEmprunts()) {
-                    writer.print(emprunt.getProduit().getTitle() + " - " + emprunt.getProduit().getOption1() + " - " + emprunt.getProduit().getClass().getSimpleName() + "\t| ");
-                    writer.print(emprunt.getProduit().getDailyPrice() + "\t| ");
-                    writer.println(Utils.dateToString(commande.getDateCreation()) + " -> " + Utils.dateToString(emprunt.getDateFin()));
+                    writer.println(emprunt.getProduit().getTitle());
+                    writer.println("\t " + emprunt.getProduit().getOption1());
+                    writer.println("\t Type : " + emprunt.getProduit().getClass().getSimpleName());
+                    writer.println("\t Prix journalier : " + emprunt.getProduit().getDailyPrice() + "€");
+                    writer.println("\t Coût : " + emprunt.getCost() + "€");
+                    writer.println("\t " + Utils.dateToString(commande.getDateCreation()) + " -> " + Utils.dateToString(emprunt.getDateFin()) + " (" + emprunt.getDateFin().compareTo(commande.getDateCreation()) + " jours)"); // TODO afficher nombre de jours
                 }
                 writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
                 writer.println("Réduction : " + commande.getReduction()*100 + "%");
