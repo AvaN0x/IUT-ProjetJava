@@ -19,8 +19,8 @@ public class UserDialog extends JDialog implements ActionListener {
 
     public UserDialog(Window owner) {
         super(owner, "Gestion vidéothèque - Nouveau client");
-        setLocation(300, 200);
         setSize(200, 150);
+        setLocationRelativeTo(null);
 
         initComponents();
     }
