@@ -3,6 +3,7 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.regex.*;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import javax.swing.table.*;
 import app.Client;
 import app.Commande;
 import app.Emprunt;
+import app.Produit;
 
 @SuppressWarnings("serial")
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyEmpruntDialogOwner {
@@ -19,6 +21,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private Calendar dateCreation;
     private TableauEmprunts emprunts;
     private Commande commande;
+
+    private HashMap<String, Integer> prodStock;
 
     private JList<Client> l_clients;
     private JButton btn_newUser;
@@ -47,7 +51,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         dateCreation.set(Calendar.SECOND, 0);
         dateCreation.set(Calendar.MINUTE, 0);
         dateCreation.set(Calendar.HOUR_OF_DAY, 0);
-
+        
+        initProdStock();
         initComponents();
 
         this.commande = null;
@@ -61,6 +66,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         this.commande = commande;
         dateCreation = commande.getDateCreation();
 
+        initProdStock();
         initComponents();
 
         for (int i = 0; i < l_clients.getModel().getSize(); i++) {
@@ -74,6 +80,17 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         }
         
         checkBtnValider();
+    }
+
+    private void initProdStock() {
+        prodStock = new HashMap<String, Integer>();
+        for (Produit prod : Utils.produits.getList()) {
+            prodStock.put(prod.getId(), prod.getDispo());
+        }
+
+        // prodStock.entrySet().forEach(entry->{
+        //     System.out.println(entry.getKey() + " " +  + " " + entry.getValue());  
+        //  });
     }
 
 
@@ -259,9 +276,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_prodComm) {
             if (t_produitsDispo.getSelectedRow() != -1) {
-                // TODO gerer en fonction du stock dispo
-                // TODO gérer localement l'ajout et suppression au stock, pour eviter des erreurs en cas de fermeture de fenetre (gestionnaire de taches > fin de tache)
-                new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
+                if (prodStock.get(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId()) > 0) {
+                    new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
+                    prodStock.put(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId(), prodStock.get(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId()) - 1);
+                } else {
+                    Utils.logStream.Log(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId() + " is out of stock.");
+                    JOptionPane.showMessageDialog(this, "Ce produit n'est plus en stock !", "Attention", JOptionPane.WARNING_MESSAGE);
+                }
             }    
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
