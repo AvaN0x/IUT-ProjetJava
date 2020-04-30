@@ -89,7 +89,7 @@ public class ExportDialog extends JDialog implements ActionListener {
                         + Utils.dateToString(emprunt.getDateFin()) + " ("
                         + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
                                 .toDays()
-                        + " jours)"); // TODO afficher nombre de jours
+                        + " jours)");
             }
             writer.println("\nTotal HR:;" + commande.getTotalCostNoReduc() + "€");
             writer.println("Réduction :;" + commande.getReduction() * 100 + "%");
@@ -124,7 +124,7 @@ public class ExportDialog extends JDialog implements ActionListener {
                         + Utils.dateToString(emprunt.getDateFin()) + " ("
                         + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
                                 .toDays()
-                        + " jours)"); // TODO afficher nombre de jours
+                        + " jours)"); //
             }
             writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
             writer.println("Réduction : " + commande.getReduction() * 100 + "%");
