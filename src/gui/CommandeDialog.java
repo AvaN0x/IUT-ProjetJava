@@ -278,7 +278,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());  
 
                 setVisible(false);
-                var owner = (IMyCommandeDialog) getOwner();
+                var owner = (IMyCommandeDialogOwner) getOwner();
                 owner.commandeDialogReturn(commande);
                 dispose();
             } else { // Edit de commande
@@ -338,7 +338,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
     private void quit() {
         setVisible(false);
-        var owner = (IMyCommandeDialog) getOwner();
+        var owner = (IMyCommandeDialogOwner) getOwner();
         owner.dialogReturn();
         dispose();
     }
