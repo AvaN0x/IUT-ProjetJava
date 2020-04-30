@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 import javax.swing.DefaultListModel;
@@ -27,4 +29,11 @@ public class Utils {
                 "/" + ((date.get(Calendar.MONTH) > 8) ? (date.get(Calendar.MONTH) + 1) : ("0" + (date.get(Calendar.MONTH) + 1))) + 
                 "/" + date.get(Calendar.YEAR);
     }
+
+	public static void createFileIfNotExists(File file) throws IOException {
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdir();
+        if (file.exists())
+            file.createNewFile();
+	}
 }

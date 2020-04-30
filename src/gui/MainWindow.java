@@ -522,10 +522,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void save(){
         try{
             var saveFile = new File(Utils.savingDir + "data.ser");
-            if (!new File(Utils.savingDir).exists())
-                new File(Utils.savingDir).mkdir();
-            if (!saveFile.exists())
-                saveFile.createNewFile();
+            Utils.createFileIfNotExists(saveFile);
             OutputStream fileStream = new FileOutputStream(saveFile);
             var output = new ObjectOutputStream(fileStream);
 

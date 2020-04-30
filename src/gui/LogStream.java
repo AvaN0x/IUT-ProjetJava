@@ -14,10 +14,7 @@ public class LogStream {
     public LogStream(String path){
         try{
             var file = new File(path);
-            if(!file.getParentFile().exists())
-                file.getParentFile().mkdir();
-            if(file.exists())
-                file.createNewFile();
+            Utils.createFileIfNotExists(file);
             writer = new PrintWriter(path);
         }
         catch (FileNotFoundException ex){
