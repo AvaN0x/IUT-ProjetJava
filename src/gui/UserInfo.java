@@ -36,7 +36,8 @@ public class UserInfo extends JDialog implements ActionListener {
 
     public void initComponents() {
         setLayout(new BorderLayout());
-        var pnl_fields = new Panel(new GridLayout(5, 1)); // TODO fix l'affichage
+        var pnl_fields = new Panel(); // TODO fix l'affichage
+        pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
         var pnl_nom = new Panel(new FlowLayout());
         var lbl_nomStatic = new JLabel("Nom :");
@@ -74,13 +75,18 @@ public class UserInfo extends JDialog implements ActionListener {
             t_commandes.getColumnModel().getColumn(i).setPreferredWidth(
                     IMyTableModel.columnSizeModifier[i] * t_commandes.getColumnModel().getColumn(i).getWidth());
 
+        var pnl_btncomm = new JPanel();
+        pnl_btncomm.setLayout(new BoxLayout(pnl_btncomm, BoxLayout.PAGE_AXIS));
+
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
 
+        pnl_btncomm.add(btn_infoCommande);
+
         var pnl_commandesTable = new JPanel(new BorderLayout());
         pnl_commandesTable.add(new JScrollPane(t_commandes), BorderLayout.CENTER);
-        pnl_commandesTable.add(btn_infoCommande, BorderLayout.EAST);
+        pnl_commandesTable.add(pnl_btncomm, BorderLayout.EAST);
 
         pnl_fields.add(pnl_nom);
         pnl_fields.add(pnl_prenom);
