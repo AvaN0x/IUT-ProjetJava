@@ -22,7 +22,7 @@ public class ExportDialog extends JDialog implements ActionListener {
     public ExportDialog(Window owner, Commande commande) {
         super(owner, "Gestion vidéothèque - Exporter la commande");
         setLocation(300, 200);
-        setSize(200, 150);
+        setSize(200, 100);
 
         this.commande = commande;
 
@@ -53,6 +53,14 @@ public class ExportDialog extends JDialog implements ActionListener {
 
         add(pnl_content, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                quit();
+            }
+        });
+
     }
 
     public void actionPerformed(ActionEvent e) {
