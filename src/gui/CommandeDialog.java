@@ -191,35 +191,40 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
-
+        t_emprunts.getSelectionModel().addListSelectionListener(this);
+        
         var pnl_produitsBtns = new JPanel();
         pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
-
+        
         btn_prodComm = new JButton(new ImageIcon(getClass().getResource(".\\icons\\left.png")));
         btn_prodComm.setToolTipText("Ajouter un produit à la commande");
+        btn_prodComm.setEnabled(false);
         btn_prodComm.addActionListener(this);
-
+        
         btn_prodDispo = new JButton(new ImageIcon(getClass().getResource(".\\icons\\right.png")));
         btn_prodDispo.setToolTipText("Retire un produit de la commande");
+        btn_prodDispo.setEnabled(false);
         btn_prodDispo.addActionListener(this);
-
+        
         btn_edit = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
         btn_edit.setToolTipText("Edite un produit de la commande");
+        btn_edit.setEnabled(false);
         btn_edit.addActionListener(this);
 
         pnl_produitsBtns.add(btn_prodComm);
         pnl_produitsBtns.add(btn_prodDispo);
         pnl_produitsBtns.add(btn_edit);
-
+        
         t_produitsDispo = new JTable(owner.produits);
         t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);
+        t_produitsDispo.getSelectionModel().addListSelectionListener(this);
 
         pnl_produitTables.add(new JScrollPane(t_emprunts));
         pnl_produitTables.add(pnl_produitsBtns);
         pnl_produitTables.add(new JScrollPane(t_produitsDispo));
-
+        
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
@@ -305,6 +310,26 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 btn_delUser.setEnabled(true);
                 btn_infoUser.setEnabled(true);
                 checkBtnValider();
+            }
+
+            if(t_emprunts.getSelectedRow() == -1) {
+                btn_prodDispo.setEnabled(false);
+                if(t_produitsDispo.getSelectedRow() == -1)
+                    btn_edit.setEnabled(false);
+            }
+            else{
+                btn_prodDispo.setEnabled(true);
+                btn_edit.setEnabled(true);
+            }
+            
+            if(t_produitsDispo.getSelectedRow() == -1){
+                btn_prodComm.setEnabled(false);
+                if(t_emprunts.getSelectedRow() == -1)
+                    btn_edit.setEnabled(false);
+            }
+            else{
+                btn_prodComm.setEnabled(true);
+                btn_edit.setEnabled(true);
             }
         }
     }

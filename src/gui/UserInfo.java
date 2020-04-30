@@ -36,7 +36,7 @@ public class UserInfo extends JDialog implements ActionListener {
 
     public void initComponents() {
         setLayout(new BorderLayout());
-        var pnl_fields = new Panel(); // TODO fix l'affichage
+        var pnl_fields = new Panel();
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
         var pnl_nom = new Panel(new FlowLayout());
