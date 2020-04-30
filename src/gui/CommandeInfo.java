@@ -24,8 +24,8 @@ public class CommandeInfo extends JDialog implements ActionListener {
         super(owner, "Gestion vidéothèque - Information commande");
         this.commande = commande;
         
-        setLocation(300, 200);
         setSize(450, 400);
+        setLocationRelativeTo(null);
 
         initComponents();
     }

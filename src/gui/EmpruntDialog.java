@@ -26,8 +26,8 @@ public class EmpruntDialog extends JDialog implements ActionListener {
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
         super(owner, "Gestion vidéothèque - Nouvelle emprunt");
-        setLocation(300, 200);
         setSize(200, 140);
+        setLocationRelativeTo(null);
 
         this.produit = produit;
         this.dateCreation = dateCreation;

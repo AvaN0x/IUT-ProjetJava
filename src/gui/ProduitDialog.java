@@ -11,7 +11,7 @@ import javax.swing.*;
 import app.*;
 
 @SuppressWarnings("serial")
-public class ProduitDialog extends JDialog implements ActionListener, ItemListener {
+public class ProduitDialog extends MyJDialog implements ActionListener, ItemListener {
     private Produit produit;
     
     private JLabel lbl_option1;
@@ -24,23 +24,13 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
     private JButton btn_cancel;
 
     public ProduitDialog(Window owner) {
-        super(owner, "Gestion vidéothèque - Nouveau produit");
-        setLocation(300, 200);
-        setSize(240, 210);
-
-        initComponents();
-
-        this.produit = null;
+        super(owner, "Nouveau produit", new Dimension(240, 210));
     }
 
     public ProduitDialog(Window owner, Produit produit) {
-        super(owner, "Gestion vidéothèque - Modification produit");
-        setLocation(300, 200);
-        setSize(240, 210);
-        
-        this.produit = produit;
+        super(owner, "Nouveau produit", new Dimension(240, 210));
 
-        initComponents();
+        this.produit = produit;
         cbx_type.setEnabled(false);
         for (int i = 0; i < Utils.produitsTypes.length; i++)
             if (Utils.produitsTypes[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
@@ -53,8 +43,6 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
 
     public void initComponents() {
-        setLayout(new BorderLayout());
-
         var pnl_fields = new JPanel();
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
@@ -109,16 +97,6 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
         add(pnl_fields, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
-
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                setVisible(false);
-                var owner = (IMyProduitDialogOwner) getOwner();
-                owner.dialogReturn();
-                dispose();
-            }
-        });
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -211,10 +189,7 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
             this.dispose();
 
         } else if (e.getSource() == btn_cancel) {
-            setVisible(false);
-            var owner = (IMyProduitDialogOwner) getOwner();
-            owner.dialogReturn();
-            this.dispose();
+            quit();
         }
     }
 

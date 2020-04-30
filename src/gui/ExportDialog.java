@@ -11,7 +11,7 @@ import javax.swing.*;
 import app.Commande;
 
 @SuppressWarnings("serial")
-public class ExportDialog extends JDialog implements ActionListener {
+public class ExportDialog extends MyJDialog implements ActionListener {
     private Commande commande;
 
     private JComboBox<String> cbx_type;
@@ -20,18 +20,12 @@ public class ExportDialog extends JDialog implements ActionListener {
     private JButton btn_cancel;
 
     public ExportDialog(Window owner, Commande commande) {
-        super(owner, "Gestion vidéothèque - Exporter la commande");
-        setLocation(300, 200);
-        setSize(200, 100);
+        super(owner, "Exporter la commande", new Dimension(200,100));
 
         this.commande = commande;
-
-        initComponents();
     }
 
-    private void initComponents() {
-        setLayout(new BorderLayout());
-
+    public void initComponents() {
         var pnl_content = new JPanel();
         pnl_content.setLayout(new BoxLayout(pnl_content, BoxLayout.PAGE_AXIS));
 
@@ -53,14 +47,6 @@ public class ExportDialog extends JDialog implements ActionListener {
 
         add(pnl_content, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
-
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                quit();
-            }
-        });
-
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -144,12 +130,5 @@ public class ExportDialog extends JDialog implements ActionListener {
         } catch (IOException ex) {
             Utils.logStream.Error(ex);
         }
-    }
-
-    private void quit() {
-        setVisible(false);
-        var owner = (IMyDialogOwner) getOwner();
-        owner.dialogReturn();
-        this.dispose();
     }
 }

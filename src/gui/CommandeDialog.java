@@ -43,8 +43,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
     public CommandeDialog(Window owner) {
         super(owner, "Gestion vidéothèque - Nouvelle commande");
-        setLocation(300, 200);
         setSize(1100, 625);
+        setLocationRelativeTo(null);
 
         dateCreation = Calendar.getInstance();
         dateCreation.set(Calendar.MILLISECOND, 0);
@@ -54,14 +54,12 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         
         initProdStock();
         initComponents();
-
-        this.commande = null;
     }
 
     public CommandeDialog(Window owner, Commande commande) {
         super(owner, "Gestion vidéothèque - Modification commande");
-        setLocation(300, 200);
         setSize(1100, 625);
+        setLocationRelativeTo(null);
         
         this.commande = commande;
         dateCreation = commande.getDateCreation();
@@ -107,7 +105,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         l_clients.setVisibleRowCount(5);
         var l_clientsScrollPane = new JScrollPane(l_clients);
 
-        var pnl_clientsbtns = new JPanel(new GridLayout(3, 1));
+        var pnl_clientsbtns = new JPanel();
+        pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
         btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
         btn_newUser.setToolTipText("Ajouter un client");
         btn_newUser.addActionListener(this);
@@ -131,7 +130,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_clients.add(l_clientsScrollPane);
         pnl_clients.add(pnl_clientsbtns);
 
-        var pnl_dateCreation = new JPanel(new GridLayout(2, 1));
+        var pnl_dateCreation = new JPanel();
+        pnl_dateCreation.setLayout(new BoxLayout(pnl_dateCreation, BoxLayout.PAGE_AXIS));
         var pnl_dateCreationSelect = new JPanel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);

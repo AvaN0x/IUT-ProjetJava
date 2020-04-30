@@ -9,7 +9,7 @@ import app.ClientFidele;
 import app.ClientOccas;
 
 @SuppressWarnings("serial")
-public class UserDialog extends JDialog implements ActionListener {
+public class UserDialog extends MyJDialog implements ActionListener {
     private JTextField tf_nom;
     private JTextField tf_prenom;
     private JCheckBox cb_fidel;
@@ -18,17 +18,12 @@ public class UserDialog extends JDialog implements ActionListener {
     private JButton btn_cancel;
 
     public UserDialog(Window owner) {
-        super(owner, "Gestion vidéothèque - Nouveau client");
-        setSize(200, 150);
-        setLocationRelativeTo(null);
-
-        initComponents();
+        super(owner, "Nouveau client", new Dimension(200, 160));
     }
 
     public void initComponents() {
-        setLayout(new BorderLayout());
-
-        var pnl_fields = new JPanel(new GridLayout(3,1));
+        var pnl_fields = new JPanel();
+        pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
 
         var pnl_nom = new JPanel(new FlowLayout());
         var lbl_nom = new JLabel("Nom :");
@@ -63,16 +58,6 @@ public class UserDialog extends JDialog implements ActionListener {
 
         add(pnl_fields, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
-
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                setVisible(false);
-                var owner = (IMyUserDialogOwner) getOwner();
-                owner.dialogReturn();
-                dispose();
-            }
-        });
     }
 
     public void actionPerformed(ActionEvent e) {
