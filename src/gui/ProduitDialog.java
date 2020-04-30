@@ -14,9 +14,6 @@ import app.*;
 public class ProduitDialog extends JDialog implements ActionListener, ItemListener {
     private Produit produit;
     
-    private JLabel lbl_title;
-    private JLabel lbl_price;
-    private JLabel lbl_quantity;
     private JLabel lbl_option1;
     private JTextField tf_title;
     private JTextField tf_price;
@@ -69,21 +66,21 @@ public class ProduitDialog extends JDialog implements ActionListener, ItemListen
 
 
         var pnl_title = new JPanel(new FlowLayout());
-        lbl_title = new JLabel("Titre :");
+        var lbl_title = new JLabel("Titre :");
         tf_title = new JTextField(20);
         pnl_title.add(lbl_title);
         pnl_title.add(tf_title);
         pnl_fields.add(pnl_title);
 
         var pnl_price = new JPanel(new FlowLayout());
-        lbl_price = new JLabel("Prix / jour :");
+        var lbl_price = new JLabel("Prix / jour :");
         tf_price = new JTextField(5);
         pnl_price.add(lbl_price);
         pnl_price.add(tf_price);
         pnl_fields.add(pnl_price);
 
         var pnl_quantity = new JPanel(new FlowLayout());
-        lbl_quantity = new JLabel("Quantitée :");
+        var lbl_quantity = new JLabel("Quantitée :");
         tf_quantity = new JTextField(3);
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);

@@ -10,8 +10,6 @@ import app.ClientOccas;
 
 @SuppressWarnings("serial")
 public class UserDialog extends JDialog implements ActionListener {
-    private JLabel lbl_nom;
-    private JLabel lbl_prenom;
     private JTextField tf_nom;
     private JTextField tf_prenom;
     private JCheckBox cb_fidel;
@@ -33,13 +31,13 @@ public class UserDialog extends JDialog implements ActionListener {
         var pnl_fields = new JPanel(new GridLayout(3,1));
 
         var pnl_nom = new JPanel(new FlowLayout());
-        lbl_nom = new JLabel("Nom :");
+        var lbl_nom = new JLabel("Nom :");
         tf_nom = new JTextField(10);
         pnl_nom.add(lbl_nom);
         pnl_nom.add(tf_nom);
         
         var pnl_prenom = new JPanel(new FlowLayout());
-        lbl_prenom = new JLabel("Prenom :");
+        var lbl_prenom = new JLabel("Prenom :");
         tf_prenom = new JTextField(10);
         pnl_prenom.add(lbl_prenom);
         pnl_prenom.add(tf_prenom);
