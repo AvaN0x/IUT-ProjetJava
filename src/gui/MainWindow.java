@@ -405,7 +405,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         } else if (e.getSource() == btn_exportCommande) {
             // TODO export dialog à completer
-            var exportDialog = new ExportDialog(this);
+            var exportDialog = new ExportDialog(this, commandes.getItem(t_commandes.getSelectedRow()));
             exportDialog.setVisible(true);
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
