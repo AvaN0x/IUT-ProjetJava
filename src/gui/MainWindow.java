@@ -15,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
-@SuppressWarnings("serial") //! https://stackoverflow.com/a/509230/13257820
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner {
     protected DefaultListModel<Client> clients;
     protected TableauProduits produits;
@@ -52,7 +52,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_infoCommande;
     private JButton btn_exportCommande;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") //! https://stackoverflow.com/a/509230/13257820
     public MainWindow() {
         super("Gestion vidéothèque");
         setLookNFeel();
@@ -260,7 +260,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_infoCommande.addActionListener(this);
         btn_infoCommande.setEnabled(false);
         btn_exportCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\export.png")));
-        btn_exportCommande.setToolTipText("Information sur la commande");
+        btn_exportCommande.setToolTipText("Exporter la commande");
         btn_exportCommande.addActionListener(this);
         btn_exportCommande.setEnabled(false);
 
@@ -404,7 +404,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 new CommandeDialog(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
         } else if (e.getSource() == btn_exportCommande) {
-            // TODO export dialog
+            // TODO export dialog à completer
+            var exportDialog = new ExportDialog(this);
+            exportDialog.setVisible(true);
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
