@@ -7,7 +7,7 @@ import javax.swing.*;
 public abstract class MyJDialog extends JDialog {
 
     public MyJDialog(Window owner, String title, Dimension size) {
-        super(owner, /*"Gestion vidéothèque - " +*/ title); //? On laisse le nom de base ou pas ?
+        super(owner, title);
         setSize(size);
         setLocationRelativeTo(null);
 

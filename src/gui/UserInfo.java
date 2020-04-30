@@ -8,7 +8,6 @@ import javax.swing.table.TableRowSorter;
 
 import app.Client;
 import app.ClientFidele;
-import app.Commande;
 
 @SuppressWarnings("serial")
 public class UserInfo extends JDialog implements ActionListener {
@@ -20,7 +19,7 @@ public class UserInfo extends JDialog implements ActionListener {
     private JButton btn_infoCommande;
 
     public UserInfo(Window owner, Client client, TableauCommandes commandes) {
-        super(owner, "Gestion vidéothèque - Information client"); //? On laisse le nom de base ou pas ?
+        super(owner, "Information client");
         this.client = client;
         this.commandes = new TableauCommandes();
         for (int i = 0; i < commandes.getList().size(); i++)

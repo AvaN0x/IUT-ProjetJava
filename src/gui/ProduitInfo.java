@@ -10,7 +10,7 @@ public class ProduitInfo extends JDialog {
     private Produit produit;
 
     public ProduitInfo(Window owner, Produit produit) {
-        super(owner, "Gestion vidéothèque - Information produit"); //? On laisse le nom de base ou pas ?
+        super(owner, "Information produit");
         this.produit = produit;
 
         setLocation(300, 200);
