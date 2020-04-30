@@ -50,6 +50,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_remCommande;
     private JButton btn_editCommande;
     private JButton btn_infoCommande;
+    private JButton btn_exportCommande;
 
     @SuppressWarnings("unchecked")
     public MainWindow() {
@@ -258,11 +259,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_infoCommande.setToolTipText("Information sur la commande");
         btn_infoCommande.addActionListener(this);
         btn_infoCommande.setEnabled(false);
+        btn_exportCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\export.png")));
+        btn_exportCommande.setToolTipText("Information sur la commande");
+        btn_exportCommande.addActionListener(this);
+        btn_exportCommande.setEnabled(false);
 
         pnl_commandesbtns.add(btn_newCommande);
         pnl_commandesbtns.add(btn_remCommande);
         pnl_commandesbtns.add(btn_editCommande);
         pnl_commandesbtns.add(btn_infoCommande);
+        pnl_commandesbtns.add(btn_exportCommande);
         pnl_commandes.add(pnl_commandesbtns, BorderLayout.EAST);
 
         pnl_commandesTab.add(lbl_commandesTab, BorderLayout.NORTH);
@@ -397,7 +403,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_commandes.getSelectedRow() != -1) {
                 new CommandeDialog(this, commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
             }
-
+        } else if (e.getSource() == btn_exportCommande) {
+            // TODO export dialog
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
             var ProduitDialog = new ProduitDialog(this);
             ProduitDialog.setVisible(true);
@@ -494,10 +501,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_remCommande.setEnabled(false);
                 btn_editCommande.setEnabled(false);
                 btn_infoCommande.setEnabled(false);
+                btn_exportCommande.setEnabled(false);
             } else {
                 btn_remCommande.setEnabled(true);
                 btn_editCommande.setEnabled(true);
                 btn_infoCommande.setEnabled(true);
+                btn_exportCommande.setEnabled(true);
             }
             
             if (t_produits.getSelectedRow() == -1) {
