@@ -14,7 +14,6 @@ public class UserInfo extends JDialog implements ActionListener {
     private Client client;
     private TableauCommandes commandes;
     private JTable t_commandes;
-    private TableRowSorter<TableModel> t_commandesSorter;
 
     private JButton btn_infoCommande;
 
@@ -67,7 +66,7 @@ public class UserInfo extends JDialog implements ActionListener {
         
 
         t_commandes = new JTable(commandes);
-        t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
+        var t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
         for (var i = 0; i < commandes.getColumnCount(); i++)

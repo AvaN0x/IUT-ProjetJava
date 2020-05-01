@@ -14,7 +14,6 @@ import app.Commande;
 public class CommandeInfo extends JDialog implements ActionListener {
     private TableauEmprunts emprunts;
     private JTable t_emprunts;
-    private TableRowSorter<TableModel> t_empruntsSorter;
 
     private Commande commande;
     
@@ -86,7 +85,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
         emprunts = new TableauEmprunts(commande.getEmprunts());
         t_emprunts = new JTable(emprunts);
-        t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
+        var t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
 

@@ -34,14 +34,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JList<Client> l_clients;
 
     private JTable t_produits;
-    private TableRowSorter<TableModel> t_produitsSorter;
     private JButton btn_newProd;
     private JButton btn_remProd;
     private JButton btn_editProd;
     private JButton btn_infoProd;
 
     private JTable t_commandes;
-    private TableRowSorter<TableModel> t_commandesSorter;
     private JButton btn_newCommande;
     private JButton btn_remCommande;
     private JButton btn_editCommande;
@@ -228,7 +226,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_commandes = new JPanel(new BorderLayout());
 
         t_commandes = new JTable(Utils.commandes);
-        t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
+        var t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
         t_commandes.getSelectionModel().addListSelectionListener(this);
@@ -288,7 +286,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produits = new JPanel(new BorderLayout());
 
         t_produits = new JTable(Utils.produits);
-        t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
+        var t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);
         t_produits.getSelectionModel().addListSelectionListener(this);

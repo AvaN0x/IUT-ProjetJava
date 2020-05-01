@@ -32,11 +32,9 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JLabel lbl_dateCreationWarn;
     private JTextField tf_dateCreation;
     private JTable t_produitsDispo;
-    private TableRowSorter<TableModel> t_produitsDispoSorter;
     private JButton btn_prodDispo;
     private JButton btn_prodComm;
     private JTable t_emprunts;
-    private TableRowSorter<TableModel> t_empruntsSorter;
     private JButton btn_valider;
     private JButton btn_cancel;
     private JButton btn_edit;
@@ -213,7 +211,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         
         emprunts = new TableauEmprunts();
         t_emprunts = new JTable(emprunts);
-        t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
+        var t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
         t_emprunts.getSelectionModel().addListSelectionListener(this);
@@ -249,7 +247,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_produits.add(lbl_produits);
         
         t_produitsDispo = new JTable(Utils.produits);
-        t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
+        var t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);
         t_produitsDispo.getSelectionModel().addListSelectionListener(this);
