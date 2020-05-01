@@ -62,7 +62,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setLocationRelativeTo(null);
         
         this.commande = commande;
-        dateCreation = commande.getDateCreation();
+        dateCreation = (Calendar) commande.getDateCreation().clone();
 
         initProdStock();
         initComponents();
@@ -300,7 +300,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
                 for (Emprunt emprunt : emprunts.getList())
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());  
-
                 setVisible(false);
                 var owner = (IMyCommandeDialogOwner) getOwner();
                 owner.commandeDialogReturn(commande);
@@ -317,7 +316,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             }
         } else if (e.getSource() == btn_cancel) {
             quit();
-            //TODO regarder pourquoi la date est edit quand on cancel
         } 
     }
 
