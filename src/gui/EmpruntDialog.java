@@ -25,7 +25,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
     private JButton btn_cancel;
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
-        super(owner, "Nouvelle emprunt", new Dimension(200,140));
+        super(owner, "Nouvel emprunt", new Dimension(200,140));
 
         this.produit = produit;
         this.dateCreation = dateCreation;
