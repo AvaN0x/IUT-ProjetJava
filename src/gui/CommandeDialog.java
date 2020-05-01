@@ -205,12 +205,20 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         var pnl_produitTables = new JPanel(new FlowLayout());
 
+        var pnl_empruts = new JPanel();
+        pnl_empruts.setLayout(new BoxLayout(pnl_empruts, BoxLayout.PAGE_AXIS));
+
+        var lbl_emprunts = new JLabel("Emprunts :");
+        pnl_empruts.add(lbl_emprunts);
+        
         emprunts = new TableauEmprunts();
         t_emprunts = new JTable(emprunts);
         t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
         t_emprunts.getSelectionModel().addListSelectionListener(this);
+        
+        pnl_empruts.add(new JScrollPane(t_emprunts));
         
         var pnl_produitsBtns = new JPanel();
         pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
@@ -233,6 +241,12 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_produitsBtns.add(btn_prodComm);
         pnl_produitsBtns.add(btn_prodDispo);
         pnl_produitsBtns.add(btn_edit);
+
+        var pnl_produits= new JPanel();
+        pnl_produits.setLayout(new BoxLayout(pnl_produits, BoxLayout.PAGE_AXIS));
+
+        var lbl_produits = new JLabel("Produits dispo :");
+        pnl_produits.add(lbl_produits);
         
         t_produitsDispo = new JTable(Utils.produits);
         t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
@@ -240,9 +254,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);
         t_produitsDispo.getSelectionModel().addListSelectionListener(this);
 
-        pnl_produitTables.add(new JScrollPane(t_emprunts));
+        pnl_produits.add(new JScrollPane(t_produitsDispo));
+
+        pnl_produitTables.add(pnl_empruts);
         pnl_produitTables.add(pnl_produitsBtns);
-        pnl_produitTables.add(new JScrollPane(t_produitsDispo));
+        pnl_produitTables.add(pnl_produits);
         
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
