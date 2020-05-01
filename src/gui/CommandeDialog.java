@@ -311,7 +311,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 for (Emprunt emprunt : emprunts.getList()) {
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());    
                 }
-    
+                Utils.logStream.Log("Order " + commande.getId() + " edited");
                 quit();
             }
         } else if (e.getSource() == btn_cancel) {

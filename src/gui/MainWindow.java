@@ -484,7 +484,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void userDialogReturn(Client client) {
         Utils.clients.addElement(client);
         dialogReturn();
-        Utils.logStream.Log("User " + client.getId() + "added");
+        Utils.logStream.Log("User " + client.getId() + " added");
     }
 
     public void valueChanged(ListSelectionEvent e) {
