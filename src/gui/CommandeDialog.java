@@ -169,10 +169,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                         if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
                                 && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
+                            for (Emprunt emprunt : emprunts.getList()) {
+                                if (dateCreation.getTimeInMillis() > emprunt.getDateFin().getTimeInMillis()) {
+                                    lbl_dateCreationWarn.setText("La date de création ne peut pas être supérieur à la date de fin d'emprunt.");
+                                    dateCreationValid = false;
+                                    return;
+                                }
+                            }
                             lbl_dateCreationWarn.setText("");
                             dateCreationValid = true;
                             t_emprunts.repaint();
-                            // TODO verification que la dateCreation ne soit pas inferieur aux datesFin 
                             checkBtnValider();
                         } else
                             notValid();
@@ -311,6 +317,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             }
         } else if (e.getSource() == btn_cancel) {
             quit();
+            //TODO regarder pourquoi la date est edit quand on cancel
         } 
     }
 
