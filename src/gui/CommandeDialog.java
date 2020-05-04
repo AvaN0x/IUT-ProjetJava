@@ -308,7 +308,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 checkBtnValider();
             }
         } else if (e.getSource() == btn_edit) {
-            //TODO edit de produit
+            //TODO fixer le probleme si on change le sorter (pour tout les sorter)
+            if (t_produitsDispo.getSelectedRow() != -1) {
+                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()));
+                ProduitDialog.setVisible(true);
+                this.setEnabled(false);    
+            }
+
         } else if (e.getSource() == btn_valider) {
             if (commande == null) { // Nouvelle commande
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
@@ -383,6 +389,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public void dialogReturn() {
         this.setEnabled(true);
         this.toFront();
+        t_produitsDispo.repaint();
         checkBtnValider();
     }
 

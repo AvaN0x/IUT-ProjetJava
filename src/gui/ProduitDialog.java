@@ -155,7 +155,6 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             }
 
             setVisible(false);
-            var owner = (IMyProduitDialogOwner) getOwner();
             if (produit == null) {
                 try {
                     if(cbx_type.getSelectedIndex() == 1) // It's a Roman
@@ -175,6 +174,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                     setVisible(true);
                     return;
                 }
+                var owner = (IMyProduitDialogOwner) getOwner();
                 owner.produitDialogReturn(produit);
             } else {
                 produit.setTitle(tf_title.getText());
@@ -184,6 +184,8 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                     produit.setOption1(releaseDate);
                 else
                     produit.setOption1(tf_option1.getText());
+                Utils.logStream.Log("Product " + produit.getId() + " edited");
+                var owner = (IMyDialogOwner) getOwner();
                 owner.dialogReturn();
             }
             this.dispose();
@@ -209,5 +211,4 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
         }
     }
-
 }
