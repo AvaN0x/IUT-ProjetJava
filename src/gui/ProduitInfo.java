@@ -59,6 +59,7 @@ public class ProduitInfo extends JDialog {
         pnl_option1.add(lbl_option1Static);
         pnl_option1.add(lbl_option1);
 
+        //TODO ne plus utiliser getDispo et utiliser les hashmap
         var pnl_dispoPrice = new JPanel(new FlowLayout());
         var lbl_dispoPriceStatic = new JLabel("Disponibles :");
         var lbl_dispoPrice = new JLabel(Integer.toString(produit.getDispo()));

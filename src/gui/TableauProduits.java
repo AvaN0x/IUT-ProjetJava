@@ -1,20 +1,44 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.table.*;
+
+import app.Commande;
 import app.Produit;
 
 @SuppressWarnings("serial")
-public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit>{
+public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit> {
     private List<Produit> produits;
+    private HashMap<String, Integer> prodStock;
     private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
 
-    public TableauProduits(){
+    public TableauProduits() {
         super();
-
         produits = new ArrayList<Produit>();
+    }
+
+    public TableauProduits(HashMap<String, Integer> prodStock){
+        super();
+        this.prodStock = prodStock;
+        produits = new ArrayList<Produit>();
+    }
+
+    public void setHashMap() {
+        prodStock = new HashMap<String, Integer>();
+        for (Produit prod : Utils.produits.getList()) {
+            prodStock.put(prod.getId(), prod.getQuantity());
+        }
+        for (Commande c : Utils.commandes.getList()) {
+            c.getProdUsedAt(Calendar.getInstance(), prodStock);
+        }
+    }
+
+    public void setHashMap(HashMap<String, Integer> prodStock) {
+        this.prodStock = prodStock;
     }
 
     public int getRowCount() {
@@ -38,9 +62,9 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
             case 2:
                 return produits.get(rowIndex).getClass().getSimpleName();
             case 3:
-                return produits.get(rowIndex).getDispo();
+                return prodStock.get(produits.get(rowIndex).getId());
             case 4:
-                return produits.get(rowIndex).getQuantity() - produits.get(rowIndex).getDispo();
+                return produits.get(rowIndex).getQuantity() - prodStock.get(produits.get(rowIndex).getId());
             default:
                 return null;
         }

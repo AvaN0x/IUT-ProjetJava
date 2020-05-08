@@ -57,7 +57,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\logo.png")));
 
-        //TODO la date de création de commande ne peut pas etre futur
         // TODO recuperer quel produit est disponible a quelle date
         // TODO webhost pour bdd du stockage : menu parametre avec case a coché : BDD ou hashmap (hashmap pour stocker les produits)
 
@@ -122,7 +121,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));*/
         }
 
-
+        Utils.produits.setHashMap();
         initComponents();
     }
 

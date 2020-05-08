@@ -44,13 +44,14 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setSize(1100, 625);
         setLocationRelativeTo(null);
 
+        prodStock = new HashMap<String, Integer>();
+
         dateCreation = Calendar.getInstance();
         dateCreation.set(Calendar.MILLISECOND, 0);
         dateCreation.set(Calendar.SECOND, 0);
         dateCreation.set(Calendar.MINUTE, 0);
         dateCreation.set(Calendar.HOUR_OF_DAY, 0);
         
-        initProdStock();
         initComponents();
     }
 
@@ -59,10 +60,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setSize(1100, 625);
         setLocationRelativeTo(null);
         
+        prodStock = new HashMap<String, Integer>();
+
         this.commande = commande;
         dateCreation = (Calendar) commande.getDateCreation().clone();
 
-        initProdStock();
         initComponents();
 
         for (int i = 0; i < l_clients.getModel().getSize(); i++) {
@@ -79,9 +81,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     private void initProdStock() {
-        prodStock = new HashMap<String, Integer>();
         for (Produit prod : Utils.produits.getList()) {
-            prodStock.put(prod.getId(), prod.getDispo());
+            prodStock.put(prod.getId(), prod.getQuantity());
+        }
+        for (Commande c : Utils.commandes.getList()) {
+            c.getProdUsedAt(dateCreation, prodStock);
         }
     }
 
@@ -129,6 +133,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_dateCreationSelect = new JPanel(new FlowLayout());
         lbl_dateCreation = new JLabel("Date de création : ");
         tf_dateCreation = new JTextField(10);
+        tf_dateCreation.setToolTipText("dd/mm/yyyy");
         var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
         tf_dateCreation.setText(
                   (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
@@ -137,6 +142,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         dateCreationValid = true;
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
+        tf_dateCreation.setEditable(true);
+
         tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 update();
@@ -167,6 +174,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                         if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
                                 && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
+                            // TODO empecher que la date soit superieur égale a {aujourd'hui}
                             for (Emprunt emprunt : emprunts.getList()) {
                                 if (dateCreation.getTimeInMillis() > emprunt.getDateFin().getTimeInMillis()) {
                                     lbl_dateCreationWarn.setText("La date de création ne peut pas être supérieur à la date de fin d'emprunt.");
@@ -178,6 +186,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             dateCreationValid = true;
                             t_emprunts.repaint();
                             checkBtnValider();
+                            initProdStock();
+                            t_produitsDispo.repaint();
                         } else
                             notValid();
                     } else
@@ -245,7 +255,9 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         var lbl_produits = new JLabel("Produits dispo :");
         pnl_produits.add(lbl_produits);
-        
+
+        initProdStock();
+        Utils.produits.setHashMap(prodStock);
         t_produitsDispo = new JTable(Utils.produits);
         var t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
@@ -295,18 +307,20 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             if (t_produitsDispo.getSelectedRow() != -1) {
                 if (prodStock.get(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId()) > 0) {
                     new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
-                    prodStock.put(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId(), prodStock.get(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId()) - 1);
                 } else {
                     Utils.logStream.Log(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId() + " is out of stock.");
                     JOptionPane.showMessageDialog(this, "Ce produit n'est plus en stock !", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
-            }    
+            }
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
                 Utils.logStream.Log("Loaning " + emprunts.getItem(t_emprunts.getSelectedRow()).getId() + " removed");
+                prodStock.put(emprunts.getItem(t_emprunts.getSelectedRow()).getProduit().getId(), prodStock.get(emprunts.getItem(t_emprunts.getSelectedRow()).getProduit().getId()) + 1);
+                t_produitsDispo.repaint();
                 emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
+            checkTfDateCreation();
         } else if (e.getSource() == btn_edit) {
             //TODO fixer le probleme si on change le sorter (pour tout les sorter)
             if (t_produitsDispo.getSelectedRow() != -1) {
@@ -323,6 +337,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 setVisible(false);
                 var owner = (IMyCommandeDialogOwner) getOwner();
                 owner.commandeDialogReturn(commande);
+                Utils.produits.setHashMap();
                 dispose();
             } else { // Edit de commande
                 commande.setClient(l_clients.getSelectedValue());
@@ -376,13 +391,24 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             btn_valider.setEnabled(true);
         else
             btn_valider.setEnabled(false);
+    }
 
+    public void checkTfDateCreation() {
+        if (emprunts.getList().size() == 0) {
+            tf_dateCreation.setEditable(true);
+            tf_dateCreation.setToolTipText("dd/mm/yyyy");
+        }
+        else {
+            tf_dateCreation.setEditable(false);
+            tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
+        }
     }
 
     private void quit() {
         setVisible(false);
         var owner = (IMyCommandeDialogOwner) getOwner();
         owner.dialogReturn();
+        Utils.produits.setHashMap();
         dispose();
     }
 
@@ -403,6 +429,10 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         emprunts.add(emprunt);
         dialogReturn();
         Utils.logStream.Log("Loaning " + emprunt.getId() + "added");
+        checkTfDateCreation();
+        prodStock.put(emprunt.getProduit().getId(), prodStock.get(emprunt.getProduit().getId()) - 1);
+        t_produitsDispo.repaint();
+
     }
 
 }

@@ -3,6 +3,7 @@ package app;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings("serial")
@@ -53,6 +54,15 @@ public class Commande implements Serializable  {
             return true;
         else
             return false;
+    }
+
+    public void getProdUsedAt(Calendar date, HashMap<String, Integer> prodStock) {
+        if (date.getTimeInMillis() >= dateCreation.getTimeInMillis()) {
+            for (Emprunt e : emprunts) {
+                if (e.getDateFin().getTimeInMillis() > date.getTimeInMillis())
+                    prodStock.put(e.getProduit().getId(), prodStock.get(e.getProduit().getId()) - 1);
+            }
+        }
     }
 
     /**
