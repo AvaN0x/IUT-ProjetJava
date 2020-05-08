@@ -15,6 +15,8 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
+// TODO faire les doc pour chaque methodes
+
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialogOwner {
     private JMenuItem mnui_save;
