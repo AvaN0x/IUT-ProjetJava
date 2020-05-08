@@ -15,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 
 import app.*;
 
-// TODO faire les doc pour chaque methodes
+// TODO faire les documentation pour chaque methodes
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialogOwner {
@@ -57,7 +57,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\logo.png")));
 
-        // TODO recuperer quel produit est disponible a quelle date
         // TODO webhost pour bdd du stockage : menu parametre avec case a coché : BDD ou hashmap (hashmap pour stocker les produits)
 
         Utils.clients = new DefaultListModel<Client>();
