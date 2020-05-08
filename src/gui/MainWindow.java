@@ -85,41 +85,41 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         }
         else{/*
-            clients.addElement(new ClientFidele("ricatte", "clément"));
-            clients.addElement(new ClientFidele("sublet", "tom"));
-            clients.addElement(new ClientOccas("hochet", "ric"));
-            clients.addElement(new ClientFidele("térieur", "alex"));
-            clients.addElement(new ClientOccas("térieur", "alain"));
+            Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
+            Utils.clients.addElement(new ClientFidele("sublet", "tom"));
+            Utils.clients.addElement(new ClientOccas("hochet", "ric"));
+            Utils.clients.addElement(new ClientFidele("térieur", "alex"));
+            Utils.clients.addElement(new ClientOccas("térieur", "alain"));
 
-            produits.add(new Roman("Harry Potter à l'école des sorciers", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et la chambre des secrets", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et le Prisonnier d'Azkaban", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et la Coupe de feu", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et l'Ordre du phénix", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et le Prince de Sang-Mêlé", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et les Reliques de la Mort", 0.99, 3, "J. K. Rowling"));
-            produits.add(new Roman("Harry Potter et l'enfant maudit", 0.99, 4, "J. K. Rowling"));
-            produits.add(new Dictionnaire("LAROUSSE", .65, 5, "FR"));
-            produits.add(new ManuelScolaire("Objectif BAC Term S - BAC 2020", .99, 2, "hachette"));
-            produits.add(new DVD("Le voyage de Chihiro", 1.99, 1, "Hayao Miyazaki"));
-            produits.add(new BD("Les Simpson - Camping en délire", .75, 2, "Jungle!"));
-            produits.add(new BD("Les Simpson - Un sacré foin !", .75, 1, "Jungle!"));
+            Utils.produits.add(new Roman("Harry Potter à l'école des sorciers", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et la chambre des secrets", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et le Prisonnier d'Azkaban", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et la Coupe de feu", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et l'Ordre du phénix", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et le Prince de Sang-Mêlé", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et les Reliques de la Mort", 0.99, 3, "J. K. Rowling"));
+            Utils.produits.add(new Roman("Harry Potter et l'enfant maudit", 0.99, 4, "J. K. Rowling"));
+            Utils.produits.add(new Dictionnaire("LAROUSSE", .65, 5, "FR"));
+            Utils.produits.add(new ManuelScolaire("Objectif BAC Term S - BAC 2020", .99, 2, "hachette"));
+            Utils.produits.add(new DVD("Le voyage de Chihiro", 1.99, 1, "Hayao Miyazaki"));
+            Utils.produits.add(new BD("Les Simpson - Camping en délire", .75, 2, "Jungle!"));
+            Utils.produits.add(new BD("Les Simpson - Un sacré foin !", .75, 1, "Jungle!"));
             var dateAdibou = Calendar.getInstance();
             dateAdibou.set(2003, 9, 24);
-            produits.add(new CD("Adibou & le Secret de Paziral", .1, 1, dateAdibou));
+            Utils.produits.add(new CD("Adibou & le Secret de Paziral", .1, 1, dateAdibou));
 
             Calendar dateCreation = Calendar.getInstance();
             dateCreation.set(2020, Calendar.APRIL, 26);
-            commandes.add(new Commande(clients.get(0), dateCreation));
+            Utils.commandes.add(new Commande(Utils.clients.get(0), dateCreation));
             Calendar dateFin = Calendar.getInstance();
             dateFin.set(2020, Calendar.JUNE, 26);
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(0));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(1));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(2));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(3));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(4));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(5));
-            commandes.getItem(0).addEmprunt(dateFin, produits.getItem(6));*/
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(0));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(1));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(2));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(3));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(4));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(5));
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));*/
         }
 
 
@@ -507,7 +507,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_exportCommande.setEnabled(false);
             } else {
                 btn_remCommande.setEnabled(true);
-                btn_editCommande.setEnabled(true);
+                if (Utils.commandes.getItem(t_commandes.getSelectedRow()).editable()) {
+                    btn_editCommande.setEnabled(true);
+                    btn_editCommande.setToolTipText("Modifier la commande");
+                }
+                else {
+                    btn_editCommande.setEnabled(false);
+                    btn_editCommande.setToolTipText("La commande n'est plus modifiable");
+                }
                 btn_infoCommande.setEnabled(true);
                 btn_exportCommande.setEnabled(true);
             }

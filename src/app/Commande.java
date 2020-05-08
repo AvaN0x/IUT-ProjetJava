@@ -47,6 +47,14 @@ public class Commande implements Serializable  {
         return Math.round(getTotalCostNoReduc() * (1 - reduction) * 100) / 100.;
     }
 
+    public boolean editable() {
+        long oneDay = 86400000;
+        if (Calendar.getInstance().getTimeInMillis() <= (getDateCreation().getTimeInMillis() + 2 * oneDay)) 
+            return true;
+        else
+            return false;
+    }
+
     /**
      * @return the client
      */
