@@ -203,11 +203,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         var pnl_produitTables = new JPanel(new FlowLayout());
 
-        var pnl_empruts = new JPanel();
-        pnl_empruts.setLayout(new BoxLayout(pnl_empruts, BoxLayout.PAGE_AXIS));
+        var pnl_emprunts = new JPanel();
+        pnl_emprunts.setLayout(new BoxLayout(pnl_emprunts, BoxLayout.PAGE_AXIS));
 
         var lbl_emprunts = new JLabel("Emprunts :");
-        pnl_empruts.add(lbl_emprunts);
+        pnl_emprunts.add(lbl_emprunts);
         
         emprunts = new TableauEmprunts();
         t_emprunts = new JTable(emprunts);
@@ -216,7 +216,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         t_emprunts.setRowSorter(t_empruntsSorter);
         t_emprunts.getSelectionModel().addListSelectionListener(this);
         
-        pnl_empruts.add(new JScrollPane(t_emprunts));
+        pnl_emprunts.add(new JScrollPane(t_emprunts));
         
         var pnl_produitsBtns = new JPanel();
         pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
@@ -254,7 +254,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
 
         pnl_produits.add(new JScrollPane(t_produitsDispo));
 
-        pnl_produitTables.add(pnl_empruts);
+        pnl_produitTables.add(pnl_emprunts);
         pnl_produitTables.add(pnl_produitsBtns);
         pnl_produitTables.add(pnl_produits);
         
