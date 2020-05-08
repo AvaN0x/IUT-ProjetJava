@@ -397,6 +397,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
                     Utils.commandes.remove(t_commandes.getSelectedRow());
                 }
+                Utils.produits.setHashMap();
+                t_produits.repaint();
             }
         } else if (e.getSource() == btn_editCommande) {
             if (t_commandes.getSelectedRow() != -1) {
