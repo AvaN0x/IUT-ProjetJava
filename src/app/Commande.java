@@ -47,14 +47,6 @@ public class Commande implements Serializable  {
         return Math.round(getTotalCostNoReduc() * (1 - reduction) * 100) / 100.;
     }
 
-    // seulement pour les tests en console
-    public void consoleWriteEmprunts() {
-        System.out.println("Liste des emprunts de la commande :");
-        for(Emprunt e : emprunts) {
-            System.out.println(e.produit);
-        }
-    }
-
     /**
      * @return the client
      */
