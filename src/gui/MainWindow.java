@@ -391,9 +391,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (t_commandes.getSelectedRow() != -1) {
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    for (Emprunt emprunt : Utils.commandes.getItem(t_commandes.getSelectedRow()).getEmprunts()) {
-                        emprunt.getProduit().rendre();
-                    }
                     Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
                     Utils.commandes.remove(t_commandes.getSelectedRow());
                 }

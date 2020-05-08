@@ -110,9 +110,9 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 return;
             }
             if (produit != null) {
-                if (Double.parseDouble(tf_quantity.getText().trim()) < (produit.getQuantity() - produit.getDispo()))
+                if (Double.parseDouble(tf_quantity.getText().trim()) < (produit.getQuantity() - Utils.produits.getProductStock(produit.getId())))
                 {
-                    JOptionPane.showMessageDialog(this, "La quantité ne peut pas être inférieur au nombre de produit loués.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La quantité ne peut pas être inférieur au nombre de produit loués actuellement.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 } 
             }

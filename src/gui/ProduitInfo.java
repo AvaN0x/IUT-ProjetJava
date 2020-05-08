@@ -14,7 +14,7 @@ public class ProduitInfo extends JDialog {
         this.produit = produit;
 
         setLocation(300, 200);
-        setSize(320, 220);
+        setSize(320, 200);
 
         initComponents();
     }
@@ -22,7 +22,7 @@ public class ProduitInfo extends JDialog {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        var pnl_fields = new JPanel(new GridLayout(7,1));
+        var pnl_fields = new JPanel(new GridLayout(6,1));
 
         var pnl_title = new JPanel(new FlowLayout());
         var lbl_titleStatic = new JLabel("Titre :");
@@ -59,26 +59,18 @@ public class ProduitInfo extends JDialog {
         pnl_option1.add(lbl_option1Static);
         pnl_option1.add(lbl_option1);
 
-        //TODO ne plus utiliser getDispo et utiliser les hashmap
-        var pnl_dispoPrice = new JPanel(new FlowLayout());
-        var lbl_dispoPriceStatic = new JLabel("Disponibles :");
-        var lbl_dispoPrice = new JLabel(Integer.toString(produit.getDispo()));
-        pnl_dispoPrice.add(lbl_dispoPriceStatic);
-        pnl_dispoPrice.add(lbl_dispoPrice);
-
-        var pnl_loue = new JPanel(new FlowLayout());
-        var lbl_loueStatic = new JLabel("Loués :");
-        var lbl_loue = new JLabel(Integer.toString(produit.getQuantity() - produit.getDispo()));
-        pnl_loue.add(lbl_loueStatic);
-        pnl_loue.add(lbl_loue);
+        var pnl_quantity = new JPanel(new FlowLayout());
+        var lbl_quantityStatic = new JLabel("Quantité :");
+        var lbl_quantity = new JLabel(Integer.toString(produit.getQuantity()));
+        pnl_quantity.add(lbl_quantityStatic);
+        pnl_quantity.add(lbl_quantity);
 
         pnl_fields.add(pnl_title);
         pnl_fields.add(pnl_id);
         pnl_fields.add(pnl_dailyPrice);
         pnl_fields.add(pnl_class);
         pnl_fields.add(pnl_option1);
-        pnl_fields.add(pnl_dispoPrice);
-        pnl_fields.add(pnl_loue);
+        pnl_fields.add(pnl_quantity);
 
         add(pnl_fields, BorderLayout.CENTER);
 

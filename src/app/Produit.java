@@ -9,14 +9,12 @@ public abstract class Produit implements Serializable {
     protected String title;
     protected double dailyPrice;
     protected int quantity;
-    protected int dispo;
 
     public Produit(String title, double dailyPrice, int quantity) {
         this.id = "P" + UUID.randomUUID().toString();
         this.title = title.trim();
         this.dailyPrice = dailyPrice;
         this.quantity = quantity;
-        this.dispo = quantity;
     }
 
     public String getId() {
@@ -48,30 +46,11 @@ public abstract class Produit implements Serializable {
     }
 
     public void setQuantity(int quantity) {
-        int tempUsed = this.quantity - this.dispo;
         this.quantity = quantity;
-        this.dispo = quantity - tempUsed;
     }
 
     public void addQuantity(int quantity) {
         this.quantity += Math.abs(quantity);
-        this.dispo += Math.abs(quantity);
-    }
-
-    public int getDispo() {
-        return this.dispo;
-    }
-
-    public void setDispo(int dispo) {
-        this.dispo = dispo;
-    }
-
-    public void emprunter() {
-        this.dispo--;
-    }
-
-    public void rendre() {
-        this.dispo++;
     }
 
 
@@ -79,8 +58,7 @@ public abstract class Produit implements Serializable {
     public String toString() {
         return "title='" + getTitle() + "'" +
             ", dailyPrice='" + getDailyPrice() + "'" +
-            ", quantity='" + getQuantity() + "'" +
-            ", dispo='" + dispo + "'";
+            ", quantity='" + getQuantity() + "'";
     }
 
     public abstract Object getOption1();

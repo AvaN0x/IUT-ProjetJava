@@ -26,15 +26,9 @@ public class Commande implements Serializable  {
         this.emprunts = new ArrayList<Emprunt>();
     }
     
-    public boolean addEmprunt(Calendar dateFin, Produit produit) {
-        if (produit.getDispo() > 0) {
-            Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
-            emprunts.add(emprunt);
-            produit.emprunter();
-            return true;
-        }
-        else
-            return false;
+    public void addEmprunt(Calendar dateFin, Produit produit) {
+        Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
+        emprunts.add(emprunt);
     }
 
     public double getTotalCostNoReduc() {
@@ -110,8 +104,6 @@ public class Commande implements Serializable  {
     }
 
     public void emptyEmprunts() {
-        for (Emprunt emprunt : emprunts)
-            emprunt.getProduit().rendre();
         emprunts = new ArrayList<Emprunt>();
     }
 }

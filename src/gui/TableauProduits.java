@@ -93,8 +93,14 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
     public List<Produit> getList() {
         return produits;
     }
+
     @Override
     public void setList(List<Produit> list) {
         produits = list;
     }
+
+    public int getProductStock(String key) {
+        return prodStock.get(key);
+    }
+
 }
