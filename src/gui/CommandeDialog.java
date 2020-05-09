@@ -132,7 +132,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         dateCreationValid = true;
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
-        tf_dateCreation.setEditable(true);
+        tf_dateCreation.setEditable(false); // TODO si on a la volonté de gérer la dateCreation différente
 
         tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -164,7 +164,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                         if (dateCreationDay >= dateCreation.getActualMinimum(Calendar.DAY_OF_MONTH)
                                 && dateCreationDay <= dateCreation.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
-                            // TODO empecher que la date soit superieur égale a {aujourd'hui}
                             for (Emprunt emprunt : emprunts.getList()) {
                                 if (dateCreation.getTimeInMillis() > emprunt.getDateFin().getTimeInMillis()) {
                                     lbl_dateCreationWarn.setText("La date de création ne peut pas être supérieur à la date de fin d'emprunt.");
@@ -384,14 +383,14 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void checkTfDateCreation() {
-        if (emprunts.getList().size() == 0) {
-            tf_dateCreation.setEditable(true);
+        // if (emprunts.getList().size() == 0) {
+        //     tf_dateCreation.setEditable(true);
             tf_dateCreation.setToolTipText("dd/mm/yyyy");
-        }
-        else {
-            tf_dateCreation.setEditable(false);
-            tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
-        }
+        // }
+        // else {
+        //     tf_dateCreation.setEditable(false);
+        //     tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
+        // }
     }
 
     private void quit() {
