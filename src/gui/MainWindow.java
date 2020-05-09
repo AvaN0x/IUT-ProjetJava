@@ -120,7 +120,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));*/
         }
 
-        Utils.produits.setHashMap();
+        Utils.produits.setProdStock();
         initComponents();
     }
 
@@ -394,7 +394,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
                     Utils.commandes.remove(t_commandes.getSelectedRow());
                 }
-                Utils.produits.setHashMap();
+                Utils.produits.setProdStock();
                 t_produits.repaint();
             }
         } else if (e.getSource() == btn_editCommande) {

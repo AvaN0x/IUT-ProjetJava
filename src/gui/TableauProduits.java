@@ -21,24 +21,22 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
         produits = new ArrayList<Produit>();
     }
 
-    public TableauProduits(HashMap<String, Integer> prodStock){
-        super();
-        this.prodStock = prodStock;
-        produits = new ArrayList<Produit>();
+    public void setProdStock() {
+        setProdStock(Calendar.getInstance());
     }
 
-    public void setHashMap() {
+    public void setProdStock(Calendar date) {
         prodStock = new HashMap<String, Integer>();
         for (Produit prod : Utils.produits.getList()) {
             prodStock.put(prod.getId(), prod.getQuantity());
         }
         for (Commande c : Utils.commandes.getList()) {
-            c.getProdUsedAt(Calendar.getInstance(), prodStock);
+            c.getProdUsedAt(date, prodStock);
         }
     }
 
-    public void setHashMap(HashMap<String, Integer> prodStock) {
-        this.prodStock = prodStock;
+    public HashMap<String, Integer> getProdStock() {
+        return prodStock;
     }
 
     public int getRowCount() {

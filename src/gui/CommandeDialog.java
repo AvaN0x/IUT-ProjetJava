@@ -60,8 +60,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setSize(1100, 625);
         setLocationRelativeTo(null);
         
-        prodStock = new HashMap<String, Integer>();
-
         this.commande = commande;
         dateCreation = (Calendar) commande.getDateCreation().clone();
 
@@ -80,14 +78,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         checkBtnValider();
     }
 
-    private void initProdStock() {
-        for (Produit prod : Utils.produits.getList()) {
-            prodStock.put(prod.getId(), prod.getQuantity());
-        }
-        for (Commande c : Utils.commandes.getList()) {
-            c.getProdUsedAt(dateCreation, prodStock);
-        }
-    }
 
 
     private void initComponents() {
@@ -186,7 +176,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             dateCreationValid = true;
                             t_emprunts.repaint();
                             checkBtnValider();
-                            initProdStock();
+                            Utils.produits.setProdStock(dateCreation);
                             t_produitsDispo.repaint();
                         } else
                             notValid();
@@ -256,8 +246,8 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var lbl_produits = new JLabel("Produits dispo :");
         pnl_produits.add(lbl_produits);
 
-        initProdStock();
-        Utils.produits.setHashMap(prodStock);
+        Utils.produits.setProdStock(dateCreation);
+        prodStock = Utils.produits.getProdStock();
         t_produitsDispo = new JTable(Utils.produits);
         var t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
@@ -337,7 +327,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 setVisible(false);
                 var owner = (IMyCommandeDialogOwner) getOwner();
                 owner.commandeDialogReturn(commande);
-                Utils.produits.setHashMap();
+                Utils.produits.setProdStock();
                 dispose();
             } else { // Edit de commande
                 commande.setClient(l_clients.getSelectedValue());
@@ -408,7 +398,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         setVisible(false);
         var owner = (IMyCommandeDialogOwner) getOwner();
         owner.dialogReturn();
-        Utils.produits.setHashMap();
+        Utils.produits.setProdStock();
         dispose();
     }
 
