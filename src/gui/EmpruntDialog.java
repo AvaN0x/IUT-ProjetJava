@@ -84,7 +84,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
 
     public void initComponents() {
         setLayout(new BorderLayout());
-
+        // TODO pouvoir rentrer soit un nombre de jour, soit une date
         var pnl_dateFin = new JPanel(new GridLayout(3, 1));
         var lbl_dateFin = new JLabel("Date de fin : ");
         tf_dateFin = new JTextField(10);
