@@ -309,7 +309,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 emprunts.remove(t_emprunts.getSelectedRow());
                 checkBtnValider();
             }
-            checkTfDateCreation();
+            // checkTfDateCreation();
         } else if (e.getSource() == btn_edit) {
             //TODO fixer le probleme si on change le sorter (pour tout les sorter)
             if (t_produitsDispo.getSelectedRow() != -1) {
@@ -383,14 +383,14 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public void checkTfDateCreation() {
-        // if (emprunts.getList().size() == 0) {
-        //     tf_dateCreation.setEditable(true);
+        if (emprunts.getList().size() == 0) {
+            tf_dateCreation.setEditable(true);
             tf_dateCreation.setToolTipText("dd/mm/yyyy");
-        // }
-        // else {
-        //     tf_dateCreation.setEditable(false);
-        //     tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
-        // }
+        }
+        else {
+            tf_dateCreation.setEditable(false);
+            tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
+        }
     }
 
     private void quit() {
@@ -418,7 +418,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         emprunts.add(emprunt);
         dialogReturn();
         Utils.logStream.Log("Loaning " + emprunt.getId() + "added");
-        checkTfDateCreation();
+        // checkTfDateCreation();
         prodStock.put(emprunt.getProduit().getId(), prodStock.get(emprunt.getProduit().getId()) - 1);
         t_produitsDispo.repaint();
 
