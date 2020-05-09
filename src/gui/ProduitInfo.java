@@ -13,8 +13,8 @@ public class ProduitInfo extends JDialog {
         super(owner, "Information produit");
         this.produit = produit;
 
-        setLocation(300, 200);
         setSize(320, 200);
+        setLocationRelativeTo(owner);
 
         initComponents();
     }

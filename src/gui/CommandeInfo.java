@@ -24,7 +24,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
         this.commande = commande;
         
         setSize(450, 400);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(owner);
 
         initComponents();
     }

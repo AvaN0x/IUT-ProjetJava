@@ -9,7 +9,7 @@ public abstract class MyJDialog extends JDialog {
     public MyJDialog(Window owner, String title, Dimension size) {
         super(owner, title);
         setSize(size);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(owner);
 
         setLayout(new BorderLayout());
         initComponents();

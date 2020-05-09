@@ -42,7 +42,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public CommandeDialog(Window owner) {
         super(owner, "Nouvelle commande");
         setSize(1100, 625);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(owner);
 
         prodStock = new HashMap<String, Integer>();
 
@@ -58,7 +58,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     public CommandeDialog(Window owner, Commande commande) {
         super(owner, "Gestion vidéothèque - Modification commande"); //? On laisse le nom de base ou pas ?
         setSize(1100, 625);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(owner);
         
         this.commande = commande;
         dateCreation = (Calendar) commande.getDateCreation().clone();

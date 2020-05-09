@@ -26,8 +26,8 @@ public class UserInfo extends JDialog implements ActionListener {
                 this.commandes.add(commandes.getItem(i));
         Utils.logStream.Log("Commandes of " + client.getId() + " have been loaded");
 
-        setLocation(300, 200);
         setSize(480, 380);
+        setLocationRelativeTo(owner);
 
         initComponents();
     }
