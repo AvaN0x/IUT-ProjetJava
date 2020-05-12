@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.regex.*;
 
@@ -19,13 +20,14 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
     private boolean dateFinValid;
     private Calendar dateFin;
     private JTextField tf_dateFin;
+    private JTextField tf_dateFinJours;
     private JLabel lbl_dateFinWarn;
 
     private JButton btn_valider;
     private JButton btn_cancel;
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
-        super(owner, "Nouvel emprunt", new Dimension(200,140));
+        super(owner, "Nouvel emprunt", new Dimension(200,170));
 
         this.produit = produit;
         this.dateCreation = dateCreation;
@@ -62,6 +64,9 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                             if (dateFin.getTimeInMillis() > dateCreation.getTimeInMillis()) {
                                 lbl_dateFinWarn.setText("");
                                 dateFinValid = true;
+                                var nbJour = (int) Duration.between(dateCreation.toInstant(), dateFin.toInstant()).toDays();
+                                if (Integer.parseInt(tf_dateFinJours.getText().trim()) != nbJour)
+                                    tf_dateFinJours.setText(Integer.toString(nbJour));
                             } else {
                                 lbl_dateFinWarn.setText("Date inférieur à la date de création");
                                 dateFinValid = false;
@@ -85,9 +90,9 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
     public void initComponents() {
         setLayout(new BorderLayout());
         // TODO pouvoir rentrer soit un nombre de jour, soit une date
-        var pnl_dateFin = new JPanel(new GridLayout(3, 1));
+        var pnl_dateFin = new JPanel(new GridLayout(5, 1));
         var lbl_dateFin = new JLabel("Date de fin : ");
-        tf_dateFin = new JTextField(10);
+        tf_dateFin = new JTextField(100);
         dateFin = Calendar.getInstance();
         dateFin.set(Calendar.MILLISECOND, 0);
         dateFin.set(Calendar.SECOND, 0);
@@ -103,8 +108,54 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
         lbl_dateFinWarn = new JLabel("");
         lbl_dateFinWarn.setForeground(Color.RED);
 
+        var lbl_dateFinJours = new JLabel("ou Nombre de jours : ");
+        tf_dateFinJours = new JTextField(3);
+        tf_dateFinJours.setText("1");
+        tf_dateFinJours.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
+
+            private void update() {
+                int value = -1;
+                try {
+                    value = Integer.parseInt(tf_dateFinJours.getText());
+                } catch (NumberFormatException e) {
+                    lbl_dateFinWarn.setText("Ce n'est pas un nombre");
+                    return;
+                }
+                if (value > 0) {
+                    lbl_dateFinWarn.setText("");
+                    Calendar date = Calendar.getInstance();
+                    date.set(dateCreation.get(Calendar.YEAR), dateCreation.get(Calendar.MONTH), dateCreation.get(Calendar.DAY_OF_MONTH));
+                    date.add(Calendar.DAY_OF_YEAR, value);
+                    String dateFinString = ((date.get(Calendar.DAY_OF_MONTH) > 9) ? date.get(Calendar.DAY_OF_MONTH) : ("0" + date.get(Calendar.DAY_OF_MONTH))) + 
+                        "/" + ((date.get(Calendar.MONTH) > 8) ? (date.get(Calendar.MONTH) + 1) : ("0" + (date.get(Calendar.MONTH) + 1))) + 
+                        "/" + date.get(Calendar.YEAR);
+                    
+                    if (!tf_dateFin.getText().trim().equals(dateFinString))
+                        tf_dateFin.setText(dateFinString);
+                } else {
+                    lbl_dateFinWarn.setText("Nombre de jours non valide");
+                    dateFinValid = false;    
+                }
+            }
+        });
+
+
+
         pnl_dateFin.add(lbl_dateFin);
         pnl_dateFin.add(tf_dateFin);
+        pnl_dateFin.add(lbl_dateFinJours);
+        pnl_dateFin.add(tf_dateFinJours);
         pnl_dateFin.add(lbl_dateFinWarn);
 
         var pnl_validate = new JPanel(new FlowLayout());
