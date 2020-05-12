@@ -78,6 +78,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                         notValid();
                 } else
                     notValid();
+                checkBtnValider();
             }
 
             private void notValid() {
@@ -144,8 +145,8 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                         tf_dateFin.setText(dateFinString);
                 } else {
                     lbl_dateFinWarn.setText("Nombre de jours non valide");
-                    dateFinValid = false;    
                 }
+                checkBtnValider();
             }
         });
 
