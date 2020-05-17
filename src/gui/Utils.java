@@ -146,7 +146,7 @@ public class Utils {
                         for (var emprunt : emprunts)
                             for (var produit : produits)
                                 if (produit.getId() == emprunt[3]){
-                                    order.addEmprunt(emprunt[2], produit)
+                                    order.addEmprunt(emprunt[0], emprunt[2], produit)
                                     break;
                                 }
                     }
