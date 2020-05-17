@@ -59,7 +59,13 @@ public class Commande implements Serializable {
         emprunts.add(emprunt);
     }
 
-    //TODO doc
+    /**
+     * Create a new loaning
+     * 
+     * @param idEmprunt of the loaning
+     * @param dateFin of the loaning
+     * @param produit of the loaning
+     */
     public void addEmprunt(String idEmprunt, Calendar dateFin, Produit produit) {
         Emprunt emprunt = new Emprunt(idEmprunt, dateCreation, dateFin, produit);
         emprunts.add(emprunt);
