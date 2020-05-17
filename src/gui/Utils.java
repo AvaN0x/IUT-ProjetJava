@@ -28,12 +28,22 @@ public class Utils {
 
     static LogStream logStream = new LogStream("bin/buche.log");
 
+    /**
+     * To translate a calendar to a readable date
+     * @param date to translate
+     * @return the string with the format : dd/mm/aaaa
+     */
     static String dateToString(Calendar date){
         return ((date.get(Calendar.DAY_OF_MONTH) > 9) ? date.get(Calendar.DAY_OF_MONTH) : ("0" + date.get(Calendar.DAY_OF_MONTH))) + 
                 "/" + ((date.get(Calendar.MONTH) > 8) ? (date.get(Calendar.MONTH) + 1) : ("0" + (date.get(Calendar.MONTH) + 1))) + 
                 "/" + date.get(Calendar.YEAR);
     }
 
+    /**
+     * Create a file if he doesn't exist (+ the parent folder)
+     * @param file
+     * @throws IOException
+     */
 	public static void createFileIfNotExists(File file) throws IOException {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdir();
