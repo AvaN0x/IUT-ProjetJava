@@ -17,6 +17,12 @@ public class CD extends SupportNum {
         this.releaseDate = releaseDate;
     }
 
+    //TODO doc
+    public CD(String id, String title, double dailyPrice, int quantity, Calendar releaseDate) {
+        super(id, title, dailyPrice, quantity);
+        this.releaseDate = releaseDate;
+    }
+
     /**
      * @return the date of the release (format dd/mm/aaaa)
      */

@@ -22,6 +22,14 @@ public abstract class Produit implements Serializable {
         this.quantity = quantity;
     }
 
+    // TODO doc
+    public Produit(String id, String title, double dailyPrice, int quantity) {
+        this.id = id;
+        this.title = title.trim();
+        this.dailyPrice = dailyPrice;
+        this.quantity = quantity;
+    }
+
     /**
      * @return the id
      */

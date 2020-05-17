@@ -11,4 +11,9 @@ public abstract class SupportNum extends Produit {
         super(title, dailyPrice, quantity);
     }
 
+    //TODO doc
+    public SupportNum(String id, String title, double dailyPrice, int quantity) {
+        super(id, title, dailyPrice, quantity);
+    }
+
 }

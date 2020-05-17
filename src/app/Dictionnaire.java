@@ -15,6 +15,12 @@ public class Dictionnaire extends Document {
         this.langue = langue.trim();
     }
 
+    //TODO doc
+    public Dictionnaire(String id, String title, double dailyPrice, int quantity, String langue) {
+        super(id, title, dailyPrice, quantity);
+        this.langue = langue.trim();
+    }
+
     /**
      * @return the language of the dictionary
      */

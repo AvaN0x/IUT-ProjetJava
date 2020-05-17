@@ -20,12 +20,13 @@ public abstract class Client implements Serializable {
         this.prenom = prenom.substring(0, 1).toUpperCase() + prenom.substring(1);
     }
 
-    /*public Client(String id, String nom, String prenom) {
+    // TODO doc
+    public Client(String id, String nom, String prenom) {
         this.id = id;
         this.nom = nom.trim().toUpperCase();
         prenom.trim();
         this.prenom = prenom.substring(0, 1).toUpperCase() + prenom.substring(1);
-    }*/
+    }
 
 
     /**

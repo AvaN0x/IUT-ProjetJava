@@ -11,4 +11,9 @@ public abstract class Document extends Produit {
         super(title, dailyPrice, quantity);
     }
 
+    //TODO doc
+    public Document(String id, String title, double dailyPrice, int quantity) {
+        super(id, title, dailyPrice, quantity);
+    }
+
 }

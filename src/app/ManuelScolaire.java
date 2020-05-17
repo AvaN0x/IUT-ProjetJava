@@ -12,4 +12,9 @@ public class ManuelScolaire extends Livre {
         super(title, dailyPrice, quantity, auteur);
     }
 
+    //TODO doc
+    public ManuelScolaire(String id, String title, double dailyPrice, int quantity, String auteur) {
+        super(id, title, dailyPrice, quantity, auteur);
+    }
+
 }

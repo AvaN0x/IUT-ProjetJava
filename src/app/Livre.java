@@ -15,6 +15,12 @@ public abstract class Livre extends Document {
         this.auteur = auteur.trim();
     }
 
+    //TODO DOC
+    public Livre(String id, String title, double dailyPrice, int quantity, String auteur) {
+        super(id, title, dailyPrice, quantity);
+        this.auteur = auteur.trim();
+    }
+
     /**
      * @return the author
      */

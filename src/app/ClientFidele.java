@@ -10,6 +10,12 @@ public class ClientFidele extends Client {
         super(nom, prenom);
     }
 
+    // TODO doc
+    public ClientFidele(String id, String nom, String prenom) {
+        super(id, nom, prenom);
+    }
+
+
     @Override
     public String toString() {
         return nom + " " + prenom + " - ƒ";

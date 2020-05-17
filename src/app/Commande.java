@@ -30,6 +30,20 @@ public class Commande implements Serializable {
         this.emprunts = new ArrayList<Emprunt>();
     }
 
+    //TODO doc
+    public Commande(String id, Client client, Calendar dateCreation) {
+        this.id = id;
+        this.client = client;
+        this.dateCreation = dateCreation;
+        if (client instanceof ClientFidele)
+            this.reduction = .1;
+        else
+            this.reduction = 0;
+
+        this.emprunts = new ArrayList<Emprunt>();
+    }
+
+
     /**
      * Create a new loaning
      * 
@@ -38,6 +52,12 @@ public class Commande implements Serializable {
      */
     public void addEmprunt(Calendar dateFin, Produit produit) {
         Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
+        emprunts.add(emprunt);
+    }
+
+    //TODO doc
+    public void addEmprunt(String idEmprunt, Calendar dateFin, Produit produit) {
+        Emprunt emprunt = new Emprunt(idEmprunt, dateCreation, dateFin, produit);
         emprunts.add(emprunt);
     }
 

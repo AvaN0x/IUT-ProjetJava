@@ -12,4 +12,8 @@ public class BD extends Livre {
         super(title, dailyPrice, quantity, auteur);
     }
 
+    //TODO doc
+    public BD(String id, String title, double dailyPrice, int quantity, String auteur) {
+        super(id, title, dailyPrice, quantity, auteur);
+    }
 }
