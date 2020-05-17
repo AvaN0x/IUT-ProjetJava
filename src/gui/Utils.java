@@ -166,7 +166,7 @@ public class Utils {
 @SuppressWarnings("serial")
 class Settings implements Serializable {
     public boolean isLocal;
-    private String dbUrl;
+    public String dbUrl;
     public String dbUser;
     public String dbPass;
     public Locale language;

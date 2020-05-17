@@ -65,6 +65,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_url = new JLabel("Host :");
         pnl_url.add(lbl_url);
         tf_dbUrl = new JTextField(10);
+        tf_dbUrl.setText(Utils.settings.dbUrl);
         if (Utils.settings.isLocal)
             tf_dbUrl.setEnabled(false);
         pnl_url.add(tf_dbUrl);
@@ -74,15 +75,17 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_user = new JLabel("Username :");
         pnl_user.add(lbl_user);
         tf_dbUser = new JTextField(10);
+        tf_dbUser.setText(Utils.settings.dbUser);
         if (Utils.settings.isLocal)
-            tf_dbUser.setEnabled(false);
+        tf_dbUser.setEnabled(false);
         pnl_user.add(tf_dbUser);
         pnl_bdd.add(pnl_user);
-
+        
         var pnl_pass = new JPanel(new FlowLayout());
         var lbl_pass = new JLabel("Password :");
         pnl_pass.add(lbl_pass);
         tf_dbPassword = new JTextField(10);
+        tf_dbPassword.setText(Utils.settings.dbPass);
         if (Utils.settings.isLocal)
             tf_dbPassword.setEnabled(false);
         pnl_pass.add(tf_dbPassword);
@@ -119,7 +122,6 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbPassword.setEnabled(true);
         } else if (e.getSource() == btn_valider) {
             if(!Utils.settings.isLocal){
-                
                 Utils.settings.resetDB();
             }
             Utils.save();
