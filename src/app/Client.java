@@ -9,6 +9,10 @@ public abstract class Client implements Serializable {
     protected String nom;
     protected String prenom;
 
+    /**
+     * @param nom of the client
+     * @param prenom of the client
+     */
     public Client(String nom, String prenom) {
         this.id = "U" + UUID.randomUUID().toString();
         this.nom = nom.trim().toUpperCase();
@@ -25,14 +29,14 @@ public abstract class Client implements Serializable {
     }
 
     /**
-     * @return the nom
+     * @return the name
      */
     public String getNom() {
         return nom;
     }
 
     /**
-     * @return the prenom
+     * @return the first name
      */
     public String getPrenom() {
         return prenom;

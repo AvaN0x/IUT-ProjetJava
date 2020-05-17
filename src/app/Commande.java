@@ -7,13 +7,17 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings("serial")
-public class Commande implements Serializable  {
+public class Commande implements Serializable {
     protected String id;
     protected Client client;
     protected Calendar dateCreation;
     protected double reduction;
     protected ArrayList<Emprunt> emprunts;
 
+    /**
+     * @param client       who made the order
+     * @param dateCreation of the order
+     */
     public Commande(Client client, Calendar dateCreation) {
         this.id = "C" + UUID.randomUUID().toString();
         this.client = client;
@@ -25,31 +29,52 @@ public class Commande implements Serializable  {
 
         this.emprunts = new ArrayList<Emprunt>();
     }
-    
+
+    /**
+     * Create a new loaning
+     * 
+     * @param dateFin of the loaning
+     * @param produit of the loaning
+     */
     public void addEmprunt(Calendar dateFin, Produit produit) {
         Emprunt emprunt = new Emprunt(dateCreation, dateFin, produit);
         emprunts.add(emprunt);
     }
 
+    /**
+     * @return the total cost w/o the reduction based on the client
+     */
     public double getTotalCostNoReduc() {
         double cost = 0;
-        for(Emprunt e : emprunts) {
+        for (Emprunt e : emprunts) {
             cost += e.getCost();
         }
         return Math.round(cost * 100) / 100.;
     }
+
+    /**
+     * @return the total cost
+     */
     public double getTotalCost() {
         return Math.round(getTotalCostNoReduc() * (1 - reduction) * 100) / 100.;
     }
 
+    /**
+     * @return if the loaning is editable or not
+     */
     public boolean editable() {
         long oneDay = 86400000;
-        if (Calendar.getInstance().getTimeInMillis() <= (getDateCreation().getTimeInMillis() + 2 * oneDay)) 
+        if (Calendar.getInstance().getTimeInMillis() <= (getDateCreation().getTimeInMillis() + 2 * oneDay))
             return true;
-        else
-            return false;
+        return false;
     }
 
+    /**
+     * ? Help @Avan0x
+     * TODO: Finish that doc
+     * @param date
+     * @param prodStock
+     */
     public void getProdUsedAt(Calendar date, HashMap<String, Integer> prodStock) {
         if (date.getTimeInMillis() >= dateCreation.getTimeInMillis()) {
             for (Emprunt e : emprunts) {
@@ -87,11 +112,17 @@ public class Commande implements Serializable  {
         return emprunts;
     }
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return this.id;
     }
 
-	public void setClient(Client client) {
+    /**
+     * @param client who made the order
+     */
+    public void setClient(Client client) {
         this.client = client;
         if (client instanceof ClientFidele)
             this.reduction = .1;
@@ -99,10 +130,17 @@ public class Commande implements Serializable  {
             this.reduction = 0;
 
     }
+
+    /**
+     * @param dateCreation of the corder
+     */
     public void setDateCreation(Calendar dateCreation) {
         this.dateCreation = dateCreation;
     }
 
+    /**
+     * Clears the loaning list
+     */
     public void emptyEmprunts() {
         emprunts = new ArrayList<Emprunt>();
     }

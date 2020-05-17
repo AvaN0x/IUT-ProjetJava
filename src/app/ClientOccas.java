@@ -2,8 +2,11 @@ package app;
 
 @SuppressWarnings("serial")
 public class ClientOccas extends Client {
-    public ClientOccas(String nom, String prenom)
-    {
+    /**
+     * @param nom    of the client
+     * @param prenom of the client
+     */
+    public ClientOccas(String nom, String prenom) {
         super(nom, prenom);
     }
 }
