@@ -29,6 +29,9 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_language = new JLabel("Langue :");
         pnl_language.add(lbl_language);
         cbx_language = new JComboBox<String>();
+        //cbx_language.addItem("Default");
+        cbx_language.addItem("Français");
+        //cbx_language.addItem("English");
         pnl_language.add(cbx_language);
         pnl_settings.add(pnl_language);
 
@@ -42,12 +45,14 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         rb_saveLocal = new JRadioButton("Locale");
         if (Utils.settings.isLocal)
             rb_saveLocal.setSelected(true);
+        rb_saveLocal.addActionListener(this);
         grp_save.add(rb_saveLocal);
         pnl_saveMethod.add(rb_saveLocal);
-
+        
         rb_saveDB = new JRadioButton("BdD");
         if (!Utils.settings.isLocal)
             rb_saveDB.setSelected(true);
+        rb_saveDB.addActionListener(this);
         grp_save.add(rb_saveDB);
         pnl_saveMethod.add(rb_saveDB);
 
