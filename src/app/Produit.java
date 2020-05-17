@@ -22,7 +22,12 @@ public abstract class Produit implements Serializable {
         this.quantity = quantity;
     }
 
-    // TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity of the product
+     */
     public Produit(String id, String title, double dailyPrice, int quantity) {
         this.id = id;
         this.title = title.trim();

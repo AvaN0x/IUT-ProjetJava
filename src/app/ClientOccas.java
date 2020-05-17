@@ -10,7 +10,11 @@ public class ClientOccas extends Client {
         super(nom, prenom);
     }
 
-    // TODO doc
+    /**
+     * @param id     of the client
+     * @param nom    of the client
+     * @param prenom of the client
+     */
     public ClientOccas(String id, String nom, String prenom) {
         super(id, nom, prenom);
     }

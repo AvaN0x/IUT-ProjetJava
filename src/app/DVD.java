@@ -15,7 +15,13 @@ public class DVD extends SupportNum {
         this.realisateur = realisateur;
     }
 
-    //TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity of the product
+     * @param realisateur of the DVD
+     */
     public DVD(String id, String title, double dailyPrice, int quantity, String realisateur) {
         super(id, title, dailyPrice, quantity);
         this.realisateur = realisateur;

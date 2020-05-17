@@ -30,7 +30,11 @@ public class Commande implements Serializable {
         this.emprunts = new ArrayList<Emprunt>();
     }
 
-    //TODO doc
+    /**
+     * @param id           of the order
+     * @param client       who made the order
+     * @param dateCreation of the order
+     */
     public Commande(String id, Client client, Calendar dateCreation) {
         this.id = id;
         this.client = client;

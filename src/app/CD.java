@@ -17,7 +17,13 @@ public class CD extends SupportNum {
         this.releaseDate = releaseDate;
     }
 
-    //TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity in stock
+     * @param releaseDate of the CD
+     */
     public CD(String id, String title, double dailyPrice, int quantity, Calendar releaseDate) {
         super(id, title, dailyPrice, quantity);
         this.releaseDate = releaseDate;

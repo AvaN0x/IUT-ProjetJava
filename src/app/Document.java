@@ -11,7 +11,12 @@ public abstract class Document extends Produit {
         super(title, dailyPrice, quantity);
     }
 
-    //TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity of the product
+     */
     public Document(String id, String title, double dailyPrice, int quantity) {
         super(id, title, dailyPrice, quantity);
     }

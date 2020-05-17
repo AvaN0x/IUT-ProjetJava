@@ -15,7 +15,13 @@ public class Dictionnaire extends Document {
         this.langue = langue.trim();
     }
 
-    //TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity of the product
+     * @param langue of the dictionary
+     */
     public Dictionnaire(String id, String title, double dailyPrice, int quantity, String langue) {
         super(id, title, dailyPrice, quantity);
         this.langue = langue.trim();

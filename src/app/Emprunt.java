@@ -24,7 +24,12 @@ public class Emprunt implements Serializable {
         this.produit = produit;
     }
 
-    // TODO doc
+    /**
+     * @param id of the products
+     * @param dateDebut of the loaning
+     * @param dateFin of the loaning
+     * @param produit concerned by the loaning
+     */
     public Emprunt(String id, Calendar dateDebut, Calendar dateFin, Produit produit) {
         this.id = id;
         this.dateDebut = dateDebut;

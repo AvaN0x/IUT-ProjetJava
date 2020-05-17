@@ -12,7 +12,13 @@ public class Roman extends Livre {
         super(title, dailyPrice, quantity, auteur);
     }
 
-    //TODO doc
+    /**
+     * @param id of the product
+     * @param title of the product
+     * @param dailyPrice of the product
+     * @param quantity of the product
+     * @param auteur of the book
+     */
     public Roman(String id, String title, double dailyPrice, int quantity, String auteur) {
         super(id, title, dailyPrice, quantity, auteur);
     }
