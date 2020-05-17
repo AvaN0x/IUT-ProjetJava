@@ -52,7 +52,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_infoCommande;
     private JButton btn_exportCommande;
 
-    @SuppressWarnings("unchecked") //! https://stackoverflow.com/a/509230/13257820
     public MainWindow() {
         super("Gestion vidéothèque");
         setLookNFeel();
@@ -69,31 +68,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         Utils.commandes = new TableauCommandes();
 
         if(new File(Utils.savingDir + "data.ser").exists()){
-            try{
-                InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
-                var input = new ObjectInputStream(fileStream);
-
-                //Utils.settings = (Settings) input.readObject();
-
-                if(Utils.settings.isLocal) {
-                    Utils.commandes.setList((List<Commande>) input.readObject());
-
-                    Utils.produits.setList((List<Produit>) input.readObject());
-
-                    Utils.clients = (DefaultListModel<Client>) input.readObject();
-                } else {
-                    // TODO: gets the orders with DB
-                    // TODO: gets the products with DB
-                    // TODO: gets the clients with DB
-                }
-
-                input.close();
-                Utils.logStream.Log("Data loaded");
-            } catch (IOException ex) {
-                Utils.logStream.Error(ex);
-            } catch (ClassNotFoundException ex) {
-                Utils.logStream.Error(ex);
-            }
+            Utils.load();
         }
         else{/*
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
@@ -236,7 +211,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                save();
+                Utils.save();
             }
         });
     }
@@ -479,7 +454,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_toolbarSave || e.getSource() == mnui_save) {
-            save();
+            Utils.save();
         } else if (e.getSource() == btn_toolbarSettings || e.getSource() == mnui_settings) {
             var settingsDialog = new SettingsDialog(this);
             settingsDialog.setVisible(true);
@@ -554,31 +529,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_editProd.setEnabled(true);
                 btn_infoProd.setEnabled(true);
             }
-        }
-    }
-
-    public void save(){
-        try{
-            var saveFile = new File(Utils.savingDir + "data.ser");
-            Utils.createFileIfNotExists(saveFile);
-            OutputStream fileStream = new FileOutputStream(saveFile);
-            var output = new ObjectOutputStream(fileStream);
-            
-            //output.writeObject(Utils.settings);
-            if(Utils.settings.isLocal) {
-                output.writeObject(Utils.commandes.getList());
-                output.writeObject(Utils.produits.getList());
-                output.writeObject(Utils.clients);
-
-                output.close();
-                Utils.logStream.Log("Data saved locally");
-            } else {
-                // TODOsets the orders with DB
-                // TODOsets the products with DB
-                // TODOsets the clients with DB
-            }
-        } catch (IOException ex) {
-            Utils.logStream.Error(ex);
         }
     }
 }
