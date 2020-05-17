@@ -174,6 +174,7 @@ class Settings implements Serializable {
     public Settings(){
         isLocal = true;
         language = Locale.getDefault();
+        resetDB();
     }
 
     public String getdbUrl() {
@@ -182,5 +183,11 @@ class Settings implements Serializable {
 
     public void setdbUrl(String url){
         dbUrl = url;
+    }
+
+    public void resetDB(){
+        dbUrl = "localhost";
+        dbUser = "root";
+        dbPass = "";
     }
 }
