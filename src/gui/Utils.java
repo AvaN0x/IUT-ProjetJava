@@ -100,7 +100,7 @@ public class Utils {
                 Utils.clients = (DefaultListModel<Client>) input.readObject();
             } else {
                 
-                // TODO: gets the products with DB
+                ////T ODO gets the products with DB
                 /*
                     var products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "BD";
                     for(var produit : products)
@@ -122,7 +122,7 @@ public class Utils {
                         produits.add(new DVD(produit[0], produit[1], produit[2], produit[3], produit[4]));
                     */
                 
-                // TODO: gets the clients with DB
+                ////T ODO gets the clients with DB
                 /*
                     var users = SELECT * FROM `clients`;
                     for(var client : users) {
@@ -132,7 +132,7 @@ public class Utils {
                             clients.addElement(new ClientOccas(client[0], client[1], client[2]));
                     }
                 */
-                // TODO: gets the orders with DB
+                ////T ODO gets the orders with DB
                 /*
                     var orders = SELECT * FROM `commandes`;
                     for (var commande : orders) {
