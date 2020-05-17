@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -111,20 +112,20 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rb_saveLocal){
-            Utils.settings.isLocal = rb_saveLocal.isSelected();
             tf_dbUrl.setEnabled(false);
             tf_dbUser.setEnabled(false);
             tf_dbPassword.setEnabled(false);
         } else if (e.getSource() == rb_saveDB){
-            Utils.settings.isLocal = rb_saveLocal.isSelected();
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
             tf_dbPassword.setEnabled(true);
         } else if (e.getSource() == btn_valider) {
-            if(!Utils.settings.isLocal){
+            Utils.settings.isLocal = rb_saveLocal.isSelected();
+            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
+            if(!Utils.settings.isLocal)
                 Utils.settings.resetDB();
-            }
             Utils.save();
+            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset + download
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();

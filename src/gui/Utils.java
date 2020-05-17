@@ -52,6 +52,8 @@ public class Utils {
         if (file.exists())
             file.createNewFile();
     }
+
+    // TODO request sql to string[][]
     
     /**
      * Saves the data
