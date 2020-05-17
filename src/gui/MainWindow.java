@@ -23,12 +23,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JMenuItem mnui_newUser;
     private JMenuItem mnui_newCommande;
     private JMenuItem mnui_newProd;
+    private JMenuItem mnui_settings;
 
     private JTabbedPane tab;
     private JButton btn_toolbarNewUser;
     private JButton btn_toolbarNewCommande;
     private JButton btn_toolbarNewProd;
     private JButton btn_toolbarSave;
+    private JButton btn_toolbarSettings;
 
     private JButton btn_newUser;
     private JButton btn_delUser;
@@ -171,6 +173,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         mnui_newProd.addActionListener(this);
         mnu_edit.add(mnui_newProd);
 
+        mnu_edit.addSeparator();
+
+        mnui_settings = new JMenuItem("Paramètres");
+        mnui_settings.setIcon(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        mnui_settings.addActionListener(this);
+        mnu_edit.add(mnui_settings);
+
         mnu.add(mnu_edit);
 
         setJMenuBar(mnu);
@@ -193,12 +202,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_toolbarSave = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
         btn_toolbarSave.setToolTipText("Sauvegarder");
         btn_toolbarSave.addActionListener(this);
+        
+        btn_toolbarSettings = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
+        btn_toolbarSettings.setToolTipText("Paramètres");
+        btn_toolbarSettings.addActionListener(this);
 
         toolbar.add(btn_toolbarNewUser);
         toolbar.add(btn_toolbarNewCommande);
         toolbar.add(btn_toolbarNewProd);
         toolbar.addSeparator();
         toolbar.add(btn_toolbarSave);
+        toolbar.add(btn_toolbarSettings);
         add(toolbar, BorderLayout.WEST);
 
         tab = new JTabbedPane();
@@ -455,6 +469,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_toolbarSave || e.getSource() == mnui_save) {
             save();
+        } else if (e.getSource() == btn_toolbarSettings || e.getSource() == mnui_settings) {
+            var settingsDialog = new SettingsDialog(this);
+            settingsDialog.setVisible(true);
+            setEnabled(false);
         }
     }
 
