@@ -187,7 +187,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         mnu_edit.addSeparator();
 
         mnui_settings = new JMenuItem("Paramètres");
-        mnui_settings.setIcon(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
+        mnui_settings.setIcon(new ImageIcon(getClass().getResource(".\\icons\\settings.png")));
         mnui_settings.addActionListener(this);
         mnu_edit.add(mnui_settings);
 
@@ -214,7 +214,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         btn_toolbarSave.setToolTipText("Sauvegarder");
         btn_toolbarSave.addActionListener(this);
         
-        btn_toolbarSettings = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
+        btn_toolbarSettings = new JButton(new ImageIcon(getClass().getResource(".\\icons\\settings.png")));
         btn_toolbarSettings.setToolTipText("Paramètres");
         btn_toolbarSettings.addActionListener(this);
 
