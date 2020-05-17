@@ -58,26 +58,26 @@ public class Utils {
      */
     static void save(){
         try{
-            var saveFile = new File(Utils.savingDir + "data.ser");
-            Utils.createFileIfNotExists(saveFile);
+            var saveFile = new File(savingDir + "data.ser");
+            createFileIfNotExists(saveFile);
             OutputStream fileStream = new FileOutputStream(saveFile);
             var output = new ObjectOutputStream(fileStream);
             
             output.writeObject(Utils.settings);
-            if(Utils.settings.isLocal) {
-                output.writeObject(Utils.commandes.getList());
-                output.writeObject(Utils.produits.getList());
-                output.writeObject(Utils.clients);
+            if(settings.isLocal) {
+                output.writeObject(commandes.getList());
+                output.writeObject(produits.getList());
+                output.writeObject(clients);
 
                 output.close();
-                Utils.logStream.Log("Data saved locally");
+                logStream.Log("Data saved locally");
             } else {
                 // TODOsets the orders with DB
                 // TODOsets the products with DB
                 // TODOsets the clients with DB
             }
         } catch (IOException ex) {
-            Utils.logStream.Error(ex);
+            logStream.Error(ex);
         }
     }
 
@@ -90,14 +90,14 @@ public class Utils {
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
             var input = new ObjectInputStream(fileStream);
 
-            Utils.settings = (Settings) input.readObject();
+            settings = (Settings) input.readObject();
 
-            if(Utils.settings.isLocal) {
-                Utils.commandes.setList((List<Commande>) input.readObject());
+            if(settings.isLocal) {
+                commandes.setList((List<Commande>) input.readObject());
 
-                Utils.produits.setList((List<Produit>) input.readObject());
+                produits.setList((List<Produit>) input.readObject());
 
-                Utils.clients = (DefaultListModel<Client>) input.readObject();
+                clients = (DefaultListModel<Client>) input.readObject();
             } else {
                 
                 ////T ODO gets the products with DB
@@ -177,14 +177,18 @@ class Settings implements Serializable {
         resetDB();
     }
 
+    /**
+     * To get the jdbc url to connect to an MySQL server
+     * ! DO NOT USE WHEN YOU WANT JUST THE ADRESS TO CONNECT
+     * @return the jdbc url
+     */
     public String getdbUrl() {
         return "jdbc:mysql://" + dbUrl + "?useSSL=false";
     }
 
-    public void setdbUrl(String url){
-        dbUrl = url;
-    }
-
+    /**
+     * To reset credentials of the DB
+     */
     public void resetDB(){
         dbUrl = "localhost";
         dbUser = "root";
