@@ -2,16 +2,20 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.swing.DefaultListModel;
 import app.Client;
 
+import java.sql.*;
 
 public class Utils {
     static DefaultListModel<Client> clients;
     static TableauProduits produits;
     static TableauCommandes commandes;
+    static Settings settings;
 
     static final String[][] produitsTypes = new String[][] {{"BD", "Auteur"}, 
                                                        {"Roman", "Auteur"}, 
@@ -36,4 +40,26 @@ public class Utils {
         if (file.exists())
             file.createNewFile();
 	}
+}
+
+@SuppressWarnings("serial")
+class Settings implements Serializable {
+    public boolean isLocal;
+    private String dbUrl;
+    public String dbUser;
+    public String dbPass;
+    public Locale language;
+
+    public Settings(){
+        isLocal = true;
+        language = Locale.getDefault();
+    }
+
+    public String getdbUrl() {
+        return "jdbc:mysql://" + dbUrl + "?useSSL=false";
+    }
+
+    public void setdbUrl(String url){
+        dbUrl = url;
+    }
 }

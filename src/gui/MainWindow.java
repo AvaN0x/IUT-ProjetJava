@@ -13,6 +13,8 @@ import javax.swing.event.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import java.sql.*;
+
 import app.*;
 
 // TODO faire les documentation pour chaque methodes
@@ -60,7 +62,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\logo.png")));
 
         // TODO webhost pour bdd du stockage : menu parametre avec case a coché : BDD ou hashmap (hashmap pour stocker les produits)
-
+        
+        Utils.settings = new Settings();
         Utils.clients = new DefaultListModel<Client>();
         Utils.produits = new TableauProduits();
         Utils.commandes = new TableauCommandes();
@@ -70,11 +73,19 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
                 var input = new ObjectInputStream(fileStream);
 
-                Utils.commandes.setList((List<Commande>) input.readObject());
+                //Utils.settings = (Settings) input.readObject();
 
-                Utils.produits.setList((List<Produit>) input.readObject());
+                if(Utils.settings.isLocal) {
+                    Utils.commandes.setList((List<Commande>) input.readObject());
 
-                Utils.clients = (DefaultListModel<Client>) input.readObject();
+                    Utils.produits.setList((List<Produit>) input.readObject());
+
+                    Utils.clients = (DefaultListModel<Client>) input.readObject();
+                } else {
+                    // TODO: gets the orders with DB
+                    // TODO: gets the products with DB
+                    // TODO: gets the clients with DB
+                }
 
                 input.close();
                 Utils.logStream.Log("Data loaded");
@@ -552,13 +563,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.createFileIfNotExists(saveFile);
             OutputStream fileStream = new FileOutputStream(saveFile);
             var output = new ObjectOutputStream(fileStream);
+            
+            //output.writeObject(Utils.settings);
+            if(Utils.settings.isLocal) {
+                output.writeObject(Utils.commandes.getList());
+                output.writeObject(Utils.produits.getList());
+                output.writeObject(Utils.clients);
 
-            output.writeObject(Utils.commandes.getList());
-            output.writeObject(Utils.produits.getList());
-            output.writeObject(Utils.clients);
-
-            output.close();
-            Utils.logStream.Log("Data saved");
+                output.close();
+                Utils.logStream.Log("Data saved locally");
+            } else {
+                // TODOsets the orders with DB
+                // TODOsets the products with DB
+                // TODOsets the clients with DB
+            }
         } catch (IOException ex) {
             Utils.logStream.Error(ex);
         }
