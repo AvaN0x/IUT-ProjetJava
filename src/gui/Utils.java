@@ -63,7 +63,7 @@ public class Utils {
             OutputStream fileStream = new FileOutputStream(saveFile);
             var output = new ObjectOutputStream(fileStream);
             
-            //output.writeObject(Utils.settings);
+            output.writeObject(Utils.settings);
             if(Utils.settings.isLocal) {
                 output.writeObject(Utils.commandes.getList());
                 output.writeObject(Utils.produits.getList());
@@ -90,7 +90,7 @@ public class Utils {
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
             var input = new ObjectInputStream(fileStream);
 
-            //Utils.settings = (Settings) input.readObject();
+            Utils.settings = (Settings) input.readObject();
 
             if(Utils.settings.isLocal) {
                 Utils.commandes.setList((List<Commande>) input.readObject());
