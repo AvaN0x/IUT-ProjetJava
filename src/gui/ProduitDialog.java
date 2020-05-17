@@ -69,7 +69,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         pnl_fields.add(pnl_price);
         
         var pnl_quantity = new JPanel(new FlowLayout());
-        var lbl_quantity = new JLabel("Quantitée :");
+        var lbl_quantity = new JLabel("Quantité :");
         tf_quantity = new JTextField(3);
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);
