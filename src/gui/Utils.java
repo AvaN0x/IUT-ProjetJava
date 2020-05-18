@@ -212,7 +212,7 @@ class Settings implements Serializable {
 
     /**
      * To get the jdbc url to connect to an MySQL server
-     * ! DO NOT USE WHEN YOU WANT JUST THE ADRESS TO CONNECT
+     * ! DO NOT USE WHEN YOU ONLY WANT THE ADRESS TO CONNECT
      * @return the jdbc url
      */
     public String getdbUrl() {
