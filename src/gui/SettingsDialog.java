@@ -15,6 +15,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     private JTextField tf_dbUrl;
     private JTextField tf_dbUser;
     private JTextField tf_dbPassword;
+    private JComboBox<String> cbx_db;
     private JButton btn_valider;
     private JButton btn_cancel;
 
@@ -91,6 +92,15 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbPassword.setEnabled(false);
         pnl_pass.add(tf_dbPassword);
         pnl_bdd.add(pnl_pass);
+        
+        var pnl_db = new JPanel(new FlowLayout());
+        var lbl_db = new JLabel("Base de Données :");
+        pnl_db.add(lbl_db);
+        cbx_db = new JComboBox<String>();
+        if (Utils.settings.isLocal)
+            cbx_db.setEnabled(false);
+        pnl_db.add(cbx_db);
+        pnl_bdd.add(pnl_db);
 
         pnl_settings.add(pnl_bdd);
 
