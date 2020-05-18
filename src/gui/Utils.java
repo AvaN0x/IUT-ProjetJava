@@ -57,16 +57,10 @@ public class Utils {
      * @throws SQLException
      */
     static ResultSet SQLrequest(String request) throws SQLException{
-        //try {
-        //    Class.forName("com.mysql.jdbc.Driver"); //TODO importer ce driver de con
-            Connection connect; Statement stmt;
-            connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
-            stmt = connect.createStatement();
-            return stmt.executeQuery(request);
-        //} catch (ClassNotFoundException e) {
-        //    logStream.Error(e);
-        //}
-        //return null;
+        Connection connect; Statement stmt;
+        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
+        stmt = connect.createStatement();
+        return stmt.executeQuery(request);
     } 
     
     /**
