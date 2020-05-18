@@ -20,7 +20,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     private JButton btn_cancel;
 
     public SettingsDialog(Window owner) {
-        super(owner, "Paramètres", new Dimension(250, 270));
+        super(owner, "Paramètres", new Dimension(250, 290));
     }
 
     public void initComponents() {
