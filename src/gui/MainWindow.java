@@ -82,10 +82,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         if(new File(Utils.savingDir + "data.ser").exists()){
             if(!Utils.settings.isLocal)
                 JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
-            if(!Utils.load() && !Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
-            else // BUG: ça load mais le prog t'engueule
-                JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
+            if(!Utils.load())
+                if(!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
         }
         else{
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
