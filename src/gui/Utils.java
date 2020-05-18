@@ -85,9 +85,7 @@ public class Utils {
                 output.close();
                 logStream.Log("Data saved locally");
             } else {
-                // TODO sets the orders with DB
-                // TODO sets the products with DB
-                // TODO sets the clients with DB
+                // TODO sets with db
             }
         } catch (IOException ex) {
             logStream.Error(ex);

@@ -139,11 +139,11 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             } catch (Exception ex) {
                 Utils.logStream.Error(ex);
             }
-            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste
-                                                           // le défaut
+            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
             if (Utils.settings.isLocal)
                 Utils.settings.resetDB();
             else
+                // TODO: prévenir qu'on ping l'host
                 try {
                     if (!Utils.settings.dbUrl.isReachable(5000))
                         JOptionPane.showMessageDialog(null, "L'hôte est injoignable", "Test de connexion", JOptionPane.ERROR_MESSAGE);
@@ -151,8 +151,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
                     Utils.logStream.Error(ex);
                 }
             Utils.save();
-            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset +
-            // download
+            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset + download
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();

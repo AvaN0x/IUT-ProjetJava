@@ -72,9 +72,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
             input.close();
         } catch (IOException e) {
-            //TODO: handle exception
+            Utils.logStream.Error(e);
         } catch (ClassNotFoundException e) {
-            //TODO: handle exception
+            Utils.logStream.Error(e);
         }
 
         Utils.clients = new DefaultListModel<Client>();
@@ -86,7 +86,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 JOptionPane.showMessageDialog(this, "Nous allons essayez de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
             if(!Utils.load() && !Utils.settings.isLocal)
                 JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
-            else
+            else // BUG: ça load mais le prog t'engueule
                 JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
         }
         else{
