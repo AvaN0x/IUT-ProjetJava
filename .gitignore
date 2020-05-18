@@ -25,7 +25,6 @@ hs_err_pid*
 
 # Settings for JVM
 .settings/
-.classpath
 
 # VS Code files
 .vscode

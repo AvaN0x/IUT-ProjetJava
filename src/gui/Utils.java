@@ -57,16 +57,16 @@ public class Utils {
      * @throws SQLException
      */
     static ResultSet SQLrequest(String request) throws SQLException{
-        //try {
-            //Class.forName("com.mysql.jdbc.Driver"); //TODO importer ce driver de con
+        try {
+            Class.forName("com.mysql.jdbc.Driver"); //TODO importer ce driver de con
             Connection connect; Statement stmt;
             connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
             stmt = connect.createStatement();
             return stmt.executeQuery(request);
-        //} catch (ClassNotFoundException e) {
-        //    logStream.Error(e);
-        //}
-        //return null;
+        } catch (ClassNotFoundException e) {
+            logStream.Error(e);
+        }
+        return null;
     } 
     
     /**
@@ -108,6 +108,12 @@ public class Utils {
 
             settings = (Settings) input.readObject();
 
+
+            try {
+                SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
+            } catch (Exception e) {
+                logStream.Error(e);
+            }
 
             if(settings.isLocal) {
                 commandes.setList((List<Commande>) input.readObject());
