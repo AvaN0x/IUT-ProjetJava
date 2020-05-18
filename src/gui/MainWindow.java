@@ -63,14 +63,33 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         // TODO webhost pour bdd du stockage : menu parametre avec case a coché : BDD ou hashmap (hashmap pour stocker les produits)
         
         Utils.settings = new Settings();
+
+        try {
+            InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
+            var input = new ObjectInputStream(fileStream);
+
+            Utils.settings = (Settings) input.readObject();
+
+            input.close();
+        } catch (IOException e) {
+            //TODO: handle exception
+        } catch (ClassNotFoundException e) {
+            //TODO: handle exception
+        }
+
         Utils.clients = new DefaultListModel<Client>();
         Utils.produits = new TableauProduits();
         Utils.commandes = new TableauCommandes();
 
         if(new File(Utils.savingDir + "data.ser").exists()){
-            Utils.load();
+            if(!Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Nous allons essayez de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+            if(!Utils.load() && !Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
         }
-        else{/*
+        else{
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
             Utils.clients.addElement(new ClientFidele("sublet", "tom"));
             Utils.clients.addElement(new ClientOccas("hochet", "ric"));
@@ -105,7 +124,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(3));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(4));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(5));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));*/
+            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));
         }
 
         Utils.produits.setProdStock();
