@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.DefaultListModel;
-import app.Client;
-import app.ClientFidele;
-import app.Commande;
-import app.Produit;
+import app.*;
 
 import java.sql.*;
 
@@ -53,7 +50,24 @@ public class Utils {
             file.createNewFile();
     }
 
-    // TODO request sql to string[][]
+    /**
+     * Make a SQL request to the database indicated by the settings
+     * @param request in SQL
+     * @return the ResultSet of the resquest
+     * @throws SQLException
+     */
+    static ResultSet SQLrequest(String request) throws SQLException{
+        //try {
+            //Class.forName("com.mysql.jdbc.Driver"); //TODO importer ce driver de con
+            Connection connect; Statement stmt;
+            connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
+            stmt = connect.createStatement();
+            return stmt.executeQuery(request);
+        //} catch (ClassNotFoundException e) {
+        //    logStream.Error(e);
+        //}
+        //return null;
+    } 
     
     /**
      * Saves the data
@@ -74,9 +88,9 @@ public class Utils {
                 output.close();
                 logStream.Log("Data saved locally");
             } else {
-                // TODOsets the orders with DB
-                // TODOsets the products with DB
-                // TODOsets the clients with DB
+                // TODO sets the orders with DB
+                // TODO sets the products with DB
+                // TODO sets the clients with DB
             }
         } catch (IOException ex) {
             logStream.Error(ex);
@@ -94,6 +108,7 @@ public class Utils {
 
             settings = (Settings) input.readObject();
 
+
             if(settings.isLocal) {
                 commandes.setList((List<Commande>) input.readObject());
 
@@ -101,59 +116,65 @@ public class Utils {
 
                 clients = (DefaultListModel<Client>) input.readObject();
             } else {
+                try{
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
+
+                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
+
+                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
+
+                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
+
+                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
+
+                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
+                    while (products.next())
+                        produits.add(new BD(products.getString(0), products.getString(1), products.getDouble(2), products.getInt(3), products.getString(4)));
                 
-                ////T ODO gets the products with DB
-                /*
-                    var products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "BD";
-                    for(var produit : products)
-                        produits.add(new BD(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "Roman";
-                    for(var produit : products)
-                        produits.add(new Roman(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "Manuel Scolaire";
-                    for(var produit : products)
-                        produits.add(new ManuelScolaire(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "Dictionnaire";
-                    for(var produit : products)
-                        produits.add(new Dictionnaire(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "CD";
-                    for(var produit : products)
-                        produits.add(new CD(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    products = SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = "DVD";
-                    for(var produit : products)
-                        produits.add(new DVD(produit[0], produit[1], produit[2], produit[3], produit[4]));
-                    */
-                
-                ////T ODO gets the clients with DB
-                /*
-                    var users = SELECT * FROM `clients`;
-                    for(var client : users) {
-                        if(client[3] == 1)
-                            clients.addElement(new ClientFidele(client[0], client[1], client[2]));
-                        else
-                            clients.addElement(new ClientOccas(client[0], client[1], client[2]));
+                    var users = SQLrequest("SELECT * FROM `clients`");
+                    while (users.next()){
+                        if (users.getInt(3) == 1)
+                            clients.addElement(new ClientFidele(users.getString(0), users.getString(1), users.getString(2)));
+                            else
+                            clients.addElement(new ClientOccas(users.getString(0), users.getString(1), users.getString(2)));
+
                     }
-                */
-                ////T ODO gets the orders with DB
-                /*
-                    var orders = SELECT * FROM `commandes`;
-                    for (var commande : orders) {
-                        Commande order;
-                        for (var client : clients)
-                            if(client.getId() == commande[1]) {
-                                new Commande(commande[0], client, commande[2]);
+
+                    var orders = SQLrequest("SELECT * FROM `commandes`");
+                    while (orders.next()){
+                        Commande order = null;
+                        for (int i=0;i<clients.getSize();i++)
+                            if(clients.get(i).getId() == orders.getString(1)) {
+                                var cal = Calendar.getInstance();
+                                cal.setTime(orders.getDate(2));
+                                order = new Commande(orders.getString(0), clients.get(i), cal);
                                 break;
                             }
-                        var emprunts = SELECT * FROM `emprunts` WHERE id-empr = {commande[3]};
-                        for (var emprunt : emprunts)
-                            for (var produit : produits)
-                                if (produit.getId() == emprunt[3]){
-                                    order.addEmprunt(emprunt[0], emprunt[2], produit)
-                                    break;
+                        var loans = SQLrequest("SELECT * FROM `emprunts` WHERE id-empr = \""+ orders.getString(3) + "\"");
+                        while(loans.next()){
+                            for (var produit : produits.getList())
+                                if (produit.getId() == loans.getString(3)) {
+                                    var cal = Calendar.getInstance();
+                                    cal.setTime(loans.getDate(2));
+                                    order.addEmprunt(loans.getString(0), cal, produit);
                                 }
+                        }
+                        commandes.add(order);
                     }
-                */
+                } catch (SQLException e) {
+                    logStream.Error(e);
                 }
+            }
 
             input.close();
             logStream.Log("Data loaded");
@@ -171,6 +192,7 @@ class Settings implements Serializable {
     public String dbUrl;
     public String dbUser;
     public String dbPass;
+    public String dbBase;
     public Locale language;
 
     public Settings(){
@@ -185,7 +207,7 @@ class Settings implements Serializable {
      * @return the jdbc url
      */
     public String getdbUrl() {
-        return "jdbc:mysql://" + dbUrl + "?useSSL=false";
+        return "jdbc:mysql://" + dbUrl + "/" + dbBase;
     }
 
     /**

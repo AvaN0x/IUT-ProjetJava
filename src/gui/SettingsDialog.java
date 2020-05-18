@@ -95,6 +95,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         
         var pnl_db = new JPanel(new FlowLayout());
         var lbl_db = new JLabel("Base de Données :");
+        // TODO faire la liste des BdD dans un serveur
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
         if (Utils.settings.isLocal)
