@@ -59,8 +59,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\logo.png")));
-
-        // TODO webhost pour bdd du stockage : menu parametre avec case a coché : BDD ou hashmap (hashmap pour stocker les produits)
         
         Utils.settings = new Settings();
 
