@@ -230,6 +230,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         t_commandes = new JTable(Utils.commandes);
         var t_commandesSorter = new TableRowSorter<TableModel>(t_commandes.getModel());
+        t_commandes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         t_commandesSorter.setSortsOnUpdates(true);
         t_commandes.setRowSorter(t_commandesSorter);
         t_commandes.getSelectionModel().addListSelectionListener(this);
@@ -289,6 +290,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_produits = new JPanel(new BorderLayout());
 
         t_produits = new JTable(Utils.produits);
+        t_produits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         var t_produitsSorter = new TableRowSorter<TableModel>(t_produits.getModel());
         t_produitsSorter.setSortsOnUpdates(true);
         t_produits.setRowSorter(t_produitsSorter);

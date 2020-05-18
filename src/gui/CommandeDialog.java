@@ -210,6 +210,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         
         emprunts = new TableauEmprunts();
         t_emprunts = new JTable(emprunts);
+        t_emprunts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         var t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
@@ -248,6 +249,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         Utils.produits.setProdStock(dateCreation);
         prodStock = Utils.produits.getProdStock();
         t_produitsDispo = new JTable(Utils.produits);
+        t_produitsDispo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         var t_produitsDispoSorter = new TableRowSorter<TableModel>(t_produitsDispo.getModel());
         t_produitsDispoSorter.setSortsOnUpdates(true);
         t_produitsDispo.setRowSorter(t_produitsDispoSorter);

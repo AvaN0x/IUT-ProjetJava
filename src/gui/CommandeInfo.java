@@ -85,6 +85,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
         emprunts = new TableauEmprunts(commande.getEmprunts());
         t_emprunts = new JTable(emprunts);
+        t_emprunts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         var t_empruntsSorter = new TableRowSorter<TableModel>(t_emprunts.getModel());
         t_empruntsSorter.setSortsOnUpdates(true);
         t_emprunts.setRowSorter(t_empruntsSorter);
