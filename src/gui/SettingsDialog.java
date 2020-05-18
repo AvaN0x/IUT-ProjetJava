@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -31,9 +33,9 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_language = new JLabel("Langue :");
         pnl_language.add(lbl_language);
         cbx_language = new JComboBox<String>();
-        //cbx_language.addItem("Default");
+        // cbx_language.addItem("Default");
         cbx_language.addItem("Français");
-        //cbx_language.addItem("English");
+        // cbx_language.addItem("English");
         pnl_language.add(cbx_language);
         pnl_settings.add(pnl_language);
 
@@ -50,7 +52,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         rb_saveLocal.addActionListener(this);
         grp_save.add(rb_saveLocal);
         pnl_saveMethod.add(rb_saveLocal);
-        
+
         rb_saveDB = new JRadioButton("BdD");
         if (!Utils.settings.isLocal)
             rb_saveDB.setSelected(true);
@@ -67,7 +69,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_url = new JLabel("Host :");
         pnl_url.add(lbl_url);
         tf_dbUrl = new JTextField(10);
-        tf_dbUrl.setText(Utils.settings.dbUrl);
+        tf_dbUrl.setText(Utils.settings.dbUrl.getHostAddress());
         if (Utils.settings.isLocal)
             tf_dbUrl.setEnabled(false);
         pnl_url.add(tf_dbUrl);
@@ -79,10 +81,10 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         tf_dbUser = new JTextField(10);
         tf_dbUser.setText(Utils.settings.dbUser);
         if (Utils.settings.isLocal)
-        tf_dbUser.setEnabled(false);
+            tf_dbUser.setEnabled(false);
         pnl_user.add(tf_dbUser);
         pnl_bdd.add(pnl_user);
-        
+
         var pnl_pass = new JPanel(new FlowLayout());
         var lbl_pass = new JLabel("Password :");
         pnl_pass.add(lbl_pass);
@@ -92,7 +94,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbPassword.setEnabled(false);
         pnl_pass.add(tf_dbPassword);
         pnl_bdd.add(pnl_pass);
-        
+
         var pnl_db = new JPanel(new FlowLayout());
         var lbl_db = new JLabel("Base de Données :");
         // TODO faire la liste des BdD dans un serveur
@@ -122,21 +124,35 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == rb_saveLocal){
+        if (e.getSource() == rb_saveLocal) {
             tf_dbUrl.setEnabled(false);
             tf_dbUser.setEnabled(false);
             tf_dbPassword.setEnabled(false);
-        } else if (e.getSource() == rb_saveDB){
+        } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
             tf_dbPassword.setEnabled(true);
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
-            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
-            if(!Utils.settings.isLocal)
+            try {
+                Utils.settings.dbUrl = InetAddress.getByName(tf_dbUrl.getText());
+            } catch (Exception ex) {
+                Utils.logStream.Error(ex);
+            }
+            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste
+                                                           // le défaut
+            if (Utils.settings.isLocal)
                 Utils.settings.resetDB();
+            else
+                try {
+                    if (!Utils.settings.dbUrl.isReachable(5000))
+                        JOptionPane.showMessageDialog(null, "L'hôte est injoignable", "Test de connexion", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    Utils.logStream.Error(ex);
+                }
             Utils.save();
-            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset + download
+            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset +
+            // download
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();
