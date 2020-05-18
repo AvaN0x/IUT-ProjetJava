@@ -119,35 +119,41 @@ public class Utils {
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
-
+                    logStream.Log("BD downloaded");
+                    
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
-
+                    logStream.Log("Roman downloaded");
+                    
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
-
+                    logStream.Log("Manuel downloaded");
+                    
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    logStream.Log("Dico downloaded");
 
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    logStream.Log("CD downloaded");
 
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
                     while (products.next())
                         produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
-                
+                    logStream.Log("DVD downloaded");
+
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
                         if (users.getInt(3) == 1)
                             clients.addElement(new ClientFidele(users.getString(1), users.getString(2), users.getString(3)));
                             else
                             clients.addElement(new ClientOccas(users.getString(1), users.getString(2), users.getString(3)));
-
                     }
+                    logStream.Log("Clients downloaded");
 
                     var orders = SQLrequest("SELECT * FROM `commandes`");
                     while (orders.next()){
@@ -168,8 +174,10 @@ public class Utils {
                                     order.addEmprunt(loans.getString(1), cal, produit);
                                 }
                         }
+                        logStream.Log("loans of " + orders.getString(1) + " downloaded");
                         commandes.add(order);
                     }
+                    logStream.Log("Commandes downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
