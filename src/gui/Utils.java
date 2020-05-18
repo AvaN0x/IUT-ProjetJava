@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -65,8 +67,9 @@ public class Utils {
     
     /**
      * Saves the data
+     * @return the success (or not) of the operation
      */
-    static void save(){
+    static boolean save(){
         try{
             var saveFile = new File(savingDir + "data.ser");
             createFileIfNotExists(saveFile);
@@ -88,14 +91,17 @@ public class Utils {
             }
         } catch (IOException ex) {
             logStream.Error(ex);
+            return false;
         }
+        return true;
     }
 
     /**
      * Load the data
+     * @return the success (or not) of the operation
      */
     @SuppressWarnings("unchecked") //! https://stackoverflow.com/a/509230/13257820
-    static void load(){
+    static boolean load(){
         try{
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
             var input = new ObjectInputStream(fileStream);
@@ -174,15 +180,19 @@ public class Utils {
                     logStream.Log("Commandes downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
+                    return false;
                 }
             }
-
+            
             input.close();
             logStream.Log("Data loaded");
+            return true;
         } catch (IOException ex) {
             logStream.Error(ex);
+            return false;
         } catch (ClassNotFoundException ex) {
             logStream.Error(ex);
+            return false;
         }
     }
 }
@@ -190,7 +200,7 @@ public class Utils {
 @SuppressWarnings("serial")
 class Settings implements Serializable {
     public boolean isLocal;
-    public String dbUrl;
+    public InetAddress dbUrl;
     public String dbUser;
     public String dbPass;
     public String dbBase;
@@ -208,14 +218,18 @@ class Settings implements Serializable {
      * @return the jdbc url
      */
     public String getdbUrl() {
-        return "jdbc:mysql://" + dbUrl + "/" + dbBase;
+        return "jdbc:mysql://" + dbUrl.getHostAddress() + "/" + dbBase;
     }
 
     /**
      * To reset credentials of the DB
      */
     public void resetDB(){
-        dbUrl = "localhost";
+        try {
+            dbUrl = InetAddress.getByName("127.0.0.1");
+        } catch (UnknownHostException e) {
+            dbUrl = null;
+        }
         dbUser = "root";
         dbPass = "";
     }
