@@ -77,14 +77,14 @@ public class Utils {
             var output = new ObjectOutputStream(fileStream);
             
             output.writeObject(Utils.settings);
-            if(settings.isLocal) {
-                output.writeObject(commandes.getList());
-                output.writeObject(produits.getList());
-                output.writeObject(clients);
+            output.writeObject(commandes.getList());
+            output.writeObject(produits.getList());
+            output.writeObject(clients);
+            
+            output.close();
+            logStream.Log("Data saved locally");
 
-                output.close();
-                logStream.Log("Data saved locally");
-            } else {
+            if(!settings.isLocal) {
                 // TODO sets with db
             }
         } catch (IOException ex) {
@@ -106,13 +106,14 @@ public class Utils {
 
             settings = (Settings) input.readObject();
 
-            if(settings.isLocal) {
+            if(!settings.isLocal) {
                 commandes.setList((List<Commande>) input.readObject());
-
+            
                 produits.setList((List<Produit>) input.readObject());
-
+            
                 clients = (DefaultListModel<Client>) input.readObject();
-            } else {
+            }
+            else {
                 try{
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
                     while (products.next())

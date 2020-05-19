@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.sql.SQLException;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -97,11 +98,12 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
 
         var pnl_db = new JPanel(new FlowLayout());
         var lbl_db = new JLabel("Base de Données :");
-        // TODO faire la liste des BdD dans un serveur
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
         if (Utils.settings.isLocal)
             cbx_db.setEnabled(false);
+        else
+            reloadDB();
         pnl_db.add(cbx_db);
         pnl_bdd.add(pnl_db);
 
@@ -128,34 +130,76 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbUrl.setEnabled(false);
             tf_dbUser.setEnabled(false);
             tf_dbPassword.setEnabled(false);
+            cbx_db.setEnabled(false);
+            cbx_db.removeAllItems();
         } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
             tf_dbPassword.setEnabled(true);
+            cbx_db.setEnabled(true);
+            reloadDB();
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
+
             try {
                 Utils.settings.dbUrl = InetAddress.getByName(tf_dbUrl.getText());
             } catch (Exception ex) {
                 Utils.logStream.Error(ex);
             }
+            Utils.settings.dbUser = tf_dbUser.getText();
+            Utils.settings.dbPass = tf_dbPassword.getText();
+
             Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
-            if (Utils.settings.isLocal)
+
+            Utils.save();
+            if (Utils.settings.isLocal) {
                 Utils.settings.resetDB();
-            else
+            } else {
                 // TODO: prévenir qu'on ping l'host
+                // BUG : hôte injoignable alors que si
                 try {
                     if (!Utils.settings.dbUrl.isReachable(5000))
-                        JOptionPane.showMessageDialog(null, "L'hôte est injoignable", "Test de connexion", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "L'hôte est injoignable", "Test de connexion",
+                                JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     Utils.logStream.Error(ex);
                 }
-            Utils.save();
-            // TODO local -> bdd : save + reset + download | bdd -> local : upload + reset + download
+            }
+
+            Utils.commandes.clear();
+            Utils.clients.clear();
+            Utils.produits.clear();
+            if (!Utils.load())
+                if (!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion",
+                            JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement",
+                            JOptionPane.ERROR_MESSAGE);
+
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();
+        } else if (e.getSource() == cbx_db && cbx_db.getSelectedItem() == "<rafraichir>") {
+            // BUG: rafraichir ne marche pas
+            reloadDB();
         }
+    }
+
+    private void reloadDB() {
+        cbx_db.removeAllItems();
+        var tmp_base = Utils.settings.dbBase;
+        try {
+            Utils.settings.dbBase = "";
+            var databases = Utils.SQLrequest("show databases");
+            while (databases.next()) {
+                cbx_db.addItem(databases.getString(1));
+            }
+        } catch (SQLException e) {
+            Utils.logStream.Error(e);
+        }
+        Utils.settings.dbBase = tmp_base;
+        cbx_db.addItem("<rafraichir>");
     }
 
 }
