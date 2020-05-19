@@ -97,6 +97,11 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
         produits = list;
     }
 
+    @Override
+    public void clear(){
+        produits.clear();
+    }
+
     public int getProductStock(String key) {
         return prodStock.get(key);
     }

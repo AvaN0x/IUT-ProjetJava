@@ -14,4 +14,6 @@ public interface IMyTableModel<T> {
     public List<T> getList();
     
     public void setList(List<T> list);
+
+    public void clear();
 }

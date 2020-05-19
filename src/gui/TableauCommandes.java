@@ -75,4 +75,9 @@ public class TableauCommandes extends AbstractTableModel implements IMyTableMode
         commandes = list;
     }
 
+    @Override
+    public void clear(){
+        commandes.clear();
+    }
+
 }

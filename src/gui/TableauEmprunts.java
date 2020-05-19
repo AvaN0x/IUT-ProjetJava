@@ -83,5 +83,10 @@ public class TableauEmprunts extends AbstractTableModel implements IMyTableModel
             emprunts = list;
         }
 
+        @Override
+        public void clear(){
+            emprunts.clear();
+        }
+
     }
     
