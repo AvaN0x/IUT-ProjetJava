@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -100,6 +101,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_db = new JLabel("Base de Données :");
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
+        cbx_db.addActionListener(this);
         if (Utils.settings.isLocal)
             cbx_db.setEnabled(false);
         else
@@ -131,23 +133,20 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbUser.setEnabled(false);
             tf_dbPassword.setEnabled(false);
             cbx_db.setEnabled(false);
+
             cbx_db.removeAllItems();
         } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
             tf_dbPassword.setEnabled(true);
             cbx_db.setEnabled(true);
+
+            changeDBSettings();
             reloadDB();
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
 
-            try {
-                Utils.settings.dbUrl = InetAddress.getByName(tf_dbUrl.getText());
-            } catch (Exception ex) {
-                Utils.logStream.Error(ex);
-            }
-            Utils.settings.dbUser = tf_dbUser.getText();
-            Utils.settings.dbPass = tf_dbPassword.getText();
+            changeDBSettings();
 
             Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
 
@@ -181,9 +180,20 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         } else if (e.getSource() == btn_cancel) {
             quit();
         } else if (e.getSource() == cbx_db && cbx_db.getSelectedItem() == "<rafraichir>") {
-            // BUG: rafraichir ne marche pas
+            changeDBSettings();
             reloadDB();
         }
+    }
+
+    private void changeDBSettings() {
+        try {
+            Utils.settings.dbUrl = InetAddress.getByName(tf_dbUrl.getText());
+        } catch (UnknownHostException ex) {
+            Utils.logStream.Error(ex);
+        }
+        Utils.settings.dbUser = tf_dbUser.getText();
+        Utils.settings.dbPass = tf_dbPassword.getText();
+        Utils.settings.dbBase = (String) cbx_db.getSelectedItem();
     }
 
     private void reloadDB() {
@@ -200,6 +210,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         }
         Utils.settings.dbBase = tmp_base;
         cbx_db.addItem("<rafraichir>");
+        cbx_db.setSelectedIndex(-1);
     }
 
 }

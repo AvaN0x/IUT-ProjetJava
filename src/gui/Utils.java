@@ -3,6 +3,7 @@ package gui;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -64,6 +65,18 @@ public class Utils {
         stmt = connect.createStatement();
         return stmt.executeQuery(request);
     } 
+
+    /**
+     * Make a SQL update to the database indicated by the settings
+     * @param request in SQL
+     * @throws SQLException
+     */
+    static void SQLupdate(String request) throws SQLException{
+        Connection connect; Statement stmt;
+        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
+        stmt = connect.createStatement();
+        stmt.executeUpdate(request);
+    } 
     
     /**
      * Saves the data
@@ -77,6 +90,7 @@ public class Utils {
             var output = new ObjectOutputStream(fileStream);
             
             output.writeObject(Utils.settings);
+
             output.writeObject(commandes.getList());
             output.writeObject(produits.getList());
             output.writeObject(clients);
@@ -86,6 +100,22 @@ public class Utils {
 
             if(!settings.isLocal) {
                 // TODO sets with db
+                try {
+                    var types = new ArrayList<String>();
+                    for (var type : produitsTypes) {
+                        types.add(type[0].trim());
+                    } 
+                    for (var produit : produits.getList()) {
+                        var products = SQLrequest("SELECT `id-prod` FROM `produits` WHERE `id-prod`=\""+produit.getId()+"\"");
+                        if(products.getRow() < 1){
+                            var sql = String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)));
+                            logStream.Log(sql, "SQL");
+                            SQLupdate(sql);
+                        }
+                    }
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
             }
         } catch (IOException ex) {
             logStream.Error(ex);
@@ -106,7 +136,7 @@ public class Utils {
 
             settings = (Settings) input.readObject();
 
-            if(!settings.isLocal) {
+            if(settings.isLocal) {
                 commandes.setList((List<Commande>) input.readObject());
             
                 produits.setList((List<Produit>) input.readObject());
@@ -116,41 +146,63 @@ public class Utils {
             else {
                 try{
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()){
+                        var bd = new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
+                        logStream.Log(bd.toString(), "SQL");
+                        produits.add(bd);
+                    }
                     logStream.Log("BD downloaded");
                     
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()) {
+                        var roman = new Roman(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
+                        logStream.Log(roman.toString(), "SQL");
+                        produits.add(roman);
+                    }
                     logStream.Log("Roman downloaded");
                     
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()){
+                        var prod = new ManuelScolaire(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
+                        logStream.Log(prod.toString(), "SQL");
+                        produits.add(prod);
+                    }
                     logStream.Log("Manuel downloaded");
                     
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()) {
+                        var dico = new Dictionnaire(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
+                        logStream.Log(dico.toString(), "SQL");
+                        produits.add(dico);
+                    }
                     logStream.Log("Dico downloaded");
 
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()){
+                        //TODO calendar from products.getString(5)
+                        var cd = new CD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), Calendar.getInstance());
+                        logStream.Log(cd.toString(), "SQL");
+                        produits.add(cd);
+                    }
                     logStream.Log("CD downloaded");
 
                     products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
-                    while (products.next())
-                        produits.add(new BD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5)));
+                    while (products.next()){
+                        var dvd = new DVD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
+                        logStream.Log(dvd.toString(), "SQL");
+                        produits.add(dvd);
+                    }
                     logStream.Log("DVD downloaded");
 
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
+                        Client cli;
                         if (users.getInt(3) == 1)
-                            clients.addElement(new ClientFidele(users.getString(1), users.getString(2), users.getString(3)));
-                            else
-                            clients.addElement(new ClientOccas(users.getString(1), users.getString(2), users.getString(3)));
+                            cli = new ClientFidele(users.getString(1), users.getString(2), users.getString(3));
+                        else
+                            cli = new ClientOccas(users.getString(1), users.getString(2), users.getString(3));
+                        logStream.Log(cli.toString(), "SQL");
+                        clients.addElement(cli);
                     }
                     logStream.Log("Clients downloaded");
 
@@ -164,7 +216,7 @@ public class Utils {
                                 order = new Commande(orders.getString(1), clients.get(i), cal);
                                 break;
                             }
-                        var loans = SQLrequest("SELECT * FROM `emprunts` WHERE id-empr = \""+ orders.getString(4) + "\"");
+                        var loans = SQLrequest("SELECT * FROM `emprunts` WHERE `id-empr` = \""+ orders.getString(4) + "\"");
                         while(loans.next()){
                             for (var produit : produits.getList())
                                 if (produit.getId() == loans.getString(4)) {
@@ -231,5 +283,6 @@ class Settings implements Serializable {
         }
         dbUser = "root";
         dbPass = "";
+        dbBase = "";
     }
 }
