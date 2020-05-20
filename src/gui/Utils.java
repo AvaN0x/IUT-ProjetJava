@@ -12,6 +12,8 @@ import javax.swing.DefaultListModel;
 import app.*;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Utils {
     static DefaultListModel<Client> clients;
@@ -228,11 +230,15 @@ public class Utils {
                 try {
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
                     while (products.next()){
+                        var sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        var date = sdf.parse(products.getString(6));
                         var cal = Calendar.getInstance();
-                        cal.setTime(products.getDate(6));
+                        cal.setTime(date);
                         produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
                     }
                 } catch (SQLException e) {
+                    logStream.Error(e);
+                } catch (ParseException e){
                     logStream.Error(e);
                 }
                 try {
