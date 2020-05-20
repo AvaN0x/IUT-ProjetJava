@@ -22,6 +22,9 @@ public abstract class MyJDialog extends JDialog {
         });
     }
 
+    /**
+     * Quits the dialog
+     */
     public void quit() {
         setVisible(false);
         var owner = (IMyDialogOwner) getOwner();
@@ -29,5 +32,8 @@ public abstract class MyJDialog extends JDialog {
         this.dispose();
     }
 
+    /**
+     * Initialize the components
+     */
     public abstract void initComponents();
 }
