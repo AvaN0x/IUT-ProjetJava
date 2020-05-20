@@ -113,6 +113,14 @@ public class Utils {
                             SQLupdate(sql);
                         }
                     }
+                    for (int i=1;i<clients.getSize();i++) {
+                        var users = SQLrequest("SELECT `id-cli` FROM `clients` WHERE `id-prod`=\""+clients.get(i).getId()+"\"");
+                        if(users.getRow() < 1){
+                            var sql = String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0));
+                            logStream.Log(sql, "SQL");
+                            SQLupdate(sql);
+                        }
+                    }
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
