@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -177,6 +179,16 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 var owner = (IMyProduitDialogOwner) getOwner();
                 owner.produitDialogReturn(produit);
             } else {
+                try{
+                    var types = new ArrayList<String>();
+                    for (var type : Utils.produitsTypes) {
+                        types.add(type[0].trim());
+                    } 
+                    Utils.SQLupdate(String.format("UPDATE `produits` SET `title` = \"%s\", `dailyPrice` = \""+produit.getDailyPrice()+"\", `quantity` = \"%d\", `option1` = \"%s\", `id-types` = \"%d\" WHERE `produits`.`id-prod` = \"%s\"", produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)), produit.getId()));
+                }
+                catch (SQLException ex){
+                    Utils.logStream.Error(ex);
+                }
                 produit.setTitle(tf_title.getText());
                 produit.setDailyPrice(Double.parseDouble(tf_price.getText().trim()));
                 produit.setQuantity(Integer.parseInt(tf_quantity.getText().trim()));

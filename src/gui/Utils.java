@@ -127,7 +127,7 @@ public class Utils {
                         users.next();
                         try { users.getString(1); } catch (SQLException e) { // The client doesn't exist
                             try {
-                                SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0)));    
+                                SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele ? 1 : 0)));    
                             }
                             catch (SQLException ex) {
                                 logStream.Error(ex);

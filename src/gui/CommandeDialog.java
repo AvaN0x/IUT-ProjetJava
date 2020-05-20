@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.regex.*;
@@ -55,7 +56,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public CommandeDialog(Window owner, Commande commande) {
-        super(owner, "Gestion vidéothèque - Modification commande"); //? On laisse le nom de base ou pas ?
+        super(owner, "Modification commande");
         setSize(1100, 625);
         setLocationRelativeTo(owner);
         
@@ -291,6 +292,12 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         } else if (e.getSource() == btn_delUser) {
             Utils.logStream.Log("User " + l_clients.getSelectedValue().getId() + "removed");
             Utils.clients.removeElement(l_clients.getSelectedValue());
+            try{
+                Utils.SQLupdate("DELETE FROM `clients` WHERE `clients`.`id-cli` = \""+ l_clients.getSelectedValue().getId() +"\"");
+            }
+            catch (SQLException ex){
+                Utils.logStream.Error(ex);
+            }
         } else if (e.getSource() == btn_infoUser) {
             new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_prodComm) {
@@ -328,9 +335,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 Utils.produits.setProdStock();
                 dispose();
             } else { // Edit de commande
+                try{
+                    Utils.SQLupdate(String.format("UPDATE `commandes` SET `id-cli` = \"%s\", `dateCreation` = \"%s\" WHERE `commandes`.`id-com` = \"%s\"", l_clients.getSelectedValue().getId(), dateCreation.get(Calendar.YEAR) + "/" + (dateCreation.get(Calendar.MONTH) + 1) + "/" +dateCreation.get(Calendar.DAY_OF_MONTH), commande.getId()));
+                }
+                catch (SQLException ex){
+                    Utils.logStream.Error(ex);
+                }
                 commande.setClient(l_clients.getSelectedValue());
                 commande.setDateCreation(dateCreation);
                 commande.emptyEmprunts();
+                // FIXME edit emprunts bdd
                 for (Emprunt emprunt : emprunts.getList()) {
                     commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());    
                 }
