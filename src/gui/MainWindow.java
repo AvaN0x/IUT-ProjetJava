@@ -114,9 +114,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.produits.add(new CD("Adibou & le Secret de Paziral", .1, 1, dateAdibou));
 
             Calendar dateCreation = Calendar.getInstance();
+            dateCreation.set(Calendar.MILLISECOND, 0);
+            dateCreation.set(Calendar.SECOND, 0);
+            dateCreation.set(Calendar.MINUTE, 0);
+            dateCreation.set(Calendar.HOUR_OF_DAY, 0);    
             dateCreation.set(2020, Calendar.APRIL, 26);
             Utils.commandes.add(new Commande(Utils.clients.get(0), dateCreation));
             Calendar dateFin = Calendar.getInstance();
+            dateFin.set(Calendar.MILLISECOND, 0);
+            dateFin.set(Calendar.SECOND, 0);
+            dateFin.set(Calendar.MINUTE, 0);
+            dateFin.set(Calendar.HOUR_OF_DAY, 0);    
             dateFin.set(2020, Calendar.JUNE, 26);
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(0));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(1));
@@ -126,10 +134,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(5));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));
 
-            dateCreation = Calendar.getInstance();
             dateCreation.set(2020, Calendar.MAY, 20);
             Utils.commandes.add(new Commande(Utils.clients.get(2), dateCreation));
-            dateFin = Calendar.getInstance();
             dateFin.setTimeInMillis(dateCreation.getTimeInMillis());
             dateFin.add(Calendar.DAY_OF_YEAR, 50);
             Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
@@ -417,11 +423,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             commandeDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_infoCommande) {
-            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
+            if (t_commandes.getSelectedRow() != -1) {
                 new CommandeInfo(this, Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_remCommande) {
-            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
+            if (t_commandes.getSelectedRow() != -1) {
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow())).getId() +" removed");
@@ -431,7 +437,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 t_produits.repaint();
             }
         } else if (e.getSource() == btn_editCommande) {
-            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
+            if (t_commandes.getSelectedRow() != -1) {
                 new CommandeDialog(this, Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_exportCommande) {
@@ -450,20 +456,20 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1)
+            if (t_produits.getSelectedRow() != -1)
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
                         "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())) + "removed");
                     Utils.produits.remove(t_produits.convertRowIndexToModel(t_produits.getSelectedRow()));
                 }
         } else if (e.getSource() == btn_editProd) {
-            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1) {
+            if (t_produits.getSelectedRow() != -1) {
                 var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())));
                 ProduitDialog.setVisible(true);
                 this.setEnabled(false);    
             }
         } else if (e.getSource() == btn_infoProd) {
-            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1) {
+            if (t_produits.getSelectedRow() != -1) {
                 new ProduitInfo(this, Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_newUser || e.getSource() == btn_toolbarNewUser || e.getSource() == mnui_newUser) {

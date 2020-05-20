@@ -295,26 +295,25 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             new UserInfo(this, l_clients.getSelectedValue(), Utils.commandes).setVisible(true);
         } else if (e.getSource() == btn_prodComm) {
             if (t_produitsDispo.getSelectedRow() != -1) {
-                if (prodStock.get(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId()) > 0) {
-                    new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()), dateCreation).setVisible(true);;
+                if (prodStock.get(Utils.produits.getItem(t_produitsDispo.convertRowIndexToModel(t_produitsDispo.getSelectedRow())).getId()) > 0) {
+                    new EmpruntDialog(this, Utils.produits.getItem(t_produitsDispo.convertRowIndexToModel(t_produitsDispo.getSelectedRow())), dateCreation).setVisible(true);;
                 } else {
-                    Utils.logStream.Log(Utils.produits.getItem(t_produitsDispo.getSelectedRow()).getId() + " is out of stock.");
+                    Utils.logStream.Log(Utils.produits.getItem(t_produitsDispo.convertRowIndexToModel(t_produitsDispo.getSelectedRow())).getId() + " is out of stock.");
                     JOptionPane.showMessageDialog(this, "Ce produit n'est plus en stock !", "Attention", JOptionPane.WARNING_MESSAGE);
                 }
             }
         } else if (e.getSource() == btn_prodDispo) {
             if (t_emprunts.getSelectedRow() != -1) {
-                Utils.logStream.Log("Loaning " + emprunts.getItem(t_emprunts.getSelectedRow()).getId() + " removed");
-                prodStock.put(emprunts.getItem(t_emprunts.getSelectedRow()).getProduit().getId(), prodStock.get(emprunts.getItem(t_emprunts.getSelectedRow()).getProduit().getId()) + 1);
+                Utils.logStream.Log("Loaning " + emprunts.getItem(t_emprunts.convertRowIndexToModel(t_emprunts.getSelectedRow())).getId() + " removed");
+                prodStock.put(emprunts.getItem(t_emprunts.convertRowIndexToModel(t_emprunts.getSelectedRow())).getProduit().getId(), prodStock.get(emprunts.getItem(t_emprunts.convertRowIndexToModel(t_emprunts.getSelectedRow())).getProduit().getId()) + 1);
                 t_produitsDispo.repaint();
-                emprunts.remove(t_emprunts.getSelectedRow());
+                emprunts.remove(t_emprunts.convertRowIndexToModel(t_emprunts.getSelectedRow()));
                 checkBtnValider();
             }
             // checkTfDateCreation();
         } else if (e.getSource() == btn_edit) {
-            //TODO fixer le probleme si on change le sorter (pour tout les sorter)
             if (t_produitsDispo.getSelectedRow() != -1) {
-                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produitsDispo.getSelectedRow()));
+                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produitsDispo.convertRowIndexToModel(t_produitsDispo.getSelectedRow())));
                 ProduitDialog.setVisible(true);
                 this.setEnabled(false);    
             }
@@ -355,16 +354,16 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 checkBtnValider();
             }
 
-            if(t_emprunts.getSelectedRow() == -1) {
+            if (t_emprunts.getSelectedRow() == -1) {
                 btn_prodDispo.setEnabled(false);
-                if(t_produitsDispo.getSelectedRow() == -1)
+                if (t_produitsDispo.getSelectedRow() == -1)
                     btn_edit.setEnabled(false);
             } else {
                 btn_prodDispo.setEnabled(true);
                 btn_edit.setEnabled(true);
             }
             
-            if(t_produitsDispo.getSelectedRow() == -1) {
+            if (t_produitsDispo.getSelectedRow() == -1) {
                 btn_prodComm.setEnabled(false);
                 if(t_emprunts.getSelectedRow() == -1)
                     btn_edit.setEnabled(false);
