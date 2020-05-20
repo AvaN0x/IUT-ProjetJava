@@ -101,7 +101,6 @@ public class Utils {
             logStream.Log("Data saved locally");
 
             if(!settings.isLocal) {
-                // TODO sets with db
                 try {
                     var types = new ArrayList<String>();
                     for (var type : produitsTypes) {
