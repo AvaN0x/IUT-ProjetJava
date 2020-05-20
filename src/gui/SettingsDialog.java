@@ -152,11 +152,14 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
 
             Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
 
+            if (!Utils.settings.isLocal) {
+                JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+                setEnabled(false);
+            }
+
             Utils.save();
             if (Utils.settings.isLocal) {
                 Utils.settings.resetDB();
-            } else {
-
             }
 
             Utils.commandes.clear();
@@ -169,6 +172,9 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
                 else
                     JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement",
                             JOptionPane.ERROR_MESSAGE);
+            else if(!Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Connexion effectuée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+            setEnabled(true);
 
             quit();
         } else if (e.getSource() == btn_cancel) {

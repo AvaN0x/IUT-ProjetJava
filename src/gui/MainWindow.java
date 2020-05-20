@@ -249,6 +249,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if(!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(null, "Savegarde dans la base de données, cela peut prendre un peu de temps...", "Sauvegardes", JOptionPane.INFORMATION_MESSAGE);
                 Utils.save();
             }
         });
@@ -433,15 +435,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     var commande = Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()));
                     Utils.logStream.Log("Order "+ commande.getId() +" removed");
-                    try{
-                        for (var empr : commande.getEmprunts()){
-                            Utils.SQLupdate("DELETE FROM `emprunts` WHERE `emprunts`.`id-empr` = \""+ empr.getId() +"\"");
+                    if(!Utils.settings.isLocal)
+                        try{
+                            for (var empr : commande.getEmprunts()){
+                                Utils.SQLupdate("DELETE FROM `emprunts` WHERE `emprunts`.`id-empr` = \""+ empr.getId() +"\"");
+                            }
+                            Utils.SQLupdate("DELETE FROM `commandes` WHERE `commandes`.`id-com` = \""+ commande.getId()  +"\"");
                         }
-                        Utils.SQLupdate("DELETE FROM `commandes` WHERE `commandes`.`id-com` = \""+ commande.getId()  +"\"");
-                    }
-                    catch (SQLException ex){
-                        Utils.logStream.Error(ex);
-                    }
+                        catch (SQLException ex){
+                            Utils.logStream.Error(ex);
+                        }
                     Utils.commandes.remove(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()));
                 }
                 Utils.produits.setProdStock();
@@ -471,12 +474,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
                         "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())).getId() + "removed");
-                    try{
-                        Utils.SQLupdate("DELETE FROM `produits` WHERE `produits`.`id-prod` = \""+ Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())).getId() +"\"");
-                    }
-                    catch (SQLException ex){
-                        Utils.logStream.Error(ex);
-                    }
+                    if(!Utils.settings.isLocal)
+                        try{
+                            Utils.SQLupdate("DELETE FROM `produits` WHERE `produits`.`id-prod` = \""+ Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())).getId() +"\"");
+                        }
+                        catch (SQLException ex){
+                            Utils.logStream.Error(ex);
+                        }
                     Utils.produits.remove(t_produits.convertRowIndexToModel(t_produits.getSelectedRow()));
                 }
         } else if (e.getSource() == btn_editProd) {
@@ -504,12 +508,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
                     "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 Utils.logStream.Log("Client " + l_clients.getSelectedValue().getId() + " removed");
-                try{
-                    Utils.SQLupdate("DELETE FROM `clients` WHERE `clients`.`id-cli` = \""+ l_clients.getSelectedValue().getId() +"\"");
-                }
-                catch (SQLException ex){
-                    Utils.logStream.Error(ex);
-                }
+                if(!Utils.settings.isLocal)
+                    try{
+                        Utils.SQLupdate("DELETE FROM `clients` WHERE `clients`.`id-cli` = \""+ l_clients.getSelectedValue().getId() +"\"");
+                    }
+                    catch (SQLException ex){
+                        Utils.logStream.Error(ex);
+                    }
                 Utils.clients.removeElement(l_clients.getSelectedValue());
             }
 
@@ -535,15 +540,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     public void commandeDialogReturn(Commande commande) {
         Utils.commandes.add(commande);
-        try{
-            Utils.SQLupdate(String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH)));
-            for (var emprunt : commande.getEmprunts()){
-                Utils.SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
+        if(!Utils.settings.isLocal)
+            try{
+                Utils.SQLupdate(String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH)));
+                for (var emprunt : commande.getEmprunts()){
+                    Utils.SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
+                }
             }
-        }
-        catch (SQLException e){
-            Utils.logStream.Error(e);
-        }
+            catch (SQLException e){
+                Utils.logStream.Error(e);
+            }
         dialogReturn();
         tab.setSelectedIndex(0);
         Utils.logStream.Log("Order " + commande.getId() + " added");
@@ -551,15 +557,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     
     public void produitDialogReturn(Produit produit) {
         Utils.produits.add(produit);
-        try {
-            var types = new ArrayList<String>();
-            for (var type : Utils.produitsTypes) {
-                types.add(type[0].replaceAll("\\s+",""));
-            } 
-            Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
-        } catch (SQLException e) {
-            Utils.logStream.Error(e);
-        }
+        if(!Utils.settings.isLocal)
+            try {
+                var types = new ArrayList<String>();
+                for (var type : Utils.produitsTypes) {
+                    types.add(type[0].replaceAll("\\s+",""));
+                } 
+                Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
+            } catch (SQLException e) {
+                Utils.logStream.Error(e);
+            }
         dialogReturn();
         tab.setSelectedIndex(1);
         Utils.logStream.Log("Product " + produit.getId() + " added");
@@ -567,11 +574,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     
     public void userDialogReturn(Client client) {
         Utils.clients.addElement(client);
-        try {
-            Utils.SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", client.getId(), client.getNom(), client.getPrenom(), (client instanceof ClientFidele ? 1 : 0)));    
-        } catch (SQLException e) {
-            Utils.logStream.Error(e);
-        }
+        if(!Utils.settings.isLocal)
+            try {
+                Utils.SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", client.getId(), client.getNom(), client.getPrenom(), (client instanceof ClientFidele ? 1 : 0)));    
+            } catch (SQLException e) {
+                Utils.logStream.Error(e);
+            }
         dialogReturn();
         Utils.logStream.Log("User " + client.getId() + " added");
     }
