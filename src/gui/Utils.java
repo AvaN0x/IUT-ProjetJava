@@ -228,8 +228,9 @@ public class Utils {
                 try {
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
                     while (products.next()){
-                        //TODO calendar from products.getString(6)
-                        produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), Calendar.getInstance()));
+                        var cal = Calendar.getInstance();
+                        cal.setTime(products.getDate(6));
+                        produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
                     }
                 } catch (SQLException e) {
                     logStream.Error(e);

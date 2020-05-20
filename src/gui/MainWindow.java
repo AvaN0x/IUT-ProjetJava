@@ -87,6 +87,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                     JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
                 else
                     JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
+            else if(!Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Connexion effectuée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
