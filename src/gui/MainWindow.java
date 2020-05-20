@@ -554,7 +554,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         try {
             var types = new ArrayList<String>();
             for (var type : Utils.produitsTypes) {
-                types.add(type[0].trim());
+                types.add(type[0].replaceAll("\\s+",""));
             } 
             Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
         } catch (SQLException e) {

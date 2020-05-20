@@ -104,7 +104,7 @@ public class Utils {
                 try {
                     var types = new ArrayList<String>();
                     for (var type : produitsTypes) {
-                        types.add(type[0].trim());
+                        types.add(type[0].replaceAll("\\s+",""));
                     } 
                     for (var produit : produits.getList()) {
                         var products = SQLrequest("SELECT `id-prod` FROM `produits` WHERE `id-prod`=\""+produit.getId()+"\"");
