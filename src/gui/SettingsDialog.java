@@ -89,7 +89,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_pass = new JLabel("Password :");
         pnl_pass.add(lbl_pass);
         pf_dbPassword = new JPasswordField(10);
-        pf_dbPassword.setText(Utils.settings.dbPass);
+        pf_dbPassword.setText(new String(Utils.settings.dbPass));
         if (Utils.settings.isLocal)
             pf_dbPassword.setEnabled(false);
         pnl_pass.add(pf_dbPassword);

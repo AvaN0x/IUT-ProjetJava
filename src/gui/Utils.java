@@ -62,7 +62,7 @@ public class Utils {
     static ResultSet SQLrequest(String request) throws SQLException{
         logStream.Log(request, "SQL");
         Connection connect; Statement stmt;
-        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
+        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, new String(settings.dbPass));
         stmt = connect.createStatement();
         return stmt.executeQuery(request);
     } 
@@ -75,7 +75,7 @@ public class Utils {
     static void SQLupdate(String request) throws SQLException{
         logStream.Log(request, "SQL");
         Connection connect; Statement stmt;
-        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, settings.dbPass);
+        connect = DriverManager.getConnection(settings.getdbUrl(), settings.dbUser, new String(settings.dbPass));
         stmt = connect.createStatement();
         stmt.executeUpdate(request);
     } 
@@ -303,7 +303,7 @@ class Settings implements Serializable {
     public boolean isLocal;
     public InetAddress dbUrl;
     public String dbUser;
-    public String dbPass;
+    public char[] dbPass;
     public String dbBase;
     public Locale language;
 
@@ -332,7 +332,7 @@ class Settings implements Serializable {
             dbUrl = null;
         }
         dbUser = "root";
-        dbPass = "";
+        dbPass = new char[0];
         dbBase = "";
     }
 }
