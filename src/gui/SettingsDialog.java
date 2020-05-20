@@ -2,14 +2,12 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Locale;
 
 import javax.swing.*;
-import javax.swing.event.*;
 
 @SuppressWarnings("serial")
 public class SettingsDialog extends MyJDialog implements ActionListener {
@@ -18,7 +16,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     private JRadioButton rb_saveDB;
     private JTextField tf_dbUrl;
     private JTextField tf_dbUser;
-    private JPasswordField tf_dbPassword;
+    private JPasswordField pf_dbPassword;
     private JComboBox<String> cbx_db;
     private JButton btn_valider;
     private JButton btn_cancel;
@@ -90,11 +88,11 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var pnl_pass = new JPanel(new FlowLayout());
         var lbl_pass = new JLabel("Password :");
         pnl_pass.add(lbl_pass);
-        tf_dbPassword = new JPasswordField(10);
-        tf_dbPassword.setText(Utils.settings.dbPass);
+        pf_dbPassword = new JPasswordField(10);
+        pf_dbPassword.setText(Utils.settings.dbPass);
         if (Utils.settings.isLocal)
-            tf_dbPassword.setEnabled(false);
-        pnl_pass.add(tf_dbPassword);
+            pf_dbPassword.setEnabled(false);
+        pnl_pass.add(pf_dbPassword);
         pnl_bdd.add(pnl_pass);
 
         var pnl_db = new JPanel(new FlowLayout());
@@ -133,14 +131,14 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         if (e.getSource() == rb_saveLocal) {
             tf_dbUrl.setEnabled(false);
             tf_dbUser.setEnabled(false);
-            tf_dbPassword.setEnabled(false);
+            pf_dbPassword.setEnabled(false);
             cbx_db.setEnabled(false);
 
             cbx_db.removeAllItems();
         } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
-            tf_dbPassword.setEnabled(true);
+            pf_dbPassword.setEnabled(true);
             cbx_db.setEnabled(true);
 
             changeDBSettings();
@@ -185,7 +183,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             Utils.logStream.Error(ex);
         }
         Utils.settings.dbUser = tf_dbUser.getText();
-        Utils.settings.dbPass = tf_dbPassword.getText();
+        Utils.settings.dbPass = pf_dbPassword.getPassword();
         Utils.settings.dbBase = (String) cbx_db.getSelectedItem();
     }
 
