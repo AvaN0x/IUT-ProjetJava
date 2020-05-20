@@ -110,8 +110,13 @@ public class Utils {
                     for (var produit : produits.getList()) {
                         var products = SQLrequest("SELECT `id-prod` FROM `produits` WHERE `id-prod`=\""+produit.getId()+"\"");
                         products.next();
-                        try { products.getString(1); } catch (SQLException e) {
-                            SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
+                        try { products.getString(1); } catch (SQLException e) { // The product doesn't exist
+                            try {
+                                SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
+                            }
+                            catch (SQLException ex) {
+                                logStream.Error(ex);
+                            }
                         }
                     }
                 } catch (SQLException e) {
@@ -121,8 +126,13 @@ public class Utils {
                     for (int i=0;i<clients.getSize();i++) {
                         var users = SQLrequest("SELECT `id-cli` FROM `clients` WHERE `id-cli`=\""+clients.get(i).getId()+"\"");
                         users.next();
-                        try { users.getString(1); } catch (SQLException e) {
-                            SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0)));
+                        try { users.getString(1); } catch (SQLException e) { // The client doesn't exist
+                            try {
+                                SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0)));    
+                            }
+                            catch (SQLException ex) {
+                                logStream.Error(ex);
+                            }
                         }
                     }
                 } catch (SQLException e) {
@@ -132,14 +142,24 @@ public class Utils {
                     for (var commande : commandes.getList()){
                         var orders = SQLrequest("SELECT `id-com` FROM `commandes` WHERE `id-com`=\""+commande.getId()+"\"");
                         orders.next();
-                        try { orders.getString(1); } catch (SQLException e) {
-                            SQLupdate(String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH)));
+                        try { orders.getString(1); } catch (SQLException e) { // The order doesn't exist
+                            try {
+                                SQLupdate(String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH)));
+                            }
+                            catch (SQLException ex) {
+                                logStream.Error(ex);
+                            }
                         }
                         for (var emprunt : commande.getEmprunts()){
                             var loans = SQLrequest("SELECT `id-com`, `id-empr` FROM `emprunts` WHERE `id-com`=\""+commande.getId()+"\" AND `id-empr`=\""+ emprunt.getId() +"\"");
                             loans.next();
-                            try { loans.getString(1); } catch (SQLException e) {
-                                SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
+                            try { loans.getString(1); } catch (SQLException e) { // The loan doesn't exist
+                                try {
+                                    SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
+                                }
+                                catch (SQLException ex) {
+                                    logStream.Error(ex);
+                                }
                             }
                         }
                     }
@@ -181,7 +201,6 @@ public class Utils {
                         logStream.Log(bd.toString(), "SQL");
                         produits.add(bd);
                     }
-                    logStream.Log("BD downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -192,7 +211,6 @@ public class Utils {
                         logStream.Log(roman.toString(), "SQL");
                         produits.add(roman);
                     }
-                    logStream.Log("Roman downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 } 
@@ -203,7 +221,6 @@ public class Utils {
                         logStream.Log(prod.toString(), "SQL");
                         produits.add(prod);
                     }
-                    logStream.Log("Manuel downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -214,7 +231,6 @@ public class Utils {
                         logStream.Log(dico.toString(), "SQL");
                         produits.add(dico);
                     }
-                    logStream.Log("Dico downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -226,7 +242,6 @@ public class Utils {
                         logStream.Log(cd.toString(), "SQL");
                         produits.add(cd);
                     }
-                    logStream.Log("CD downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -237,7 +252,6 @@ public class Utils {
                         logStream.Log(dvd.toString(), "SQL");
                         produits.add(dvd);
                     }
-                    logStream.Log("DVD downloaded");
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
