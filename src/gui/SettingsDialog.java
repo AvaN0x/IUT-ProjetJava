@@ -18,7 +18,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     private JRadioButton rb_saveDB;
     private JTextField tf_dbUrl;
     private JTextField tf_dbUser;
-    private JTextField tf_dbPassword;
+    private JPasswordField tf_dbPassword;
     private JComboBox<String> cbx_db;
     private JButton btn_valider;
     private JButton btn_cancel;
@@ -90,7 +90,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var pnl_pass = new JPanel(new FlowLayout());
         var lbl_pass = new JLabel("Password :");
         pnl_pass.add(lbl_pass);
-        tf_dbPassword = new JTextField(10);
+        tf_dbPassword = new JPasswordField(10);
         tf_dbPassword.setText(Utils.settings.dbPass);
         if (Utils.settings.isLocal)
             tf_dbPassword.setEnabled(false);
