@@ -155,15 +155,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             if (Utils.settings.isLocal) {
                 Utils.settings.resetDB();
             } else {
-                // TODO: prévenir qu'on ping l'host
-                // BUG : hôte injoignable alors que si
-                try {
-                    if (!Utils.settings.dbUrl.isReachable(5000))
-                        JOptionPane.showMessageDialog(null, "L'hôte est injoignable", "Test de connexion",
-                                JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    Utils.logStream.Error(ex);
-                }
+
             }
 
             Utils.commandes.clear();
