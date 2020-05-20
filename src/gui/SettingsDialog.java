@@ -104,13 +104,13 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         cbx_db.addActionListener(this);
         if (Utils.settings.isLocal)
             cbx_db.setEnabled(false);
-        else
+            else
             reloadDB();
-        pnl_db.add(cbx_db);
+            pnl_db.add(cbx_db);
         pnl_bdd.add(pnl_db);
-
+        
         pnl_settings.add(pnl_bdd);
-
+        
         var pnl_validate = new JPanel(new FlowLayout());
         btn_valider = new JButton("Valider");
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
@@ -120,12 +120,12 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
         pnl_validate.add(btn_cancel);
-
+        
         pnl_settings.add(pnl_validate);
-
+        
         add(pnl_settings, BorderLayout.CENTER);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rb_saveLocal) {
@@ -133,18 +133,21 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             tf_dbUser.setEnabled(false);
             pf_dbPassword.setEnabled(false);
             cbx_db.setEnabled(false);
-
+            
             cbx_db.removeAllItems();
+            cbx_db.addItem("<rafraichir>");
         } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
             pf_dbPassword.setEnabled(true);
             cbx_db.setEnabled(true);
-
+            
             changeDBSettings();
+            cbx_db.removeAllItems();
+            cbx_db.addItem("<rafraichir>");
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
-
+            
             changeDBSettings();
 
             Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
