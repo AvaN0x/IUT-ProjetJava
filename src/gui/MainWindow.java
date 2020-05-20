@@ -124,6 +124,18 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(4));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(5));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));
+
+            dateCreation = Calendar.getInstance();
+            dateCreation.set(2020, Calendar.MAY, 20);
+            Utils.commandes.add(new Commande(Utils.clients.get(2), dateCreation));
+            dateFin = Calendar.getInstance();
+            dateFin.setTimeInMillis(dateCreation.getTimeInMillis());
+            dateFin.add(Calendar.DAY_OF_YEAR, 50);
+            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
+            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
+            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
+            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
+            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
         }
 
         Utils.produits.setProdStock();
@@ -404,25 +416,25 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             commandeDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_infoCommande) {
-            if (t_commandes.getSelectedRow() != -1) {
-                new CommandeInfo(this, Utils.commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
+            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
+                new CommandeInfo(this, Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_remCommande) {
-            if (t_commandes.getSelectedRow() != -1) {
+            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
                         "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.getSelectedRow()).getId() +" removed");
-                    Utils.commandes.remove(t_commandes.getSelectedRow());
+                    Utils.logStream.Log("Order "+ Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow())).getId() +" removed");
+                    Utils.commandes.remove(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()));
                 }
                 Utils.produits.setProdStock();
                 t_produits.repaint();
             }
         } else if (e.getSource() == btn_editCommande) {
-            if (t_commandes.getSelectedRow() != -1) {
-                new CommandeDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow())).setVisible(true);
+            if (t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()) != -1) {
+                new CommandeDialog(this, Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_exportCommande) {
-            var exportDialog = new ExportDialog(this, Utils.commandes.getItem(t_commandes.getSelectedRow()));
+            var exportDialog = new ExportDialog(this, Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow())));
             exportDialog.setVisible(true);
             this.setEnabled(false);
         } else if (e.getSource() == btn_toolbarNewProd || e.getSource() == btn_newProd || e.getSource() == mnui_newProd) {
@@ -432,26 +444,26 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_remProd) {
             for (int i = 0; i < Utils.commandes.getRowCount(); i++)
                 for (var emprunt : Utils.commandes.getItem(i).getEmprunts())
-                    if (Utils.produits.getItem(t_produits.getSelectedRow()) == emprunt.getProduit()) {
+                    if (Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())) == emprunt.getProduit()) {
                         JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-            if (t_produits.getSelectedRow() != -1)
+            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1)
                 if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
-                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                    Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.getSelectedRow()) + "removed");
-                    Utils.produits.remove(t_produits.getSelectedRow());
+                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())) + "removed");
+                    Utils.produits.remove(t_produits.convertRowIndexToModel(t_produits.getSelectedRow()));
                 }
         } else if (e.getSource() == btn_editProd) {
-            if (t_produits.getSelectedRow() != -1) {
-                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produits.getSelectedRow()));
+            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1) {
+                var ProduitDialog = new ProduitDialog(this, Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())));
                 ProduitDialog.setVisible(true);
                 this.setEnabled(false);    
             }
         } else if (e.getSource() == btn_infoProd) {
-            if (t_produits.getSelectedRow() != -1) {
-                new ProduitInfo(this, Utils.produits.getItem(t_produits.getSelectedRow())).setVisible(true);
+            if (t_produits.convertRowIndexToModel(t_produits.getSelectedRow()) != -1) {
+                new ProduitInfo(this, Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow()))).setVisible(true);
             }
         } else if (e.getSource() == btn_newUser || e.getSource() == btn_toolbarNewUser || e.getSource() == mnui_newUser) {
             var userDialog = new UserDialog(this);
@@ -528,7 +540,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_exportCommande.setEnabled(false);
             } else {
                 btn_remCommande.setEnabled(true);
-                if (Utils.commandes.getItem(t_commandes.getSelectedRow()).editable()) {
+                if (Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow())).editable()) {
                     btn_editCommande.setEnabled(true);
                     btn_editCommande.setToolTipText("Modifier la commande");
                 }

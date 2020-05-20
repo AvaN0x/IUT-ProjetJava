@@ -319,7 +319,6 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 ProduitDialog.setVisible(true);
                 this.setEnabled(false);    
             }
-
         } else if (e.getSource() == btn_valider) {
             if (commande == null) { // Nouvelle commande
                 commande = new Commande(l_clients.getSelectedValue(), dateCreation);
