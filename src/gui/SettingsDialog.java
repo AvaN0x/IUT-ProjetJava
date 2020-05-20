@@ -101,6 +101,8 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_db = new JLabel("Base de Données :");
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
+        cbx_db.addItem("<rafraichir>");
+        cbx_db.setSelectedIndex(-1);
         cbx_db.addActionListener(this);
         if (Utils.settings.isLocal)
             cbx_db.setEnabled(false);
@@ -142,7 +144,6 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             cbx_db.setEnabled(true);
 
             changeDBSettings();
-            reloadDB();
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
 
