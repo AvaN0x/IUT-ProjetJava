@@ -110,28 +110,32 @@ public class Utils {
                     for (var produit : produits.getList()) {
                         var products = SQLrequest("SELECT `id-prod` FROM `produits` WHERE `id-prod`=\""+produit.getId()+"\"");
                         if(products.getRow() < 1){
-                            var sql = String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)));
-                            SQLupdate(sql);
+                            SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
                         }
                     }
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
                     for (int i=1;i<clients.getSize();i++) {
                         var users = SQLrequest("SELECT `id-cli` FROM `clients` WHERE `id-prod`=\""+clients.get(i).getId()+"\"");
                         if(users.getRow() < 1){
-                            var sql = String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0));
-                            SQLupdate(sql);
+                            SQLupdate(String.format("INSERT INTO `clients` (`id-cli`, `nom`, `prenom`, `isFidel`) VALUES (\"%s\", \"%s\", \"%s\", \"%d\")", clients.get(i).getId(), clients.get(i).getNom(), clients.get(i).getPrenom(), (clients.get(i) instanceof ClientFidele?1:0)));
                         }
                     }
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
                     for (var commande : commandes.getList()){
                         var orders = SQLrequest("SELECT id-com FROM `commandes` WHERE `id-com`=\""+commande.getId()+"\"");
                         if (orders.getRow() < 1){
-                            var sql = String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH));
-                            SQLupdate(sql);
+                            SQLupdate(String.format("INSERT INTO `commandes` (`id-com`, `id-cli`, `dateCreation`) VALUES (\"%s\",\"%s\",\"%s\")", commande.getId(), commande.getClient().getId(), commande.getDateCreation().get(Calendar.YEAR) + "/" + (commande.getDateCreation().get(Calendar.MONTH) + 1) + "/" +commande.getDateCreation().get(Calendar.DAY_OF_MONTH)));
                         }
                         for (var emprunt : commande.getEmprunts()){
                             var loans = SQLrequest("SELECT `id-com`, `id-empr` WHERE `id-com`=\""+commande.getId()+"\" AND `id-empr`=\""+ emprunt.getId() +"\"");
                             if(loans.getRow() < 1){
-                                var sql = String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId());
-                                SQLupdate(sql);
+                                SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
                             }
                         }
                     }
@@ -174,32 +178,44 @@ public class Utils {
                         produits.add(bd);
                     }
                     logStream.Log("BD downloaded");
-                    
-                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
                     while (products.next()) {
                         var roman = new Roman(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
                         logStream.Log(roman.toString(), "SQL");
                         produits.add(roman);
                     }
                     logStream.Log("Roman downloaded");
-                    
-                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                } 
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
                     while (products.next()){
                         var prod = new ManuelScolaire(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
                         logStream.Log(prod.toString(), "SQL");
                         produits.add(prod);
                     }
                     logStream.Log("Manuel downloaded");
-                    
-                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
                     while (products.next()) {
                         var dico = new Dictionnaire(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
                         logStream.Log(dico.toString(), "SQL");
                         produits.add(dico);
                     }
                     logStream.Log("Dico downloaded");
-
-                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
                     while (products.next()){
                         //TODO calendar from products.getString(5)
                         var cd = new CD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), Calendar.getInstance());
@@ -207,15 +223,21 @@ public class Utils {
                         produits.add(cd);
                     }
                     logStream.Log("CD downloaded");
-
-                    products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
                     while (products.next()){
                         var dvd = new DVD(products.getString(1), products.getString(2), products.getDouble(3), products.getInt(4), products.getString(5));
                         logStream.Log(dvd.toString(), "SQL");
                         produits.add(dvd);
                     }
                     logStream.Log("DVD downloaded");
-
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
                         Client cli;
@@ -227,7 +249,10 @@ public class Utils {
                         clients.addElement(cli);
                     }
                     logStream.Log("Clients downloaded");
-
+                } catch (SQLException e) {
+                    logStream.Error(e);
+                }
+                try {
                     var orders = SQLrequest("SELECT * FROM `commandes`");
                     while (orders.next()){
                         Commande order = null;
