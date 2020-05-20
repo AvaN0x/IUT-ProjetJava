@@ -13,7 +13,6 @@ import javax.swing.table.*;
 import app.Client;
 import app.Commande;
 import app.Emprunt;
-import app.Produit;
 
 @SuppressWarnings("serial")
 public class CommandeDialog extends JDialog implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyEmpruntDialogOwner {
