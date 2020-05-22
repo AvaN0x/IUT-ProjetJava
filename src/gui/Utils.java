@@ -31,6 +31,8 @@ public class Utils {
 
     static final String savingDir = "data/";
 
+    static final String[] dbIgnored = {"mysql","performance_schema","information_schema","test","phpmyadmin"};
+
     static LogStream logStream = new LogStream("bin/buche.log");
 
     static Lang lang;

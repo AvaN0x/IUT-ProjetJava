@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -201,7 +202,8 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             Utils.settings.dbBase = "";
             var databases = Utils.SQLrequest("show databases");
             while (databases.next()) {
-                cbx_db.addItem(databases.getString(1));
+                if(!Arrays.asList(Utils.dbIgnored).contains(databases.getString(1)))
+                    cbx_db.addItem(databases.getString(1));
             }
         } catch (SQLException e) {
             Utils.logStream.Error(e);
