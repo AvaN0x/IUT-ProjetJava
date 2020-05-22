@@ -32,6 +32,8 @@ public class Utils {
 
     static LogStream logStream = new LogStream("bin/buche.log");
 
+    static Lang lang;
+
     /**
      * To translate a calendar to a readable date
      * @param date to translate

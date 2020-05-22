@@ -68,6 +68,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
             Utils.settings = (Settings) input.readObject();
 
+            Utils.lang = new Lang();
+
             input.close();
         } catch (IOException e) {
             Utils.logStream.Error(e);
