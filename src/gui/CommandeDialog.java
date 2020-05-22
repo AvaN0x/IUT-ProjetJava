@@ -346,9 +346,19 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                 commande.setClient(l_clients.getSelectedValue());
                 commande.setDateCreation(dateCreation);
                 commande.emptyEmprunts();
-                // FIXME edit emprunts bdd
                 for (Emprunt emprunt : emprunts.getList()) {
-                    commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());    
+                    commande.addEmprunt(emprunt.getDateFin(), emprunt.getProduit());
+                }
+                try {
+                    Utils.SQLupdate("DELETE FROM `emprunts` WHERE `emprunts`.`id-com`=\""+ commande.getId() +"\"");
+                    for (var emprunt : commande.getEmprunts())
+                        try {
+                            Utils.SQLupdate(String.format("INSERT INTO `emprunts` (`id-com`, `id-empr`, `dateFin`, `id-prod`) VALUE (\"%s\",\"%s\",\"%s\",\"%s\")", commande.getId(), emprunt.getId(), emprunt.getDateFin().get(Calendar.YEAR) + "/" + (emprunt.getDateFin().get(Calendar.MONTH) + 1) + "/" +emprunt.getDateFin().get(Calendar.DAY_OF_MONTH) , emprunt.getProduit().getId()));
+                        } catch (SQLException ex) {
+                            Utils.logStream.Log(ex);
+                        }
+                } catch (SQLException ex) {
+                    Utils.logStream.Log(ex);
                 }
                 Utils.logStream.Log("Order " + commande.getId() + " edited");
                 quit();
