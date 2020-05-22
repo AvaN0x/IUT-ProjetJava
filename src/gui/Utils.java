@@ -232,30 +232,29 @@ public class Utils {
                     while(products.next()){
                         var cls = (Class<? extends Produit>) Class.forName("app."+products.getString(7));
                         if(cls != CD.class) // TODO better cd generation
-                        try {
-                            produits.add(
-                                cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6))
-                            );
-                        } catch (NoSuchMethodException e){
-                            logStream.Error(e);
-                        } catch (InstantiationException e){
-                            logStream.Error(e);
-                        } catch (IllegalAccessException e){
-                            logStream.Error(e);
-                        } catch (InvocationTargetException e){
-                            logStream.Error(e);
-                        }
+                            try {
+                                produits.add(
+                                    cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6))
+                                );
+                            } catch (NoSuchMethodException e){
+                                logStream.Error(e);
+                            } catch (InstantiationException e){
+                                logStream.Error(e);
+                            } catch (IllegalAccessException e){
+                                logStream.Error(e);
+                            } catch (InvocationTargetException e){
+                                logStream.Error(e);
+                            }
                         else
-                        try{
-                            var sdf = new SimpleDateFormat("dd/MM/yyyy");
-                            var date = sdf.parse(products.getString(6));
-                            var cal = Calendar.getInstance();
-                            cal.setTime(date);
-                            produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
-                        } catch (ParseException e){
-                            logStream.Error(e);
-                        }
-
+                            try{
+                                var sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                var date = sdf.parse(products.getString(6));
+                                var cal = Calendar.getInstance();
+                                cal.setTime(date);
+                                produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
+                            } catch (ParseException e){
+                                logStream.Error(e);
+                            }
                     }
                 } catch (SQLException e) {
                     logStream.Error(e);
