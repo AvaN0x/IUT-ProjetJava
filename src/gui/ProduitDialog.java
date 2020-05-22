@@ -168,7 +168,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             if (produit == null) {
                 try {
                     for (var pair : Utils.getTypes()){
-                        if(pair.getValue0() != CD.class) // better cd generation
+                        if(pair.getValue0() != CD.class) // TODO better cd generation
                             produit = pair.getValue0().getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                         else
                             produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
