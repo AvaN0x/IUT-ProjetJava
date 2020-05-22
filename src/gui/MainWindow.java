@@ -18,6 +18,8 @@ import java.sql.*;
 import app.*;
 
 // TODO faire les documentation pour chaque methodes
+// TODO remplacer tout les string UI par des valeurs dans Utils.lang
+    //! TENIR A JOUR LES FICHIERS fr_FR.json et en_EN.json
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialogOwner {
@@ -53,7 +55,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_exportCommande;
 
     public MainWindow() {
-        super("Gestion vidéothèque");
+        super("Videotek");
         setLookNFeel();
         setSize(1280, 720);
         setLocationRelativeTo(null);
@@ -69,6 +71,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             Utils.settings = (Settings) input.readObject();
 
             Utils.lang = new Lang();
+            setTitle(Utils.lang.title);
 
             input.close();
         } catch (IOException e) {
@@ -83,17 +86,17 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         if (new File(Utils.savingDir + "data.ser").exists()) {
             if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données",
-                        "Connexion", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, Utils.lang.connect_try,
+                        Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
             if (!Utils.load())
                 if (!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion",
+                    JOptionPane.showMessageDialog(this, Utils.lang.connect_error, Utils.lang.connect_title,
                             JOptionPane.ERROR_MESSAGE);
                 else
-                    JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement",
+                    JOptionPane.showMessageDialog(this, Utils.lang.loading_error, "Chargement",
                             JOptionPane.ERROR_MESSAGE);
             else if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, "Connexion effectuée", "Connexion",
+                JOptionPane.showMessageDialog(this, Utils.lang.connect_sucess, Utils.lang.connect_title,
                         JOptionPane.INFORMATION_MESSAGE);
         } else {
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));

@@ -1,8 +1,9 @@
 {
-  "title": "Gestion vidéothèque",
+  "title": "Videoteq",
   "connect_title": "Connexion",
   "connect_try": "Nous allons essayer de vous connecter à la base de données",
   "connect_error": "Erreur de connexion à la base de données",
-  "loading_error": "Erreur de lecture des données",
-  "connect_sucess": "Connexion réussie"
+  "connect_sucess": "Connexion réussie",
+  "loading_title": "Chargement",
+  "loading_error": "Erreur de lecture des données"
 }
