@@ -149,7 +149,6 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             changeDBSettings();
 
             Utils.settings.language = (Locale) cbx_language.getSelectedItem();
-            // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
 
             if (!Utils.settings.isLocal) {
                 JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);

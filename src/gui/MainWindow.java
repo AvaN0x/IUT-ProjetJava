@@ -59,7 +59,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(".\\icons\\logo.png")));
-        
+
         Utils.settings = new Settings();
 
         try {
@@ -562,8 +562,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         if(!Utils.settings.isLocal)
             try {
                 var types = new ArrayList<String>();
-                for (var type : Utils.produitsTypes) {
-                    types.add(type[0].replaceAll("\\s+",""));
+                for (var type : Utils.getTypes()) {
+                    types.add(type.getValue0().getSimpleName().replaceAll("\\s+",""));
                 } 
                 Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
             } catch (SQLException e) {

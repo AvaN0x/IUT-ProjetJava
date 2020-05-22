@@ -52,6 +52,7 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
     }
  
     public Object getValueAt(int rowIndex, int columnIndex) {
+        // BUG: Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException quand ajout d'un produit
         switch(columnIndex){
             case 0:
                 return produits.get(rowIndex).getTitle();

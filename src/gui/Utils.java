@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -9,6 +11,10 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.DefaultListModel;
+
+import org.javatuples.Pair;
+import org.reflections.Reflections;
+
 import app.*;
 
 import java.sql.*;
@@ -21,18 +27,31 @@ public class Utils {
     static TableauCommandes commandes;
     static Settings settings;
 
-    static final String[][] produitsTypes = new String[][] {{"BD", "Auteur"}, 
-                                                       {"Roman", "Auteur"}, 
-                                                       {"Manuel Scolaire", "Auteur"}, 
-                                                       {"Dictionnaire", "Langue"}, 
-                                                       {"CD", "Date de sortie"}, 
-                                                       {"DVD", "Réalisateur"}};
-
     static final String savingDir = "data/";
 
     static LogStream logStream = new LogStream("bin/buche.log");
 
     static Lang lang;
+
+    /**
+     * To get all the types of products + theirs options
+     * @return all the types + their options
+     */
+    static List<Pair<Class<? extends Produit>, Field[]>> getTypes() {
+        Reflections reflections = new Reflections("app");    
+        var classes = reflections.getSubTypesOf(Produit.class);
+        var result = new ArrayList<Pair<Class<? extends Produit>, Field[]>>();
+
+        for (var class1 : classes) { // for each class of the package app
+            if(!Modifier.isAbstract(class1.getModifiers())){ // if its not an abstract class
+                var fields = class1.getDeclaredFields(); // get all the fields
+                if(class1.getSuperclass() == Livre.class) // if it's a book
+                    fields = Livre.class.getDeclaredFields(); // get all the fields of a book
+                result.add(Pair.with(class1, fields));
+            }
+        }
+        return result;
+    }
 
     /**
      * To translate a calendar to a readable date
@@ -107,8 +126,8 @@ public class Utils {
             if(!settings.isLocal) {
                 try {
                     var types = new ArrayList<String>();
-                    for (var type : produitsTypes) {
-                        types.add(type[0].replaceAll("\\s+",""));
+                    for (var type : getTypes()) {
+                        types.add(type.getValue0().getSimpleName());
                     } 
                     for (var produit : produits.getList()) {
                         var products = SQLrequest("SELECT `id-prod` FROM `produits` WHERE `id-prod`=\""+produit.getId()+"\"");

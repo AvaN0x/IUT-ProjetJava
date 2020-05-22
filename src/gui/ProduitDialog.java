@@ -34,9 +34,11 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
         this.produit = produit;
         cbx_type.setEnabled(false);
-        for (int i = 0; i < Utils.produitsTypes.length; i++)
-            if (Utils.produitsTypes[i][0].replaceAll(" ", "").contains(produit.getClass().getSimpleName()))
+        var types = Utils.getTypes();
+        for (int i = 0; i < types.size(); i++) {
+            if (types.get(i).getValue0() == produit.getClass())
                 cbx_type.setSelectedIndex(i);
+        }
         tf_title.setText(produit.getTitle());
         tf_price.setText(Double.toString(produit.getDailyPrice()));
         tf_quantity.setText(Integer.toString(produit.getQuantity()));
@@ -49,8 +51,8 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
         cbx_type = new JComboBox<String>();
-        for (var item : Utils.produitsTypes) {
-            cbx_type.addItem(item[0]);
+        for (var item : Utils.getTypes()) {
+            cbx_type.addItem(item.getValue0().getSimpleName());
         }
         cbx_type.addItemListener(this);
         pnl_fields.add(cbx_type);
@@ -80,7 +82,13 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         var pnl_optionfields = new JPanel();
         pnl_optionfields.setLayout(new BoxLayout(pnl_optionfields, BoxLayout.PAGE_AXIS));
         var pnl_option1 = new JPanel(new FlowLayout());
-        lbl_option1 = new JLabel(Utils.produitsTypes[cbx_type.getSelectedIndex()][1] + " :");
+        lbl_option1 = new JLabel();
+        var types = Utils.getTypes();
+        for (var pair : types) {
+            if(pair.getValue0().getSimpleName() == cbx_type.getSelectedItem())
+                // TODO: Majuscule
+                lbl_option1 = new JLabel(pair.getValue1()[0].getName() + " :");
+        }
         tf_option1 = new JTextField(10);
         pnl_option1.add(lbl_option1);
         pnl_option1.add(tf_option1);
@@ -159,19 +167,14 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             setVisible(false);
             if (produit == null) {
                 try {
-                    if(cbx_type.getSelectedIndex() == 1) // It's a Roman
-                        produit = new Roman(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                    else if (cbx_type.getSelectedIndex() == 2) // It's a Manuel Scolaire
-                        produit = new ManuelScolaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                    else if (cbx_type.getSelectedIndex() == 3) // It's a Dictionnaire
-                        produit = new Dictionnaire(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                    else if (cbx_type.getSelectedIndex() == 4) // It's a CD
-                        produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
-                    else if (cbx_type.getSelectedIndex() == 5) // It's a DVD
-                        produit = new DVD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                    else // It's a BD (the first one who is selected by default)
-                        produit = new BD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    for (var pair : Utils.getTypes()){
+                        if(pair.getValue0() != CD.class) // better cd generation
+                            produit = pair.getValue0().getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                        else
+                            produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
+                    }
                 } catch (Exception error) {
+                    Utils.logStream.Error(error);
                     JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     setVisible(true);
                     return;
@@ -181,8 +184,8 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             } else {
                 try{
                     var types = new ArrayList<String>();
-                    for (var type : Utils.produitsTypes) {
-                        types.add(type[0].trim());
+                    for (var type : Utils.getTypes()) {
+                        types.add(type.getValue0().getName().replaceAll("\\s+",""));
                     } 
                     Utils.SQLupdate(String.format("UPDATE `produits` SET `title` = \"%s\", `dailyPrice` = \""+produit.getDailyPrice()+"\", `quantity` = \"%d\", `option1` = \"%s\", `id-types` = \"%d\" WHERE `produits`.`id-prod` = \"%s\"", produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)), produit.getId()));
                 }
@@ -192,7 +195,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 produit.setTitle(tf_title.getText());
                 produit.setDailyPrice(Double.parseDouble(tf_price.getText().trim()));
                 produit.setQuantity(Integer.parseInt(tf_quantity.getText().trim()));
-                if (cbx_type.getSelectedIndex() == 4) // It's a CD
+                if (cbx_type.getSelectedItem() == CD.class.getSimpleName())
                     produit.setOption1(releaseDate);
                 else
                     produit.setOption1(tf_option1.getText());
@@ -209,8 +212,13 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == cbx_type) {
-            lbl_option1.setText(Utils.produitsTypes[cbx_type.getSelectedIndex()][1] + " :");
-            if (cbx_type.getSelectedIndex() == 4) { // It's a CD
+            var types = Utils.getTypes();
+            for (var pair : types) {
+                if(pair.getValue0().getSimpleName() == cbx_type.getSelectedItem())
+                    // TODO: Majuscule... et meilleur nom ^^
+                    lbl_option1.setText(pair.getValue1()[0].getName() + " :");
+            }
+            if (cbx_type.getSelectedItem() == CD.class.getSimpleName()) {
                 var defCalendar = Calendar.getInstance();
                 var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
                 tf_option1.setText(
