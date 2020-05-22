@@ -81,18 +81,21 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         Utils.produits = new TableauProduits();
         Utils.commandes = new TableauCommandes();
 
-        if(new File(Utils.savingDir + "data.ser").exists()){
-            if(!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
-            if(!Utils.load())
-                if(!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion", JOptionPane.ERROR_MESSAGE);
+        if (new File(Utils.savingDir + "data.ser").exists()) {
+            if (!Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données",
+                        "Connexion", JOptionPane.INFORMATION_MESSAGE);
+            if (!Utils.load())
+                if (!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(this, "Erreur de connexion à la base de données", "Connexion",
+                            JOptionPane.ERROR_MESSAGE);
                 else
-                    JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement", JOptionPane.ERROR_MESSAGE);
-            else if(!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, "Connexion effectuée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
+                    JOptionPane.showMessageDialog(this, "Erreur de lecture des données", "Chargement",
+                            JOptionPane.ERROR_MESSAGE);
+            else if (!Utils.settings.isLocal)
+                JOptionPane.showMessageDialog(this, "Connexion effectuée", "Connexion",
+                        JOptionPane.INFORMATION_MESSAGE);
+        } else {
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
             Utils.clients.addElement(new ClientFidele("sublet", "tom"));
             Utils.clients.addElement(new ClientOccas("hochet", "ric"));
@@ -120,14 +123,14 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             dateCreation.set(Calendar.MILLISECOND, 0);
             dateCreation.set(Calendar.SECOND, 0);
             dateCreation.set(Calendar.MINUTE, 0);
-            dateCreation.set(Calendar.HOUR_OF_DAY, 0);    
+            dateCreation.set(Calendar.HOUR_OF_DAY, 0);
             dateCreation.set(2020, Calendar.APRIL, 26);
             Utils.commandes.add(new Commande(Utils.clients.get(0), dateCreation));
             Calendar dateFin = Calendar.getInstance();
             dateFin.set(Calendar.MILLISECOND, 0);
             dateFin.set(Calendar.SECOND, 0);
             dateFin.set(Calendar.MINUTE, 0);
-            dateFin.set(Calendar.HOUR_OF_DAY, 0);    
+            dateFin.set(Calendar.HOUR_OF_DAY, 0);
             dateFin.set(2020, Calendar.JUNE, 26);
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(0));
             Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(1));
@@ -559,16 +562,24 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     
     public void produitDialogReturn(Produit produit) {
         Utils.produits.add(produit);
-        if(!Utils.settings.isLocal)
+        if(!Utils.settings.isLocal) {
+            var types = new ArrayList<String>();
             try {
-                var types = new ArrayList<String>();
                 for (var type : Utils.getTypes()) {
                     types.add(type.getValue0().getSimpleName().replaceAll("\\s+",""));
                 } 
-                Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
+                Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+            } catch (SQLIntegrityConstraintViolationException e) {
+                try {
+                    Utils.SQLupdate(String.format("INSERT INTO `types` (`id-type`, `categ`) VALUES (\"%d\",\"%s\")", types.size()-1, produit.getClass().getSimpleName()));
+                    Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                } catch (SQLException ex) {
+                    Utils.logStream.Error(ex);
+                }
             } catch (SQLException e) {
                 Utils.logStream.Error(e);
             }
+        }
         dialogReturn();
         tab.setSelectedIndex(1);
         Utils.logStream.Log("Product " + produit.getId() + " added");

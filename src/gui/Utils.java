@@ -134,9 +134,15 @@ public class Utils {
                         products.next();
                         try { products.getString(1); } catch (SQLException e) { // The product doesn't exist
                             try {
-                                SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
-                            }
-                            catch (SQLException ex) {
+                                SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                            } catch (SQLIntegrityConstraintViolationException exc) {
+                                try {
+                                    Utils.SQLupdate(String.format("INSERT INTO `types` (`id-type`, `categ`) VALUES (\"%d\",\"%s\")", types.size()-1, produit.getClass().getSimpleName()));
+                                    Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                                } catch (SQLException ex) {
+                                    Utils.logStream.Error(ex);
+                                }
+                            } catch (SQLException ex) {
                                 logStream.Error(ex);
                             }
                         }
@@ -216,6 +222,7 @@ public class Utils {
                 clients = (DefaultListModel<Client>) input.readObject();
             }
             else {
+                // TODO better loading
                 try{
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
                     while (products.next()){
