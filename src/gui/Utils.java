@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,7 +35,7 @@ public class Utils {
     static Lang lang;
 
     /**
-     * To get all the types of products + theirs options
+     * To get all the types of products + theirs options. The return is sorted
      * @return all the types + their options
      */
     static List<Pair<Class<? extends Produit>, Field[]>> getTypes() {
@@ -50,6 +51,9 @@ public class Utils {
                 result.add(Pair.with(class1, fields));
             }
         }
+        Collections.sort(result, (e1, e2) -> {
+            return e1.getValue0().getSimpleName().compareTo(e2.getValue0().getSimpleName());
+        });
         return result;
     }
 
