@@ -11,7 +11,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class SettingsDialog extends MyJDialog implements ActionListener {
-    private JComboBox<String> cbx_language;
+    private JComboBox<Locale> cbx_language;
     private JRadioButton rb_saveLocal;
     private JRadioButton rb_saveDB;
     private JTextField tf_dbUrl;
@@ -32,10 +32,10 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var pnl_language = new JPanel(new FlowLayout());
         var lbl_language = new JLabel("Langue :");
         pnl_language.add(lbl_language);
-        cbx_language = new JComboBox<String>();
-        // cbx_language.addItem("Default");
-        cbx_language.addItem("Français");
-        // cbx_language.addItem("English");
+        cbx_language = new JComboBox<Locale>();
+        cbx_language.addItem(new Locale("fr","FR"));
+        cbx_language.addItem(new Locale("en","EN"));
+        cbx_language.setSelectedItem(Utils.settings.language.getDisplayLanguage());
         pnl_language.add(cbx_language);
         pnl_settings.add(pnl_language);
 
@@ -148,7 +148,8 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             
             changeDBSettings();
 
-            Utils.settings.language = Locale.getDefault(); // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
+            Utils.settings.language = (Locale) cbx_language.getSelectedItem();
+            // TODO faire en sorte que çe soit bien choisit et pas juste le défaut
 
             if (!Utils.settings.isLocal) {
                 JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
