@@ -264,7 +264,7 @@ public class Utils {
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
                         Client cli;
-                        if (users.getInt(4) == 1)
+                        if (users.getBoolean(4))
                             cli = new ClientFidele(users.getString(1), users.getString(2), users.getString(3));
                         else
                             cli = new ClientOccas(users.getString(1), users.getString(2), users.getString(3));
