@@ -2,11 +2,13 @@ package gui;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,12 +31,14 @@ public class Utils {
 
     static final String savingDir = "data/";
 
+    static final String[] dbIgnored = {"mysql","performance_schema","information_schema","test","phpmyadmin"};
+
     static LogStream logStream = new LogStream("bin/buche.log");
 
     static Lang lang;
 
     /**
-     * To get all the types of products + theirs options
+     * To get all the types of products + theirs options. The return is sorted
      * @return all the types + their options
      */
     static List<Pair<Class<? extends Produit>, Field[]>> getTypes() {
@@ -50,6 +54,9 @@ public class Utils {
                 result.add(Pair.with(class1, fields));
             }
         }
+        Collections.sort(result, (e1, e2) -> {
+            return e1.getValue0().getSimpleName().compareTo(e2.getValue0().getSimpleName());
+        });
         return result;
     }
 
@@ -134,9 +141,15 @@ public class Utils {
                         products.next();
                         try { products.getString(1); } catch (SQLException e) { // The product doesn't exist
                             try {
-                                SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4))));
-                            }
-                            catch (SQLException ex) {
+                                SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                            } catch (SQLIntegrityConstraintViolationException exc) {
+                                try {
+                                    Utils.SQLupdate(String.format("INSERT INTO `types` (`id-type`, `categ`) VALUES (\"%d\",\"%s\")", types.size()-1, produit.getClass().getSimpleName()));
+                                    Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                                } catch (SQLException ex) {
+                                    Utils.logStream.Error(ex);
+                                }
+                            } catch (SQLException ex) {
                                 logStream.Error(ex);
                             }
                         }
@@ -216,65 +229,44 @@ public class Utils {
                 clients = (DefaultListModel<Client>) input.readObject();
             }
             else {
-                try{
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"BD\"");
-                    while (products.next()){
-                        produits.add(new BD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6)));
+                try {
+                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types`");
+                    while(products.next()){
+                        var cls = (Class<? extends Produit>) Class.forName("app."+products.getString(7));
+                        if(cls != CD.class) // TODO better cd generation
+                            try {
+                                produits.add(
+                                    cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6))
+                                );
+                            } catch (NoSuchMethodException e){
+                                logStream.Error(e);
+                            } catch (InstantiationException e){
+                                logStream.Error(e);
+                            } catch (IllegalAccessException e){
+                                logStream.Error(e);
+                            } catch (InvocationTargetException e){
+                                logStream.Error(e);
+                            }
+                        else
+                            try{
+                                var sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                var date = sdf.parse(products.getString(6));
+                                var cal = Calendar.getInstance();
+                                cal.setTime(date);
+                                produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
+                            } catch (ParseException e){
+                                logStream.Error(e);
+                            }
                     }
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
-                try {
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Roman\"");
-                    while (products.next()) {
-                        produits.add(new Roman(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6)));
-                    }
-                } catch (SQLException e) {
-                    logStream.Error(e);
-                } 
-                try {
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Manuel Scolaire\"");
-                    while (products.next()){
-                        produits.add(new ManuelScolaire(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6)));
-                    }
-                } catch (SQLException e) {
-                    logStream.Error(e);
-                }
-                try {
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"Dictionnaire\"");
-                    while (products.next()) {
-                        produits.add(new Dictionnaire(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6)));
-                    }
-                } catch (SQLException e) {
-                    logStream.Error(e);
-                }
-                try {
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"CD\"");
-                    while (products.next()){
-                        var sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        var date = sdf.parse(products.getString(6));
-                        var cal = Calendar.getInstance();
-                        cal.setTime(date);
-                        produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
-                    }
-                } catch (SQLException e) {
-                    logStream.Error(e);
-                } catch (ParseException e){
-                    logStream.Error(e);
-                }
-                try {
-                    var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types` WHERE categ = \"DVD\"");
-                    while (products.next()){
-                        produits.add(new DVD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6)));
-                    }
-                } catch (SQLException e) {
-                    logStream.Error(e);
-                }
+
                 try {
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
                         Client cli;
-                        if (users.getInt(4) == 1)
+                        if (users.getBoolean(4))
                             cli = new ClientFidele(users.getString(1), users.getString(2), users.getString(3));
                         else
                             cli = new ClientOccas(users.getString(1), users.getString(2), users.getString(3));
@@ -283,6 +275,7 @@ public class Utils {
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
+
                 try {
                     var orders = SQLrequest("SELECT * FROM `commandes`");
                     while (orders.next()){

@@ -10,11 +10,13 @@ public class Lang {
     public String connect_title;
     public String connect_try;
     public String connect_error;
-    public String loading_error;
     public String connect_sucess;
+    public String loading_title;
+    public String loading_error;
 
     public Lang(){
         try {
+            // TODO: en_US == en_EN + si .getDefault non trouvé
             var obj = new JSONParser().parse(new FileReader("lang/"+Utils.settings.language.toString() + ".json"));
             var jo = (JSONObject) obj;
             

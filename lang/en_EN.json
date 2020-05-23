@@ -1,8 +1,9 @@
 {
-    "title": "TITLE",
+    "title": "Videotek",
     "connect_title": "Connecting",
-    "connect_try": "connect_try",
-    "connect_error": "connect_error",
-    "loading_error": "loading_error",
-    "connect_sucess": "connect_sucess"
+    "connect_try": "We will try to connect to the database",
+    "connect_error": "Connexion error : unable to connect to the database",
+    "connect_sucess": "Connexion succesfull",
+    "loading_title": "Loading",
+    "loading_error": "Error when loading local data"
 }
