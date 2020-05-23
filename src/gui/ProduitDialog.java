@@ -133,7 +133,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             releaseDate.set(Calendar.MINUTE, 0);
             releaseDate.set(Calendar.HOUR_OF_DAY, 0);
     
-            if (cbx_type.getSelectedIndex() == 4) { // It's a CD // TODO faire la verif si c'est une date (au moins si c'est un CD avec reflection)
+            if (cbx_type.getSelectedIndex() == 1) { // It's a CD // TODO faire la verif si c'est une date 
                 Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
                 Matcher m = regex.matcher(tf_option1.getText());
                 if (m.matches()) {
