@@ -53,7 +53,7 @@ public class ProduitInfo extends JDialog {
         var types = Utils.getTypes();
         for (int i = 0; i < types.size(); i++) {
             if (types.get(i).getValue0() == produit.getClass())
-                // TODO: Majuscule
+                // TODO: Majuscule et meilleur nom releaseDate
                 lbl_option1Static.setText(types.get(i).getValue1()[0].getName() + " :");
         }
         

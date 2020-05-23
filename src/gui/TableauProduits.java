@@ -63,9 +63,11 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
             case 2:
                 return produits.get(rowIndex).getClass().getSimpleName();
             case 3:
-                return prodStock.get(produits.get(rowIndex).getId());
+                // return prodStock.get(produits.get(rowIndex).getId());
+                return 1;
             case 4:
-                return produits.get(rowIndex).getQuantity() - prodStock.get(produits.get(rowIndex).getId());
+                // return produits.get(rowIndex).getQuantity() - prodStock.get(produits.get(rowIndex).getId());
+                return produits.get(rowIndex).getQuantity();
             default:
                 return null;
         }
