@@ -144,10 +144,10 @@ public class Utils {
                                 SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
                             } catch (SQLIntegrityConstraintViolationException exc) {
                                 try {
-                                    Utils.SQLupdate(String.format("INSERT INTO `types` (`id-type`, `categ`) VALUES (\"%d\",\"%s\")", types.size()-1, produit.getClass().getSimpleName()));
-                                    Utils.SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
+                                    SQLupdate(String.format("INSERT INTO `types` (`id-types`, `categ`) VALUES (\"%d\",\"%s\")", types.indexOf(produit.getClass().getSimpleName()), produit.getClass().getSimpleName()));
+                                    SQLupdate(String.format("INSERT INTO `produits` (`id-prod`, `title`, `dailyPrice`, `quantity`, `option1`, `id-types`) VALUES (\"%s\", \"%s\", \""+produit.getDailyPrice()+"\", \"%d\", \"%s\", \"%d\")", produit.getId(), produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getSimpleName())));
                                 } catch (SQLException ex) {
-                                    Utils.logStream.Error(ex);
+                                    logStream.Error(ex);
                                 }
                             } catch (SQLException ex) {
                                 logStream.Error(ex);
