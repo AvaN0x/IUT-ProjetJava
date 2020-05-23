@@ -167,13 +167,10 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             setVisible(false);
             if (produit == null) {
                 try {
-                    for (var pair : Utils.getTypes()){
-                        if(pair.getValue0() != CD.class) // TODO better cd generation
-                            //BUG génère toujours un roman
-                            produit = pair.getValue0().getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                        if(cbx_type.getSelectedItem() != CD.class.getSimpleName()) // TODO better cd generation
+                            produit = (Produit) Class.forName("app" + (String) cbx_type.getSelectedItem()).getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                         else
                             produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
-                    }
                 } catch (Exception error) {
                     Utils.logStream.Error(error);
                     JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
