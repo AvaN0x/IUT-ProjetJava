@@ -291,7 +291,7 @@ public class Utils {
                         var loans = SQLrequest("SELECT * FROM `emprunts` WHERE `id-com` = \""+ order.getId() + "\"");
                         while(loans.next()){
                             for (var produit : produits.getList())
-                                if (produit.getId() == loans.getString(4)) {
+                                if (produit.getId().equals(loans.getString(4))){
                                     var cal = Calendar.getInstance();
                                     cal.setTime(loans.getDate(3));
                                     order.addEmprunt(loans.getString(1), cal, produit);

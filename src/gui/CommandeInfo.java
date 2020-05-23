@@ -22,7 +22,6 @@ public class CommandeInfo extends JDialog implements ActionListener {
     public CommandeInfo(Window owner, Commande commande) {
         super(owner, "Information commande");
         this.commande = commande;
-        //TODO base de donnée, récupérer les emprunts
         setSize(450, 400);
         setLocationRelativeTo(owner);
 
