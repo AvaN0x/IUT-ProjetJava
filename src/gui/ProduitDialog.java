@@ -168,7 +168,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             if (produit == null) {
                 try {
                         if(cbx_type.getSelectedItem() != CD.class.getSimpleName()) // TODO better cd generation
-                            produit = (Produit) Class.forName("app" + (String) cbx_type.getSelectedItem()).getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                            produit = (Produit) Class.forName("app." + (String) cbx_type.getSelectedItem()).getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
                         else
                             produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
                 } catch (Exception error) {
