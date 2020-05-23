@@ -14,6 +14,8 @@ import java.util.Locale;
 
 import javax.swing.DefaultListModel;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import org.javatuples.Pair;
 import org.reflections.Reflections;
 
@@ -214,7 +216,7 @@ public class Utils {
      * @return the success (or not) of the operation
      */
     @SuppressWarnings("unchecked") //! https://stackoverflow.com/a/509230/13257820
-    static boolean load(){
+    static Boolean load(){
         try{
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
             var input = new ObjectInputStream(fileStream);
@@ -258,6 +260,9 @@ public class Utils {
                                 logStream.Error(e);
                             }
                     }
+                } catch (CommunicationsException e){
+                    logStream.Log(e);
+                    return null;
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -272,6 +277,9 @@ public class Utils {
                             cli = new ClientOccas(users.getString(1), users.getString(2), users.getString(3));
                         clients.addElement(cli);
                     }
+                } catch (CommunicationsException e){
+                    logStream.Log(e);
+                    return null;
                 } catch (SQLException e) {
                     logStream.Error(e);
                 }
@@ -299,6 +307,9 @@ public class Utils {
                         }
                         commandes.add(order);
                     }
+                } catch (CommunicationsException e){
+                    logStream.Log(e);
+                    return null;
                 } catch (SQLException e) {
                     logStream.Error(e);
                     return false;

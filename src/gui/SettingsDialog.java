@@ -164,16 +164,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             Utils.commandes.clear();
             Utils.clients.clear();
             Utils.produits.clear();
-            if (!Utils.load())
-                if (!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(this, Utils.lang.connect_error, Utils.lang.connect_title,
-                            JOptionPane.ERROR_MESSAGE);
-                else
-                    JOptionPane.showMessageDialog(this, Utils.lang.loading_error, Utils.lang.loading_title,
-                            JOptionPane.ERROR_MESSAGE);
-            else if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, Utils.lang.connect_sucess, Utils.lang.connect_title,
-                        JOptionPane.INFORMATION_MESSAGE);
+            MainWindow.requestLoading();
             setEnabled(true);
 
             quit();

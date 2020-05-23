@@ -88,16 +88,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (!Utils.settings.isLocal)
                 JOptionPane.showMessageDialog(this, Utils.lang.connect_try,
                         Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
-            if (!Utils.load())
-                if (!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(this, Utils.lang.connect_error, Utils.lang.connect_title,
-                            JOptionPane.ERROR_MESSAGE);
-                else
-                    JOptionPane.showMessageDialog(this, Utils.lang.loading_error, "Chargement",
-                            JOptionPane.ERROR_MESSAGE);
-            else if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, Utils.lang.connect_sucess, Utils.lang.connect_title,
-                        JOptionPane.INFORMATION_MESSAGE);
+            requestLoading();
         } else {
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
             Utils.clients.addElement(new ClientFidele("sublet", "tom"));
@@ -156,6 +147,34 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         Utils.produits.setProdStock();
         initComponents();
+    }
+
+    static void requestLoading() {
+        var loadState = Utils.load();
+        try {
+            if (!loadState.booleanValue()) // if loading failed
+                if (!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(null, Utils.lang.connect_error, Utils.lang.connect_title,
+                            JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, Utils.lang.loading_error, "Chargement",
+                            JOptionPane.ERROR_MESSAGE);
+            else if (!Utils.settings.isLocal) // if loading success and online
+                JOptionPane.showMessageDialog(null, Utils.lang.connect_sucess, Utils.lang.connect_title,
+                        JOptionPane.INFORMATION_MESSAGE);
+        } catch (NullPointerException e) { // if loading result is not known
+            String[] options = {"Version locale", "Fermer", "Retenter"};
+            int result = JOptionPane.showOptionDialog(null, Utils.lang.connect_error + "Que voulez vous faire ?", Utils.lang.connect_title,
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+            if(result == 0){
+                Utils.settings.isLocal = true;
+                requestLoading();
+            } else if (result == 2) {
+                requestLoading();
+            } else {
+                System.exit(0);
+            }
+        }
     }
 
     private void setLookNFeel() {
