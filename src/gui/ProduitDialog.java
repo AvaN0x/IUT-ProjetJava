@@ -204,6 +204,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 var owner = (IMyDialogOwner) getOwner();
                 owner.dialogReturn();
             }
+            Utils.produits.setProdStock();
             this.dispose();
 
         } else if (e.getSource() == btn_cancel) {
