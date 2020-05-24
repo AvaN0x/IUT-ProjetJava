@@ -149,6 +149,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         initComponents();
     }
 
+    /**
+     * Request a reload of the data with dialogs
+     */
     static void requestLoading() {
         var loadState = Utils.load();
         try {
