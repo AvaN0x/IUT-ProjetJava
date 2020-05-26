@@ -18,7 +18,6 @@ import java.sql.*;
 import app.*;
 
 // TODO faire les documentation pour chaque methodes
-// TODO remplacer tout les string UI par des valeurs dans Utils.lang
     //! TENIR A JOUR LES FICHIERS fr_FR.json et en_EN.json
 
 @SuppressWarnings("serial")
@@ -55,7 +54,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JButton btn_exportCommande;
 
     public MainWindow() {
-        super("Videotek");
+        super("");
         setLookNFeel();
         setSize(1280, 720);
         setLocationRelativeTo(null);
@@ -88,16 +87,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             if (!Utils.settings.isLocal)
                 JOptionPane.showMessageDialog(this, Utils.lang.connect_try,
                         Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
-            if (!Utils.load())
-                if (!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(this, Utils.lang.connect_error, Utils.lang.connect_title,
-                            JOptionPane.ERROR_MESSAGE);
-                else
-                    JOptionPane.showMessageDialog(this, Utils.lang.loading_error, "Chargement",
-                            JOptionPane.ERROR_MESSAGE);
-            else if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, Utils.lang.connect_sucess, Utils.lang.connect_title,
-                        JOptionPane.INFORMATION_MESSAGE);
+            requestLoading();
         } else {
             Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
             Utils.clients.addElement(new ClientFidele("sublet", "tom"));
@@ -158,6 +148,37 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         initComponents();
     }
 
+    /**
+     * Request a reload of the data with dialogs
+     */
+    static void requestLoading() {
+        var loadState = Utils.load();
+        try {
+            if (!loadState.booleanValue()) // if loading failed
+                if (!Utils.settings.isLocal)
+                    JOptionPane.showMessageDialog(null, Utils.lang.connect_error, Utils.lang.connect_title,
+                            JOptionPane.ERROR_MESSAGE);
+                else
+                    JOptionPane.showMessageDialog(null, Utils.lang.loading_error, Utils.lang.loading_title,
+                            JOptionPane.ERROR_MESSAGE);
+            else if (!Utils.settings.isLocal) // if loading success and online
+                JOptionPane.showMessageDialog(null, Utils.lang.connect_sucess, Utils.lang.connect_title,
+                        JOptionPane.INFORMATION_MESSAGE);
+        } catch (NullPointerException e) { // if loading result is not known
+            String[] options = {Utils.lang.retry, Utils.lang.close, Utils.lang.retry};
+            int result = JOptionPane.showOptionDialog(null, Utils.lang.connect_error_question, Utils.lang.connect_title,
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+            if(result == 0){
+                Utils.settings.isLocal = true;
+                requestLoading();
+            } else if (result == 2) {
+                requestLoading();
+            } else {
+                System.exit(0);
+            }
+        }
+    }
+
     private void setLookNFeel() {
         try {
             // Set System L&F
@@ -179,35 +200,35 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
         var mnu = new JMenuBar();
         
-        var mnu_file = new JMenu("Fichier");
+        var mnu_file = new JMenu(Utils.lang.file);
         
-        mnui_save = new JMenuItem("Sauvegarder");
+        mnui_save = new JMenuItem(Utils.lang.save);
         mnui_save.setIcon(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
         mnui_save.addActionListener(this);
         mnu_file.add(mnui_save);
 
         mnu.add(mnu_file);
 
-        var mnu_edit = new JMenu("Edition");
+        var mnu_edit = new JMenu(Utils.lang.edit);
 
-        mnui_newUser = new JMenuItem("Nouveau client");
+        mnui_newUser = new JMenuItem(Utils.lang.new_user);
         mnui_newUser.setIcon(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
         mnui_newUser.addActionListener(this);
         mnu_edit.add(mnui_newUser);
 
-        mnui_newCommande = new JMenuItem("Nouvelle commande");
+        mnui_newCommande = new JMenuItem(Utils.lang.new_order);
         mnui_newCommande.setIcon(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
         mnui_newCommande.addActionListener(this);
         mnu_edit.add(mnui_newCommande);
 
-        mnui_newProd = new JMenuItem("Nouveau produit");
+        mnui_newProd = new JMenuItem(Utils.lang.new_product);
         mnui_newProd.setIcon(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
         mnui_newProd.addActionListener(this);
         mnu_edit.add(mnui_newProd);
 
         mnu_edit.addSeparator();
 
-        mnui_settings = new JMenuItem("Paramètres");
+        mnui_settings = new JMenuItem(Utils.lang.settings);
         mnui_settings.setIcon(new ImageIcon(getClass().getResource(".\\icons\\settings.png")));
         mnui_settings.addActionListener(this);
         mnu_edit.add(mnui_settings);
@@ -220,23 +241,23 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         toolbar.setFloatable(false);
         
         btn_toolbarNewUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
-        btn_toolbarNewUser.setToolTipText("Ajouter un client");
+        btn_toolbarNewUser.setToolTipText(Utils.lang.new_user);
         btn_toolbarNewUser.addActionListener(this);
         
         btn_toolbarNewCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
-        btn_toolbarNewCommande.setToolTipText("Ajouter une commande");
+        btn_toolbarNewCommande.setToolTipText(Utils.lang.new_order);
         btn_toolbarNewCommande.addActionListener(this);
         
         btn_toolbarNewProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
-        btn_toolbarNewProd.setToolTipText("Ajouter un produit");
+        btn_toolbarNewProd.setToolTipText(Utils.lang.new_product);
         btn_toolbarNewProd.addActionListener(this);
         
         btn_toolbarSave = new JButton(new ImageIcon(getClass().getResource(".\\icons\\save.png")));
-        btn_toolbarSave.setToolTipText("Sauvegarder");
+        btn_toolbarSave.setToolTipText(Utils.lang.save);
         btn_toolbarSave.addActionListener(this);
         
         btn_toolbarSettings = new JButton(new ImageIcon(getClass().getResource(".\\icons\\settings.png")));
-        btn_toolbarSettings.setToolTipText("Paramètres");
+        btn_toolbarSettings.setToolTipText(Utils.lang.settings);
         btn_toolbarSettings.addActionListener(this);
 
         toolbar.add(btn_toolbarNewUser);
@@ -248,9 +269,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         add(toolbar, BorderLayout.WEST);
 
         tab = new JTabbedPane();
-        tab.addTab("Commandes", initComponentsCommandes());
-        tab.addTab("Produits", initComponentsProduits());
-        tab.addTab("Clients", initComponentsClients());
+        tab.addTab(Utils.lang.orders, initComponentsCommandes());
+        tab.addTab(Utils.lang.products, initComponentsProduits());
+        tab.addTab(Utils.lang.users, initComponentsClients());
 
         add(tab, BorderLayout.CENTER);
 
@@ -258,7 +279,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 if(!Utils.settings.isLocal)
-                    JOptionPane.showMessageDialog(null, "Savegarde dans la base de données, cela peut prendre un peu de temps...", "Sauvegardes", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, Utils.lang.connect_try, Utils.lang.save_title, JOptionPane.INFORMATION_MESSAGE);
                 Utils.save();
             }
         });
@@ -267,7 +288,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsCommandes() {
         var pnl_commandesTab = new JPanel(new BorderLayout());
 
-        var lbl_commandesTab = new JLabel("Liste des commandes", SwingConstants.CENTER);
+        var lbl_commandesTab = new JLabel(Utils.lang.orders, SwingConstants.CENTER);
         var attributes = new HashMap<TextAttribute, Object>();
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -293,22 +314,22 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_commandesbtns = new JPanel();
         pnl_commandesbtns.setLayout(new BoxLayout(pnl_commandesbtns, BoxLayout.PAGE_AXIS));
         btn_newCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\add.png")));
-        btn_newCommande.setToolTipText("Ajouter une commande");
+        btn_newCommande.setToolTipText(Utils.lang.new_order);
         btn_newCommande.addActionListener(this);
         btn_remCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remove.png")));
-        btn_remCommande.setToolTipText("Supprimer une commande");
+        btn_remCommande.setToolTipText(Utils.lang.del_order);
         btn_remCommande.addActionListener(this);
         btn_remCommande.setEnabled(false);
         btn_editCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
-        btn_editCommande.setToolTipText("Modifier la commande");
+        btn_editCommande.setToolTipText(Utils.lang.edit_order);
         btn_editCommande.addActionListener(this);
         btn_editCommande.setEnabled(false);
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoCommande.setToolTipText("Information sur la commande");
+        btn_infoCommande.setToolTipText(Utils.lang.order_info);
         btn_infoCommande.addActionListener(this);
         btn_infoCommande.setEnabled(false);
         btn_exportCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\export.png")));
-        btn_exportCommande.setToolTipText("Exporter la commande");
+        btn_exportCommande.setToolTipText(Utils.lang.export);
         btn_exportCommande.addActionListener(this);
         btn_exportCommande.setEnabled(false);
 
@@ -328,7 +349,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsProduits() {
         var pnl_produitsTab = new JPanel(new BorderLayout());
 
-        var lbl_prduitsTab = new JLabel("Liste des produits", SwingConstants.CENTER);
+        var lbl_prduitsTab = new JLabel(Utils.lang.order_list, SwingConstants.CENTER);
         var attributes = new HashMap<TextAttribute, Object>();
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -354,18 +375,18 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_prodbtns = new JPanel();
         pnl_prodbtns.setLayout(new BoxLayout(pnl_prodbtns, BoxLayout.PAGE_AXIS));
         btn_newProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\newProd.png")));
-        btn_newProd.setToolTipText("Ajouter un produit");
+        btn_newProd.setToolTipText(Utils.lang.new_product);
         btn_newProd.addActionListener(this);
         btn_remProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\remProd.png")));
-        btn_remProd.setToolTipText("Supprimer le produit");
+        btn_remProd.setToolTipText(Utils.lang.del_product);
         btn_remProd.addActionListener(this);
         btn_remProd.setEnabled(false);
         btn_editProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\editProd.png")));
-        btn_editProd.setToolTipText("Modifier le produit");
+        btn_editProd.setToolTipText(Utils.lang.edit_product);
         btn_editProd.addActionListener(this);
         btn_editProd.setEnabled(false);
         btn_infoProd = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoProd.setToolTipText("Plus d'informations à propos du produit");
+        btn_infoProd.setToolTipText(Utils.lang.product_info);
         btn_infoProd.addActionListener(this);
         btn_infoProd.setEnabled(false);
         pnl_prodbtns.add(btn_newProd);
@@ -383,7 +404,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JPanel initComponentsClients() {
         var pnl_clientsTab = new JPanel(new BorderLayout());
 
-        var lbl_clientsTab = new JLabel("Liste des clients", SwingConstants.CENTER);
+        var lbl_clientsTab = new JLabel(Utils.lang.user_list, SwingConstants.CENTER);
         var attributes = new HashMap<TextAttribute, Object>();
         attributes.put(TextAttribute.FAMILY, Font.DIALOG);
         attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
@@ -401,13 +422,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         var pnl_clientsbtns = new JPanel();
         pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
         btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
-        btn_newUser.setToolTipText("Ajouter un client");
+        btn_newUser.setToolTipText(Utils.lang.new_user);
         btn_newUser.addActionListener(this);
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
-        btn_delUser.setToolTipText("Supprimer un client sélectionné");
+        btn_delUser.setToolTipText(Utils.lang.del_user);
         btn_delUser.addActionListener(this);
         btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoUser.setToolTipText("Plus d'informations à propos du client");
+        btn_infoUser.setToolTipText(Utils.lang.user_info);
         btn_infoUser.addActionListener(this);
         if (l_clients.getModel().getSize() == 0) {
             btn_delUser.setEnabled(false);
@@ -439,8 +460,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             }
         } else if (e.getSource() == btn_remCommande) {
             if (t_commandes.getSelectedRow() != -1) {
-                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer la commande ?",
-                        "Suppression commande - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(this, Utils.lang.del_order_confirm,
+                        Utils.lang.del_order, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     var commande = Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow()));
                     Utils.logStream.Log("Order "+ commande.getId() +" removed");
                     if(!Utils.settings.isLocal)
@@ -474,13 +495,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
             for (int i = 0; i < Utils.commandes.getRowCount(); i++)
                 for (var emprunt : Utils.commandes.getItem(i).getEmprunts())
                     if (Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())) == emprunt.getProduit()) {
-                        JOptionPane.showMessageDialog(this, "Le produit est dans une commande en cours !", "Erreur",
+                        JOptionPane.showMessageDialog(this, Utils.lang.del_product_fail, Utils.lang.error,
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
             if (t_produits.getSelectedRow() != -1)
-                if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le produit ?",
-                        "Suppression produit - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(this, Utils.lang.del_product_confirm,
+                        Utils.lang.del_product, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Utils.logStream.Log("Product " + Utils.produits.getItem(t_produits.convertRowIndexToModel(t_produits.getSelectedRow())).getId() + "removed");
                     if(!Utils.settings.isLocal)
                         try{
@@ -508,13 +529,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         } else if (e.getSource() == btn_delUser) {
             for (int i = 0; i < Utils.commandes.getRowCount(); i++) {
                 if (l_clients.getSelectedValue() == Utils.commandes.getValueAt(0, i)) {
-                    JOptionPane.showMessageDialog(this, "L'utilisateur à une commande en cours !", "Erreur",
+                    JOptionPane.showMessageDialog(this, Utils.lang.del_user_fail, Utils.lang.error,
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
-            if (JOptionPane.showConfirmDialog(this, "Voulez vous vraiment supprimer le client ?",
-                    "Suppression client - Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            if (JOptionPane.showConfirmDialog(this, Utils.lang.del_user_confirm,
+                    Utils.lang.del_user, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 Utils.logStream.Log("Client " + l_clients.getSelectedValue().getId() + " removed");
                 if(!Utils.settings.isLocal)
                     try{
@@ -619,11 +640,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 btn_remCommande.setEnabled(true);
                 if (Utils.commandes.getItem(t_commandes.convertRowIndexToModel(t_commandes.getSelectedRow())).editable()) {
                     btn_editCommande.setEnabled(true);
-                    btn_editCommande.setToolTipText("Modifier la commande");
+                    btn_editCommande.setToolTipText(Utils.lang.edit_order);
                 }
                 else {
                     btn_editCommande.setEnabled(false);
-                    btn_editCommande.setToolTipText("La commande n'est plus modifiable");
+                    btn_editCommande.setToolTipText(Utils.lang.edit_expired_order);
                 }
                 btn_infoCommande.setEnabled(true);
                 btn_exportCommande.setEnabled(true);

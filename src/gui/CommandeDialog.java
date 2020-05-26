@@ -40,7 +40,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     private JButton btn_edit;
 
     public CommandeDialog(Window owner) {
-        super(owner, "Nouvelle commande");
+        super(owner, Utils.lang.new_order);
         setSize(1100, 625);
         setLocationRelativeTo(owner);
 
@@ -56,7 +56,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
     }
 
     public CommandeDialog(Window owner, Commande commande) {
-        super(owner, "Modification commande");
+        super(owner, Utils.lang.edit_order);
         setSize(1100, 625);
         setLocationRelativeTo(owner);
         
@@ -96,13 +96,13 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_clientsbtns = new JPanel();
         pnl_clientsbtns.setLayout(new BoxLayout(pnl_clientsbtns, BoxLayout.PAGE_AXIS));
         btn_newUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\addUser.png")));
-        btn_newUser.setToolTipText("Ajouter un client");
+        btn_newUser.setToolTipText(Utils.lang.new_user);
         btn_newUser.addActionListener(this);
         btn_delUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\deleteUser.png")));
-        btn_delUser.setToolTipText("Supprimer un client sélectionné");
+        btn_delUser.setToolTipText(Utils.lang.del_user);
         btn_delUser.addActionListener(this);
         btn_infoUser = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoUser.setToolTipText("Plus d'informations à propos du client");
+        btn_infoUser.setToolTipText(Utils.lang.user_info);
         btn_infoUser.addActionListener(this);
         if (l_clients.getModel().getSize() == 0) {
             btn_delUser.setEnabled(false);
@@ -121,7 +121,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_dateCreation = new JPanel();
         pnl_dateCreation.setLayout(new BoxLayout(pnl_dateCreation, BoxLayout.PAGE_AXIS));
         var pnl_dateCreationSelect = new JPanel(new FlowLayout());
-        lbl_dateCreation = new JLabel("Date de création : ");
+        lbl_dateCreation = new JLabel(Utils.lang.order_date + " :");
         tf_dateCreation = new JTextField(10);
         tf_dateCreation.setToolTipText("dd/mm/yyyy");
         var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
@@ -166,7 +166,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
                             dateCreation.set(Calendar.DAY_OF_MONTH, dateCreationDay);
                             for (Emprunt emprunt : emprunts.getList()) {
                                 if (dateCreation.getTimeInMillis() > emprunt.getDateFin().getTimeInMillis()) {
-                                    lbl_dateCreationWarn.setText("La date de création ne peut pas être supérieur à la date de fin d'emprunt.");
+                                    lbl_dateCreationWarn.setText(Utils.lang.loan_date_warn);
                                     dateCreationValid = false;
                                     return;
                                 }
@@ -186,7 +186,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
             }
 
             private void notValid() {
-                lbl_dateCreationWarn.setText("Date non valide (dd/mm/yyyy)");
+                lbl_dateCreationWarn.setText(Utils.lang.date_invalid);
                 dateCreationValid = false;
             }
         });
@@ -205,7 +205,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_emprunts = new JPanel();
         pnl_emprunts.setLayout(new BoxLayout(pnl_emprunts, BoxLayout.PAGE_AXIS));
 
-        var lbl_emprunts = new JLabel("Emprunts :");
+        var lbl_emprunts = new JLabel(Utils.lang.loans + " :");
         pnl_emprunts.add(lbl_emprunts);
         
         emprunts = new TableauEmprunts();
@@ -222,17 +222,17 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_produitsBtns.setLayout(new BoxLayout(pnl_produitsBtns, BoxLayout.PAGE_AXIS));
         
         btn_prodComm = new JButton(new ImageIcon(getClass().getResource(".\\icons\\left.png")));
-        btn_prodComm.setToolTipText("Ajouter un produit à la commande");
+        btn_prodComm.setToolTipText(Utils.lang.add_loan);
         btn_prodComm.setEnabled(false);
         btn_prodComm.addActionListener(this);
         
         btn_prodDispo = new JButton(new ImageIcon(getClass().getResource(".\\icons\\right.png")));
-        btn_prodDispo.setToolTipText("Retire un produit de la commande");
+        btn_prodDispo.setToolTipText(Utils.lang.rem_loan);
         btn_prodDispo.setEnabled(false);
         btn_prodDispo.addActionListener(this);
         
         btn_edit = new JButton(new ImageIcon(getClass().getResource(".\\icons\\edit.png")));
-        btn_edit.setToolTipText("Edite un produit de la commande");
+        btn_edit.setToolTipText(Utils.lang.edit_loan);
         btn_edit.setEnabled(false);
         btn_edit.addActionListener(this);
 
@@ -243,7 +243,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         var pnl_produits= new JPanel();
         pnl_produits.setLayout(new BoxLayout(pnl_produits, BoxLayout.PAGE_AXIS));
 
-        var lbl_produits = new JLabel("Produits dispo :");
+        var lbl_produits = new JLabel(Utils.lang.available_products+" :");
         pnl_produits.add(lbl_produits);
 
         Utils.produits.setProdStock(dateCreation);
@@ -262,11 +262,11 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         pnl_produitTables.add(pnl_produits);
         
         var pnl_validate = new JPanel(new FlowLayout());
-        btn_valider = new JButton("Valider");
+        btn_valider = new JButton(Utils.lang.validate);
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
         btn_valider.setEnabled(false);
-        btn_cancel = new JButton("Annuler");
+        btn_cancel = new JButton(Utils.lang.cancel);
         btn_cancel.setIcon(new ImageIcon(getClass().getResource(".\\icons\\no.png")));
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
@@ -414,7 +414,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         }
         else {
             tf_dateCreation.setEditable(false);
-            tf_dateCreation.setToolTipText("La date ne peut pas être éditée car il existe des emprunts.");
+            tf_dateCreation.setToolTipText(Utils.lang.order_date_error);
         }
     }
 

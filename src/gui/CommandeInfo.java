@@ -20,7 +20,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
     private JButton btn_infoProdEmprunt;
 
     public CommandeInfo(Window owner, Commande commande) {
-        super(owner, "Information commande");
+        super(owner, Utils.lang.order_info);
         this.commande = commande;
         setSize(450, 400);
         setLocationRelativeTo(owner);
@@ -34,7 +34,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
         var pnl_fields = new JPanel(new GridLayout(6,1));
 
         var pnl_client = new JPanel(new FlowLayout());
-        var lbl_clientStatic = new JLabel("Client :");
+        var lbl_clientStatic = new JLabel(Utils.lang.field_client +" :");
         var lbl_client = new JLabel(commande.getClient().toString());
         pnl_client.add(lbl_clientStatic);
         pnl_client.add(lbl_client);
@@ -46,7 +46,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
         pnl_id.add(lbl_id);
 
         var pnl_dateCreation = new JPanel(new FlowLayout());
-        var lbl_dateCreationStatic = new JLabel("Date de création :");
+        var lbl_dateCreationStatic = new JLabel(Utils.lang.field_date_start + " :");
         var dateCreation = commande.getDateCreation();
         var lbl_dateCreation = new JLabel(((dateCreation.get(Calendar.DAY_OF_MONTH) > 9) ? dateCreation.get(Calendar.DAY_OF_MONTH) : ("0" + dateCreation.get(Calendar.DAY_OF_MONTH))) + 
             "/" + ((dateCreation.get(Calendar.MONTH) > 8) ? (dateCreation.get(Calendar.MONTH) + 1) : ("0" + (dateCreation.get(Calendar.MONTH) + 1))) + 
@@ -55,13 +55,13 @@ public class CommandeInfo extends JDialog implements ActionListener {
         pnl_dateCreation.add(lbl_dateCreation);
 
         var pnl_reduc = new JPanel(new FlowLayout());
-        var lbl_reducStatic = new JLabel("Reduction :");
+        var lbl_reducStatic = new JLabel(Utils.lang.field_reduc + " :");
         var lbl_reduc = new JLabel(Double.toString(commande.getReduction() * 100) + " %");
         pnl_reduc.add(lbl_reducStatic);
         pnl_reduc.add(lbl_reduc);
 
         var pnl_cout = new JPanel(new FlowLayout());
-        var lbl_coutStatic = new JLabel("Cout total :");
+        var lbl_coutStatic = new JLabel(Utils.lang.field_sum + " :");
         var lbl_cout = new JLabel(Double.toString(commande.getTotalCostNoReduc()) + " €");
         pnl_cout.add(lbl_coutStatic);
         pnl_cout.add(lbl_cout);
@@ -74,7 +74,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
         if (commande.getReduction() != 0) {
             var pnl_coutReduc = new JPanel(new FlowLayout());
-            var lbl_coutReducStatic = new JLabel("Cout après reduction :");
+            var lbl_coutReducStatic = new JLabel(Utils.lang.field_sum_reduc + " :");
             var lbl_coutReduc = new JLabel(Double.toString(commande.getTotalCost()) + " €");
             pnl_coutReduc.add(lbl_coutReducStatic);
             pnl_coutReduc.add(lbl_coutReduc);
@@ -92,7 +92,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
         var pnl_empruntsbtns = new JPanel();
         pnl_empruntsbtns.setLayout(new BoxLayout(pnl_empruntsbtns, BoxLayout.X_AXIS));
         btn_infoProdEmprunt = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoProdEmprunt.setToolTipText("Information sur le produit de l'emprunt");
+        btn_infoProdEmprunt.setToolTipText(Utils.lang.product_info);
         btn_infoProdEmprunt.addActionListener(this);
 
         pnl_empruntsbtns.add(btn_infoProdEmprunt);

@@ -18,7 +18,7 @@ public class UserInfo extends JDialog implements ActionListener {
     private JButton btn_infoCommande;
 
     public UserInfo(Window owner, Client client, TableauCommandes commandes) {
-        super(owner, "Information client");
+        super(owner, Utils.lang.user_info);
         this.client = client;
         this.commandes = new TableauCommandes();
         for (int i = 0; i < commandes.getList().size(); i++)
@@ -38,13 +38,13 @@ public class UserInfo extends JDialog implements ActionListener {
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
         
         var pnl_nom = new JPanel(new FlowLayout());
-        var lbl_nomStatic = new JLabel("Nom :");
+        var lbl_nomStatic = new JLabel(Utils.lang.field_name + " :");
         var lbl_nom = new JLabel(client.getNom());
         pnl_nom.add(lbl_nomStatic);
         pnl_nom.add(lbl_nom);
         
         var pnl_prenom = new JPanel(new FlowLayout());
-        var lbl_prenomStatic = new JLabel("Prenom :");
+        var lbl_prenomStatic = new JLabel(Utils.lang.field_first_name + " :");
         var lbl_prenom = new JLabel(client.getPrenom());
         pnl_prenom.add(lbl_prenomStatic);
         pnl_prenom.add(lbl_prenom);
@@ -56,7 +56,7 @@ public class UserInfo extends JDialog implements ActionListener {
         pnl_id.add(lbl_id);
 
         var pnl_fidel = new JPanel(new FlowLayout());
-        var cb_fidel = new JCheckBox("Fidèle");
+        var cb_fidel = new JCheckBox(Utils.lang.field_loyal);
         cb_fidel.setEnabled(false);
         if (client instanceof ClientFidele)
             cb_fidel.setSelected(true);
@@ -77,7 +77,7 @@ public class UserInfo extends JDialog implements ActionListener {
         pnl_btncomm.setLayout(new BoxLayout(pnl_btncomm, BoxLayout.PAGE_AXIS));
 
         btn_infoCommande = new JButton(new ImageIcon(getClass().getResource(".\\icons\\info.png")));
-        btn_infoCommande.setToolTipText("Information sur la commande");
+        btn_infoCommande.setToolTipText(Utils.lang.user_info);
         btn_infoCommande.addActionListener(this);
 
         pnl_btncomm.add(btn_infoCommande);
