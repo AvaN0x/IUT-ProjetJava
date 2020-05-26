@@ -14,7 +14,7 @@ import app.Produit;
 public class TableauProduits extends AbstractTableModel implements IMyTableModel<Produit> {
     private List<Produit> produits;
     private HashMap<String, Integer> prodStock;
-    private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Disponible", "Loués" };
+    private final String[] categories = new String[] { Utils.lang.field_name, Utils.lang.field_price, Utils.lang.field_categ, Utils.lang.field_available, Utils.lang.field_loaned };
 
     public TableauProduits() {
         super();

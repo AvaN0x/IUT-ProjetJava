@@ -27,7 +27,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
     private JButton btn_cancel;
 
     public EmpruntDialog(Window owner, Produit produit, Calendar dateCreation) {
-        super(owner, "Nouvel emprunt", new Dimension(200,170));
+        super(owner, Utils.lang.new_loan, new Dimension(200,170));
 
         this.produit = produit;
         this.dateCreation = dateCreation;
@@ -82,7 +82,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
             }
 
             private void notValid() {
-                lbl_dateFinWarn.setText("Date non valide (dd/mm/yyyy)");
+                lbl_dateFinWarn.setText(Utils.lang.date_invalid);
                 dateFinValid = false;
             }
         });
@@ -91,7 +91,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
     public void initComponents() {
         setLayout(new BorderLayout());
         var pnl_dateFin = new JPanel(new GridLayout(5, 1));
-        var lbl_dateFin = new JLabel("Date de fin : ");
+        var lbl_dateFin = new JLabel(Utils.lang.field_date_end + " :");
         tf_dateFin = new JTextField(100);
         dateFin = Calendar.getInstance();
         dateFin.set(Calendar.MILLISECOND, 0);
@@ -108,7 +108,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
         lbl_dateFinWarn = new JLabel("");
         lbl_dateFinWarn.setForeground(Color.RED);
 
-        var lbl_dateFinJours = new JLabel("ou Nombre de jours : ");
+        var lbl_dateFinJours = new JLabel(Utils.lang.loan_days + " :");
         tf_dateFinJours = new JTextField(3);
         tf_dateFinJours.setText("1");
         tf_dateFinJours.getDocument().addDocumentListener(new DocumentListener() {
@@ -129,7 +129,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                 try {
                     value = Integer.parseInt(tf_dateFinJours.getText());
                 } catch (NumberFormatException e) {
-                    lbl_dateFinWarn.setText("Ce n'est pas un nombre");
+                    lbl_dateFinWarn.setText(Utils.lang.number_invalid);
                     return;
                 }
                 if (value > 0) {
@@ -144,7 +144,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                     if (!tf_dateFin.getText().trim().equals(dateFinString))
                         tf_dateFin.setText(dateFinString);
                 } else {
-                    lbl_dateFinWarn.setText("Nombre de jours non valide");
+                    lbl_dateFinWarn.setText(Utils.lang.days_invalid);
                 }
                 checkBtnValider();
             }

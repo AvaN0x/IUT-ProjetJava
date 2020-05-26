@@ -23,7 +23,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
     private JButton btn_cancel;
 
     public SettingsDialog(Window owner) {
-        super(owner, "Paramètres", new Dimension(250, 290));
+        super(owner, Utils.lang.settings, new Dimension(250, 290));
     }
 
     public void initComponents() {
@@ -31,9 +31,10 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_settings.setLayout(new BoxLayout(pnl_settings, BoxLayout.PAGE_AXIS));
 
         var pnl_language = new JPanel(new FlowLayout());
-        var lbl_language = new JLabel("Langue :");
+        var lbl_language = new JLabel(Utils.lang.settings_lang + " :");
         pnl_language.add(lbl_language);
         cbx_language = new JComboBox<Locale>();
+        // TODO : list all the json
         cbx_language.addItem(new Locale("fr","FR"));
         cbx_language.addItem(new Locale("en","EN"));
         cbx_language.setSelectedItem(Utils.settings.language.getDisplayLanguage());
@@ -43,18 +44,18 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var pnl_saveMethod = new JPanel();
         pnl_saveMethod.setLayout(new BoxLayout(pnl_saveMethod, BoxLayout.PAGE_AXIS));
 
-        var lbl_saveMethod = new JLabel("Méthode de sauvegarde :");
+        var lbl_saveMethod = new JLabel(Utils.lang.settings_save + " :");
         pnl_saveMethod.add(lbl_saveMethod);
 
         var grp_save = new ButtonGroup();
-        rb_saveLocal = new JRadioButton("Locale");
+        rb_saveLocal = new JRadioButton(Utils.lang.settings_local);
         if (Utils.settings.isLocal)
             rb_saveLocal.setSelected(true);
         rb_saveLocal.addActionListener(this);
         grp_save.add(rb_saveLocal);
         pnl_saveMethod.add(rb_saveLocal);
 
-        rb_saveDB = new JRadioButton("BdD");
+        rb_saveDB = new JRadioButton(Utils.lang.settings_db);
         if (!Utils.settings.isLocal)
             rb_saveDB.setSelected(true);
         rb_saveDB.addActionListener(this);
@@ -67,7 +68,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.setLayout(new BoxLayout(pnl_bdd, BoxLayout.PAGE_AXIS));
 
         var pnl_url = new JPanel(new FlowLayout());
-        var lbl_url = new JLabel("Host :");
+        var lbl_url = new JLabel(Utils.lang.settings_host + " :");
         pnl_url.add(lbl_url);
         tf_dbUrl = new JTextField(10);
         tf_dbUrl.setText(Utils.settings.dbUrl.getHostAddress());
@@ -77,7 +78,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_url);
 
         var pnl_user = new JPanel(new FlowLayout());
-        var lbl_user = new JLabel("Username :");
+        var lbl_user = new JLabel(Utils.lang.settings_login + " :");
         pnl_user.add(lbl_user);
         tf_dbUser = new JTextField(10);
         tf_dbUser.setText(Utils.settings.dbUser);
@@ -87,7 +88,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_user);
 
         var pnl_pass = new JPanel(new FlowLayout());
-        var lbl_pass = new JLabel("Password :");
+        var lbl_pass = new JLabel(Utils.lang.settings_pass + " :");
         pnl_pass.add(lbl_pass);
         pf_dbPassword = new JPasswordField(10);
         pf_dbPassword.setText(new String(Utils.settings.dbPass));
@@ -97,7 +98,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_pass);
 
         var pnl_db = new JPanel(new FlowLayout());
-        var lbl_db = new JLabel("Base de Données :");
+        var lbl_db = new JLabel(Utils.lang.settings_base + " :");
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
         cbx_db.addActionListener(this);
@@ -111,10 +112,10 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_settings.add(pnl_bdd);
         
         var pnl_validate = new JPanel(new FlowLayout());
-        btn_valider = new JButton("Valider");
+        btn_valider = new JButton(Utils.lang.validate);
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
-        btn_cancel = new JButton("Annuler");
+        btn_cancel = new JButton(Utils.lang.cancel);
         btn_cancel.setIcon(new ImageIcon(getClass().getResource(".\\icons\\no.png")));
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
@@ -134,7 +135,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             cbx_db.setEnabled(false);
             
             cbx_db.removeAllItems();
-            cbx_db.addItem("<rafraichir>");
+            cbx_db.addItem(Utils.lang.settings_reload);
         } else if (e.getSource() == rb_saveDB) {
             tf_dbUrl.setEnabled(true);
             tf_dbUser.setEnabled(true);
@@ -143,7 +144,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             
             changeDBSettings();
             cbx_db.removeAllItems();
-            cbx_db.addItem("<rafraichir>");
+            cbx_db.addItem(Utils.lang.settings_reload);
         } else if (e.getSource() == btn_valider) {
             Utils.settings.isLocal = rb_saveLocal.isSelected();
             
@@ -152,7 +153,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             Utils.settings.language = (Locale) cbx_language.getSelectedItem();
 
             if (!Utils.settings.isLocal) {
-                JOptionPane.showMessageDialog(this, "Nous allons essayer de vous connecter à la base de données", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, Utils.lang.connect_try, Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
                 setEnabled(false);
             }
 
@@ -170,7 +171,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             quit();
         } else if (e.getSource() == btn_cancel) {
             quit();
-        } else if (e.getSource() == cbx_db && cbx_db.getSelectedItem() == "<rafraichir>") {
+        } else if (e.getSource() == cbx_db && cbx_db.getSelectedItem() == Utils.lang.settings_reload) {
             changeDBSettings();
             reloadDB();
         }
@@ -201,7 +202,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             Utils.logStream.Error(e);
         }
         Utils.settings.dbBase = tmp_base;
-        cbx_db.addItem("<rafraichir>");
+        cbx_db.addItem(Utils.lang.settings_reload);
         cbx_db.setSelectedItem(Utils.settings.dbBase);
     }
 

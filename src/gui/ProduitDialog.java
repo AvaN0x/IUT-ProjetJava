@@ -26,11 +26,11 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
     private JButton btn_cancel;
 
     public ProduitDialog(Window owner) {
-        super(owner, "Nouveau produit", new Dimension(240, 210));
+        super(owner, Utils.lang.new_product, new Dimension(240, 210));
     }
 
     public ProduitDialog(Window owner, Produit produit) {
-        super(owner, "Nouveau produit", new Dimension(240, 210));
+        super(owner, Utils.lang.new_product, new Dimension(240, 210));
 
         this.produit = produit;
         cbx_type.setEnabled(false);
@@ -59,21 +59,21 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         
         
         var pnl_title = new JPanel(new FlowLayout());
-        var lbl_title = new JLabel("Titre :");
+        var lbl_title = new JLabel(Utils.lang.field_title + " :");
         tf_title = new JTextField(20);
         pnl_title.add(lbl_title);
         pnl_title.add(tf_title);
         pnl_fields.add(pnl_title);
         
         var pnl_price = new JPanel(new FlowLayout());
-        var lbl_price = new JLabel("Prix / jour :");
+        var lbl_price = new JLabel(Utils.lang.field_price + " :");
         tf_price = new JTextField(5);
         pnl_price.add(lbl_price);
         pnl_price.add(tf_price);
         pnl_fields.add(pnl_price);
         
         var pnl_quantity = new JPanel(new FlowLayout());
-        var lbl_quantity = new JLabel("Quantité :");
+        var lbl_quantity = new JLabel(Utils.lang.field_quantity + " :");
         tf_quantity = new JTextField(3);
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);
@@ -96,10 +96,10 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         pnl_fields.add(pnl_optionfields);
 
         var pnl_validate = new JPanel(new FlowLayout());
-        btn_valider = new JButton("Valider");
+        btn_valider = new JButton(Utils.lang.validate);
         btn_valider.setIcon(new ImageIcon(getClass().getResource(".\\icons\\ok.png")));
         btn_valider.addActionListener(this);
-        btn_cancel = new JButton("Annuler");
+        btn_cancel = new JButton(Utils.lang.cancel);
         btn_cancel.setIcon(new ImageIcon(getClass().getResource(".\\icons\\no.png")));
         btn_cancel.addActionListener(this);
         pnl_validate.add(btn_valider);
@@ -116,13 +116,13 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                tf_quantity.getText().trim().length() <= 0 ||
                tf_option1.getText().trim().length() <= 0)
             {
-                JOptionPane.showMessageDialog(this, "L'un des champs est vide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, Utils.lang.field_empty, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (produit != null) {
                 if (Double.parseDouble(tf_quantity.getText().trim()) < (produit.getQuantity() - Utils.produits.getProductStock(produit.getId())))
                 {
-                    JOptionPane.showMessageDialog(this, "La quantité ne peut pas être inférieur au nombre de produit loués actuellement.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, Utils.lang.product_stock_error, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                     return;
                 } 
             }
@@ -151,15 +151,16 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                                 && releaseDateDay <= releaseDate.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             releaseDate.set(Calendar.DAY_OF_MONTH, releaseDateDay);
                         } else {
-                            JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            // TODO factorisation
+                            JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "La date n'est pas valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -173,7 +174,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                             produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
                 } catch (Exception error) {
                     Utils.logStream.Error(error);
-                    JOptionPane.showMessageDialog(this, "Une des entrées ne correspond pas.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, Utils.lang.field_wrong, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                     setVisible(true);
                     return;
                 }

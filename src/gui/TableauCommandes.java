@@ -10,7 +10,7 @@ import app.Commande;
 public class TableauCommandes extends AbstractTableModel implements IMyTableModel<Commande>{
     private List<Commande> commandes;
 
-    private final String[] categories = new String[] { "Client", "Date de Création", "Réduction", "Cout total", "Emprunts" };
+    private final String[] categories = new String[] { Utils.lang.field_client, Utils.lang.field_date_start, Utils.lang.field_reduc, Utils.lang.field_sum, Utils.lang.loans };
 
     public TableauCommandes(){
         super();

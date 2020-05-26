@@ -11,7 +11,7 @@ import app.Emprunt;
 public class TableauEmprunts extends AbstractTableModel implements IMyTableModel<Emprunt> {
         private List<Emprunt> emprunts;
     
-        private final String[] categories = new String[] { "Nom", "Prix / jour", "Catégorie", "Date de fin", "Cout" };
+        private final String[] categories = new String[] { Utils.lang.field_name, Utils.lang.field_price, Utils.lang.field_categ, Utils.lang.field_date_end, Utils.lang.field_cost };
     
         public TableauEmprunts(){
             super();
