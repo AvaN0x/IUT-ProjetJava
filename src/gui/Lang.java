@@ -115,7 +115,6 @@ public class Lang {
     
     public Lang(){
         try {
-            // TODO: en_US == en_EN + si .getDefault non trouvé
             var obj = new JSONParser().parse(new FileReader("lang/"+Utils.settings.language.toString() + ".json"));
             var jo = (JSONObject) obj;
             
