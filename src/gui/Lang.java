@@ -15,6 +15,7 @@ public class Lang {
     
     public String settings;
     public String settings_lang;
+    public String settings_save;
     public String settings_local;
     public String settings_db;
     public String settings_host;
@@ -69,7 +70,6 @@ public class Lang {
     public String add_loan;
     public String rem_loan;
     public String edit_loan;
-    public String loan_date;
     public String loan_date_warn;
     public String loan_days;
 
@@ -94,6 +94,7 @@ public class Lang {
     public String field_date_end;
     public String field_order;
     public String field_title;
+    public String field_type;
     public String field_price;
     public String field_quantity;
     public String field_categ;
