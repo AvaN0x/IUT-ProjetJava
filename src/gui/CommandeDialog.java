@@ -132,7 +132,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         dateCreationValid = true;
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
-        tf_dateCreation.setEditable(false); // TODO si on a la volonté de gérer la dateCreation différente
+        tf_dateCreation.setEditable(false);
 
         tf_dateCreation.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
