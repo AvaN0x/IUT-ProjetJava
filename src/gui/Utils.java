@@ -340,7 +340,7 @@ class Settings implements Serializable {
 
     public Settings(){
         isLocal = true;
-        language = Locale.getDefault();
+        language = Locale.getDefault(); //new Locale("fr","FR");
         resetDB();
     }
 
