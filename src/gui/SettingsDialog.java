@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Locale;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -34,9 +35,9 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         var lbl_language = new JLabel(Utils.lang.settings_lang + " :");
         pnl_language.add(lbl_language);
         cbx_language = new JComboBox<Locale>();
-        // TODO : list all the json
-        cbx_language.addItem(new Locale("fr","FR"));
-        cbx_language.addItem(new Locale("en","EN"));
+        var files = new File("lang").list();
+        for (var file : files)
+            cbx_language.addItem(new Locale(file.substring(0, 2), file.substring(3, 5)));
         cbx_language.setSelectedItem(Utils.settings.language.getDisplayLanguage());
         pnl_language.add(cbx_language);
         pnl_settings.add(pnl_language);
