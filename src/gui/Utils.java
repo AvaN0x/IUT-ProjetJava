@@ -302,7 +302,7 @@ public class Utils {
                                 if (produit.getId().equals(loans.getString(4))){
                                     var cal = Calendar.getInstance();
                                     cal.setTime(loans.getDate(3));
-                                    order.addEmprunt(loans.getString(1), cal, produit);
+                                    order.addEmprunt(loans.getString(2), cal, produit);
                                 }
                         }
                         commandes.add(order);
