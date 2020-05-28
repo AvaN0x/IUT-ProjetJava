@@ -221,7 +221,7 @@ public class Utils {
      * Load the data
      * @return the success (or not) of the operation
      */
-    @SuppressWarnings("unchecked") //! https://stackoverflow.com/a/509230/13257820
+    @SuppressWarnings("unchecked")
     static Boolean load(){
         try{
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));

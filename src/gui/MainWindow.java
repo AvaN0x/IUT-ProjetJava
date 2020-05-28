@@ -17,9 +17,6 @@ import java.sql.*;
 
 import app.*;
 
-// TODO faire les documentation pour chaque methodes
-    //! TENIR A JOUR LES FICHIERS fr_FR.json et en_EN.json
-
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, IMyUserDialogOwner, IMyProduitDialogOwner, IMyCommandeDialogOwner {
     private JMenuItem mnui_save;

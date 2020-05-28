@@ -226,6 +226,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         }
     }
 
+    @SuppressWarnings("unchecked")
     public Class<? extends Produit> getSelectedClass() {
         try {
             for (var field : Lang.class.getDeclaredFields())
