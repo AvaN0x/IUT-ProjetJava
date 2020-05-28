@@ -44,10 +44,7 @@ public class TableauEmprunts extends AbstractTableModel implements IMyTableModel
                 case 2:
                     return emprunts.get(rowIndex).getProduit().getClass().getSimpleName();
                 case 3:
-                    var dateFin = emprunts.get(rowIndex).getDateFin();
-                    return ((dateFin.get(Calendar.DAY_OF_MONTH) > 9) ? dateFin.get(Calendar.DAY_OF_MONTH) : ("0" + dateFin.get(Calendar.DAY_OF_MONTH))) + 
-                        "/" + ((dateFin.get(Calendar.MONTH) > 8) ? (dateFin.get(Calendar.MONTH) + 1) : ("0" + (dateFin.get(Calendar.MONTH) + 1))) + 
-                        "/" + dateFin.get(Calendar.YEAR);
+                    return Utils.dateToString(emprunts.get(rowIndex).getDateFin());
                 case 4:
                     return emprunts.get(rowIndex).getCost() + " €";
                 default:

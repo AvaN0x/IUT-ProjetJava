@@ -137,9 +137,7 @@ public class EmpruntDialog extends MyJDialog implements ActionListener {
                     Calendar date = Calendar.getInstance();
                     date.set(dateCreation.get(Calendar.YEAR), dateCreation.get(Calendar.MONTH), dateCreation.get(Calendar.DAY_OF_MONTH));
                     date.add(Calendar.DAY_OF_YEAR, value);
-                    String dateFinString = ((date.get(Calendar.DAY_OF_MONTH) > 9) ? date.get(Calendar.DAY_OF_MONTH) : ("0" + date.get(Calendar.DAY_OF_MONTH))) + 
-                        "/" + ((date.get(Calendar.MONTH) > 8) ? (date.get(Calendar.MONTH) + 1) : ("0" + (date.get(Calendar.MONTH) + 1))) + 
-                        "/" + date.get(Calendar.YEAR);
+                    String dateFinString = Utils.dateToString(date);
                     
                     if (!tf_dateFin.getText().trim().equals(dateFinString))
                         tf_dateFin.setText(dateFinString);
