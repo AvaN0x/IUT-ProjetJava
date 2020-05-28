@@ -234,7 +234,7 @@ public class Utils {
                 try {
                     var products = SQLrequest("SELECT * FROM `produits` NATURAL JOIN `types`");
                     while(products.next()){
-                        var cls = (Class<? extends Produit>) Class.forName("app."+products.getString(7));
+                        var cls = (Class<? extends Produit>) Class.forName("app."+products.getString("categ"));
                         if(cls != CD.class) // TODO better cd generation
                             try {
                                 produits.add(
