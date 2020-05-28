@@ -89,7 +89,6 @@
   "field_title": "Titre",
   "field_type": "Type",
   "field_price": "Prix/jour",
-  "field_quantity": "Quantité",
   "field_categ": "Catégorie",
   "field_reduc": "Reduction",
   "field_cost": "Cout",
@@ -98,7 +97,12 @@
   "field_available": "Disponible",
   "field_loans": "Emprunts",
   "field_loaned": "Loués",
-  
+  "field_releaseDate": "Date de sortie",
+  "field_auteur": "Auteur",
+  "field_realisateur": "Réalisateur",
+  "field_quantity": "Quantité",
+  "field_langue": "Langue",
+
   "date_invalid": "Date non valide (dd/mm/yyyy)",
   "number_invalid": "Ce n'est pas un nombre",
   "days_invalid": "Nombre de jours non valide",

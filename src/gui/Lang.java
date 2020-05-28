@@ -96,7 +96,6 @@ public class Lang {
     public String field_title;
     public String field_type;
     public String field_price;
-    public String field_quantity;
     public String field_categ;
     public String field_reduc;
     public String field_cost;
@@ -105,7 +104,12 @@ public class Lang {
     public String field_available;
     public String field_loans;
     public String field_loaned;
-
+    public String field_releaseDate;
+    public String field_auteur;
+    public String field_realisateur;
+    public String field_quantity;
+    public String field_langue;
+    
     public String date_invalid;
     public String number_invalid;
     public String days_invalid;
