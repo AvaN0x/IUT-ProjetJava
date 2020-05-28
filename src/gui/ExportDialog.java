@@ -8,6 +8,18 @@ import java.time.Duration;
 
 import javax.swing.*;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.GreekList;
+import com.itextpdf.text.List;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.RomanList;
+import com.itextpdf.text.ZapfDingbatsList;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import app.Commande;
 
 @SuppressWarnings("serial")
@@ -32,6 +44,7 @@ public class ExportDialog extends MyJDialog implements ActionListener {
         cbx_type = new JComboBox<String>();
         cbx_type.addItem("txt file");
         cbx_type.addItem("csv file");
+        cbx_type.addItem("pdf file");
 
         pnl_content.add(cbx_type);
 
@@ -51,10 +64,12 @@ public class ExportDialog extends MyJDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
-            if (cbx_type.getSelectedIndex() == 1) // csv file
-                exportToCSV();
-            else // txt file
+            if (cbx_type.getSelectedIndex() == 0) // txt file
                 exportToTXT();
+            else if (cbx_type.getSelectedIndex() == 1) // csv file
+                exportToCSV();
+            else // pdf file
+                exportToPDF();
             Utils.logStream.Log("Order " + commande.getId() + " exported");
             quit();
         } else if (e.getSource() == btn_cancel) {
@@ -118,7 +133,7 @@ public class ExportDialog extends MyJDialog implements ActionListener {
                         + Utils.dateToString(emprunt.getDateFin()) + " ("
                         + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
                                 .toDays()
-                        + " jours)"); //
+                        + " jours)");
             }
             writer.println("\nTotal HR: " + commande.getTotalCostNoReduc() + "€");
             writer.println("Réduction : " + commande.getReduction() * 100 + "%");
@@ -128,6 +143,43 @@ public class ExportDialog extends MyJDialog implements ActionListener {
         } catch (FileNotFoundException ex) {
             Utils.logStream.Error(ex);
         } catch (IOException ex) {
+            Utils.logStream.Error(ex);
+        }
+    }
+
+    private void exportToPDF() {
+		Document document = new Document();
+		try
+		{
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("bin/commande_" + commande.getId() + ".pdf"));
+			document.open();
+
+            document.add(new Paragraph("Commande " + commande.getId()));
+            document.add(new Paragraph("Client   " + commande.getClient().getId()));
+            document.add(new Paragraph("\t\t " + commande.getClient().getNom() + " " + commande.getClient().getPrenom() + "\n"));
+
+            document.add(new Paragraph("Nombre d'emprunts : " + commande.getEmprunts().size()));
+            for (var emprunt : commande.getEmprunts()) {
+                document.add(new Paragraph(emprunt.getProduit().getTitle()));
+                document.add(new Paragraph("\t " + emprunt.getProduit().getOption1()));
+                document.add(new Paragraph("\t Type : " + emprunt.getProduit().getClass().getSimpleName()));
+                document.add(new Paragraph("\t Prix journalier : " + emprunt.getProduit().getDailyPrice() + "€"));
+                document.add(new Paragraph("\t Coût : " + emprunt.getCost() + "€"));
+                document.add(new Paragraph("\t " + Utils.dateToString(commande.getDateCreation()) + " -> "
+                        + Utils.dateToString(emprunt.getDateFin()) + " ("
+                        + Duration.between(commande.getDateCreation().toInstant(), emprunt.getDateFin().toInstant())
+                                .toDays()
+                        + " jours)"));
+            }
+            document.add(new Paragraph("\nTotal HR: " + commande.getTotalCostNoReduc() + "€"));
+            document.add(new Paragraph("Réduction : " + commande.getReduction() * 100 + "%"));
+            document.add(new Paragraph("Total  : " + commande.getTotalCost() + "€"));
+
+			document.close();
+			writer.close();
+        } catch (FileNotFoundException ex) {
+            Utils.logStream.Error(ex);
+        } catch (DocumentException ex) {
             Utils.logStream.Error(ex);
         }
     }
