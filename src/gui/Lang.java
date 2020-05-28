@@ -125,6 +125,7 @@ public class Lang {
     public String class_DVD;
     public String class_ManuelScolaire;
     public String class_Roman;
+	public String restart_lang;
 
     public Lang() {
         try {

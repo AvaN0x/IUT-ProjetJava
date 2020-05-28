@@ -31,7 +31,7 @@
   
   "save_title": "Sauvegarde",
   "save": "Sauvegarder",
-  "save_db_warn": "Savegarde dans la base de données, cela peut prendre un peu de temps...",
+  "save_db_warn": "Sauvegarde dans la base de données, cela peut prendre un peu de temps...",
 
   "edit": "Edition",
 
@@ -109,6 +109,7 @@
   "field_empty": "L'un des champs est vide !",
   "field_wrong": "Une des entrées ne correspond pas.",
   "name_error": "Nom ou prénom vide !",
+  "restart_lang": "Relancez le programme pour appliquer les paramètres",
 
   "class_BD": "BD",
   "class_CD": "CD",

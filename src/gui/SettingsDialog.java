@@ -32,20 +32,20 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_settings.setLayout(new BoxLayout(pnl_settings, BoxLayout.PAGE_AXIS));
 
         var pnl_language = new JPanel(new FlowLayout());
-        var lbl_language = new JLabel(Utils.lang.settings_lang + " :");
+        var lbl_language = new JLabel(Utils.lang.settings_lang);
         pnl_language.add(lbl_language);
         cbx_language = new JComboBox<Locale>();
         var files = new File("lang").list();
         for (var file : files)
             cbx_language.addItem(new Locale(file.substring(0, 2), file.substring(3, 5)));
-        cbx_language.setSelectedItem(Utils.settings.language.getDisplayLanguage());
+        cbx_language.setSelectedItem(Utils.settings.language);
         pnl_language.add(cbx_language);
         pnl_settings.add(pnl_language);
 
         var pnl_saveMethod = new JPanel();
         pnl_saveMethod.setLayout(new BoxLayout(pnl_saveMethod, BoxLayout.PAGE_AXIS));
 
-        var lbl_saveMethod = new JLabel(Utils.lang.settings_save + " :");
+        var lbl_saveMethod = new JLabel(Utils.lang.settings_save);
         pnl_saveMethod.add(lbl_saveMethod);
 
         var grp_save = new ButtonGroup();
@@ -69,7 +69,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.setLayout(new BoxLayout(pnl_bdd, BoxLayout.PAGE_AXIS));
 
         var pnl_url = new JPanel(new FlowLayout());
-        var lbl_url = new JLabel(Utils.lang.settings_host + " :");
+        var lbl_url = new JLabel(Utils.lang.settings_host);
         pnl_url.add(lbl_url);
         tf_dbUrl = new JTextField(10);
         tf_dbUrl.setText(Utils.settings.dbUrl.getHostAddress());
@@ -79,7 +79,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_url);
 
         var pnl_user = new JPanel(new FlowLayout());
-        var lbl_user = new JLabel(Utils.lang.settings_login + " :");
+        var lbl_user = new JLabel(Utils.lang.settings_login);
         pnl_user.add(lbl_user);
         tf_dbUser = new JTextField(10);
         tf_dbUser.setText(Utils.settings.dbUser);
@@ -89,7 +89,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_user);
 
         var pnl_pass = new JPanel(new FlowLayout());
-        var lbl_pass = new JLabel(Utils.lang.settings_pass + " :");
+        var lbl_pass = new JLabel(Utils.lang.settings_pass);
         pnl_pass.add(lbl_pass);
         pf_dbPassword = new JPasswordField(10);
         pf_dbPassword.setText(new String(Utils.settings.dbPass));
@@ -99,7 +99,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
         pnl_bdd.add(pnl_pass);
 
         var pnl_db = new JPanel(new FlowLayout());
-        var lbl_db = new JLabel(Utils.lang.settings_base + " :");
+        var lbl_db = new JLabel(Utils.lang.settings_base);
         pnl_db.add(lbl_db);
         cbx_db = new JComboBox<String>();
         cbx_db.addActionListener(this);
@@ -151,6 +151,8 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             
             changeDBSettings();
 
+            if(Utils.settings.language != (Locale) cbx_language.getSelectedItem())
+                JOptionPane.showMessageDialog(this, Utils.lang.restart_lang, Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
             Utils.settings.language = (Locale) cbx_language.getSelectedItem();
 
             if (!Utils.settings.isLocal) {
