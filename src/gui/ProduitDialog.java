@@ -136,6 +136,13 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             if (cbx_type.getSelectedIndex() == 1) { // It's a CD // TODO faire la verif si c'est une date 
                 Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
                 Matcher m = regex.matcher(tf_option1.getText());
+
+                Runnable dateInvalid = () ->
+                {
+                    JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
+                };
+                
+
                 if (m.matches()) {
                     String dateValue = tf_option1.getText();
                     String[] dateValueTab = dateValue.split("/");
@@ -151,16 +158,15 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                                 && releaseDateDay <= releaseDate.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                             releaseDate.set(Calendar.DAY_OF_MONTH, releaseDateDay);
                         } else {
-                            // TODO factorisation
-                            JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
+                            dateInvalid.run();
                             return;
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
+                        dateInvalid.run();
                         return;
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
+                    dateInvalid.run();
                     return;
                 }
             }
