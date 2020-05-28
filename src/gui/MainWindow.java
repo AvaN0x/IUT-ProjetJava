@@ -85,60 +85,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 JOptionPane.showMessageDialog(this, Utils.lang.connect_try,
                         Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
             requestLoading();
-        } else {
-            Utils.clients.addElement(new ClientFidele("ricatte", "clément"));
-            Utils.clients.addElement(new ClientFidele("sublet", "tom"));
-            Utils.clients.addElement(new ClientOccas("hochet", "ric"));
-            Utils.clients.addElement(new ClientFidele("térieur", "alex"));
-            Utils.clients.addElement(new ClientOccas("térieur", "alain"));
-
-            Utils.produits.add(new Roman("Harry Potter à l'école des sorciers", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et la chambre des secrets", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et le Prisonnier d'Azkaban", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et la Coupe de feu", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et l'Ordre du phénix", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et le Prince de Sang-Mêlé", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et les Reliques de la Mort", 0.99, 3, "J. K. Rowling"));
-            Utils.produits.add(new Roman("Harry Potter et l'enfant maudit", 0.99, 4, "J. K. Rowling"));
-            Utils.produits.add(new Dictionnaire("LAROUSSE", .65, 5, "FR"));
-            Utils.produits.add(new ManuelScolaire("Objectif BAC Term S - BAC 2020", .99, 2, "hachette"));
-            Utils.produits.add(new DVD("Le voyage de Chihiro", 1.99, 1, "Hayao Miyazaki"));
-            Utils.produits.add(new BD("Les Simpson - Camping en délire", .75, 2, "Jungle!"));
-            Utils.produits.add(new BD("Les Simpson - Un sacré foin !", .75, 1, "Jungle!"));
-            var dateAdibou = Calendar.getInstance();
-            dateAdibou.set(2003, 9, 24);
-            Utils.produits.add(new CD("Adibou & le Secret de Paziral", .1, 1, dateAdibou));
-
-            Calendar dateCreation = Calendar.getInstance();
-            dateCreation.set(Calendar.MILLISECOND, 0);
-            dateCreation.set(Calendar.SECOND, 0);
-            dateCreation.set(Calendar.MINUTE, 0);
-            dateCreation.set(Calendar.HOUR_OF_DAY, 0);
-            dateCreation.set(2020, Calendar.APRIL, 26);
-            Utils.commandes.add(new Commande(Utils.clients.get(0), dateCreation));
-            Calendar dateFin = Calendar.getInstance();
-            dateFin.set(Calendar.MILLISECOND, 0);
-            dateFin.set(Calendar.SECOND, 0);
-            dateFin.set(Calendar.MINUTE, 0);
-            dateFin.set(Calendar.HOUR_OF_DAY, 0);
-            dateFin.set(2020, Calendar.JUNE, 26);
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(0));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(1));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(2));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(3));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(4));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(5));
-            Utils.commandes.getItem(0).addEmprunt(dateFin, Utils.produits.getItem(6));
-
-            dateCreation.set(2020, Calendar.MAY, 20);
-            Utils.commandes.add(new Commande(Utils.clients.get(2), dateCreation));
-            dateFin.setTimeInMillis(dateCreation.getTimeInMillis());
-            dateFin.add(Calendar.DAY_OF_YEAR, 50);
-            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
-            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
-            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
-            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
-            Utils.commandes.getItem(1).addEmprunt(dateFin, Utils.produits.getItem(8));
         }
 
         Utils.produits.setProdStock();
