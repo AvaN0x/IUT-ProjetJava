@@ -111,18 +111,18 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
     }
 
     private void reloadOptionsLabel() {
-        for (var pair : Utils.getTypes()) {
-            if (pair.getValue0().getSimpleName().equals(cbx_type.getSelectedItem()))
-                for (var field : Lang.class.getDeclaredFields()) {
+        ReloadOptionsLabel:
+        for (var pair : Utils.getTypes()) 
+            if (pair.getValue0() == getSelectedClass())
+                for (var field : Lang.class.getDeclaredFields()) 
                     if (field.getName().equals("field_" + pair.getValue1()[0].getName()))
                         try {
                             lbl_option1.setText((String) field.get(Utils.lang) + " :");
-                            break;
+                            break ReloadOptionsLabel;
                         } catch (IllegalAccessException e) {
                             Utils.logStream.Error(e);
                         }
-                }
-        }
+        return;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -210,7 +210,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 produit.setTitle(tf_title.getText());
                 produit.setDailyPrice(Double.parseDouble(tf_price.getText().trim()));
                 produit.setQuantity(Integer.parseInt(tf_quantity.getText().trim()));
-                if (cbx_type.getSelectedItem() == CD.class.getSimpleName())
+                if (getSelectedClass() == CD.class)
                     produit.setOption1(releaseDate);
                 else
                     produit.setOption1(tf_option1.getText());
@@ -230,7 +230,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
     public Class<? extends Produit> getSelectedClass() {
         try {
             for (var field : Lang.class.getDeclaredFields())
-                if (((String) field.get(Utils.lang)).equals(cbx_type.getSelectedItem()))
+                if (((String) field.get(Utils.lang)).equals(((String) cbx_type.getSelectedItem()).replaceAll("\\s+", "")))
                     return (Class<? extends Produit>) Class.forName("app." + (String) field.getName().substring(6));
         } catch (IllegalAccessException | ClassNotFoundException e) {
             Utils.logStream.Error(e);
@@ -241,7 +241,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == cbx_type) {
             reloadOptionsLabel();
-            if (cbx_type.getSelectedItem() == CD.class.getSimpleName()) {
+            if (((String) cbx_type.getSelectedItem()).replaceAll("\\s+", "") == CD.class.getSimpleName()) {
                 var defCalendar = Calendar.getInstance();
                 var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };
                 tf_option1.setText(
