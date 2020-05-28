@@ -15,7 +15,7 @@ import app.*;
 @SuppressWarnings("serial")
 public class ProduitDialog extends MyJDialog implements ActionListener, ItemListener {
     private Produit produit;
-    
+
     private JLabel lbl_option1;
     private JTextField tf_title;
     private JTextField tf_price;
@@ -45,16 +45,15 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         tf_option1.setText((String) produit.getOption1());
     }
 
-
     public void initComponents() {
         var pnl_fields = new JPanel();
         pnl_fields.setLayout(new BoxLayout(pnl_fields, BoxLayout.PAGE_AXIS));
-        
+
         cbx_type = new JComboBox<String>();
         for (var item : Utils.getTypes()) {
-            for(var field : Lang.class.getDeclaredFields()) {
-                if(field.getName().equals("class_" + item.getValue0().getSimpleName()))
-                    try{
+            for (var field : Lang.class.getDeclaredFields()) {
+                if (field.getName().equals("class_" + item.getValue0().getSimpleName()))
+                    try {
                         cbx_type.addItem((String) field.get(Utils.lang));
                         break;
                     } catch (IllegalAccessException e) {
@@ -64,28 +63,28 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         }
         cbx_type.addItemListener(this);
         pnl_fields.add(cbx_type);
-        
+
         var pnl_title = new JPanel(new FlowLayout());
         var lbl_title = new JLabel(Utils.lang.field_title + " :");
         tf_title = new JTextField(20);
         pnl_title.add(lbl_title);
         pnl_title.add(tf_title);
         pnl_fields.add(pnl_title);
-        
+
         var pnl_price = new JPanel(new FlowLayout());
         var lbl_price = new JLabel(Utils.lang.field_price + " :");
         tf_price = new JTextField(5);
         pnl_price.add(lbl_price);
         pnl_price.add(tf_price);
         pnl_fields.add(pnl_price);
-        
+
         var pnl_quantity = new JPanel(new FlowLayout());
         var lbl_quantity = new JLabel(Utils.lang.field_quantity + " :");
         tf_quantity = new JTextField(3);
         pnl_quantity.add(lbl_quantity);
         pnl_quantity.add(tf_quantity);
         pnl_fields.add(pnl_quantity);
-        
+
         var pnl_optionfields = new JPanel();
         pnl_optionfields.setLayout(new BoxLayout(pnl_optionfields, BoxLayout.PAGE_AXIS));
         var pnl_option1 = new JPanel(new FlowLayout());
@@ -113,10 +112,10 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
     private void reloadOptionsLabel() {
         for (var pair : Utils.getTypes()) {
-            if(pair.getValue0().getSimpleName().equals(cbx_type.getSelectedItem()))
-                for(var field : Lang.class.getDeclaredFields()) {
-                    if(field.getName().equals("field_" + pair.getValue1()[0].getName()))
-                        try{
+            if (pair.getValue0().getSimpleName().equals(cbx_type.getSelectedItem()))
+                for (var field : Lang.class.getDeclaredFields()) {
+                    if (field.getName().equals("field_" + pair.getValue1()[0].getName()))
+                        try {
                             lbl_option1.setText((String) field.get(Utils.lang) + " :");
                             break;
                         } catch (IllegalAccessException e) {
@@ -128,20 +127,16 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn_valider) {
-            if(tf_title.getText().trim().length() <= 0 ||
-               tf_price.getText().trim().length() <= 0 ||
-               tf_quantity.getText().trim().length() <= 0 ||
-               tf_option1.getText().trim().length() <= 0)
-            {
+            if (tf_title.getText().trim().length() <= 0 || tf_price.getText().trim().length() <= 0
+                    || tf_quantity.getText().trim().length() <= 0 || tf_option1.getText().trim().length() <= 0) {
                 JOptionPane.showMessageDialog(this, Utils.lang.field_empty, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (produit != null) {
-                if (Double.parseDouble(tf_quantity.getText().trim()) < (produit.getQuantity() - Utils.produits.getProductStock(produit.getId())))
-                {
+                if (Double.parseDouble(tf_quantity.getText().trim()) < (produit.getQuantity() - Utils.produits.getProductStock(produit.getId()))) {
                     JOptionPane.showMessageDialog(this, Utils.lang.product_stock_error, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                     return;
-                } 
+                }
             }
 
             Calendar releaseDate = Calendar.getInstance();
@@ -149,16 +144,14 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             releaseDate.set(Calendar.SECOND, 0);
             releaseDate.set(Calendar.MINUTE, 0);
             releaseDate.set(Calendar.HOUR_OF_DAY, 0);
-    
-            if (cbx_type.getSelectedIndex() == 1) { // It's a CD // TODO faire la verif si c'est une date 
+
+            if (getSelectedClass() == CD.class) {
                 Pattern regex = Pattern.compile("^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
                 Matcher m = regex.matcher(tf_option1.getText());
 
-                Runnable dateInvalid = () ->
-                {
+                Runnable dateInvalid = () -> {
                     JOptionPane.showMessageDialog(this, Utils.lang.date_invalid, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
                 };
-                
 
                 if (m.matches()) {
                     String dateValue = tf_option1.getText();
@@ -191,14 +184,11 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
             setVisible(false);
             if (produit == null) {
                 try {
-                    for(var field : Lang.class.getDeclaredFields()) {
-                        if (((String) field.get(Utils.lang)).equals(cbx_type.getSelectedItem())){
-                            if(field.getName().equals("class_" + CD.class.getSimpleName())) // TODO better cd generation
-                                produit = (Produit) Class.forName("app." + (String) field.getName().substring(6)).getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
-                            else
-                                produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
-                        }
-                    }
+                    var cls = getSelectedClass();
+                    if (cls != CD.class)
+                        produit = cls.getDeclaredConstructor(String.class, double.class, int.class, String.class).newInstance(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()),Integer.parseInt(tf_quantity.getText().trim()), tf_option1.getText());
+                    else
+                        produit = new CD(tf_title.getText(), Double.parseDouble(tf_price.getText().trim()), Integer.parseInt(tf_quantity.getText().trim()), releaseDate);
                 } catch (Exception error) {
                     Utils.logStream.Error(error);
                     JOptionPane.showMessageDialog(this, Utils.lang.field_wrong, Utils.lang.error, JOptionPane.ERROR_MESSAGE);
@@ -208,14 +198,13 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
                 var owner = (IMyProduitDialogOwner) getOwner();
                 owner.produitDialogReturn(produit);
             } else {
-                try{
+                try {
                     var types = new ArrayList<String>();
                     for (var type : Utils.getTypes()) {
-                        types.add(type.getValue0().getName().replaceAll("\\s+",""));
-                    } 
-                    Utils.SQLupdate(String.format("UPDATE `produits` SET `title` = \"%s\", `dailyPrice` = \""+produit.getDailyPrice()+"\", `quantity` = \"%d\", `option1` = \"%s\", `id-types` = \"%d\" WHERE `produits`.`id-prod` = \"%s\"", produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)), produit.getId()));
-                }
-                catch (SQLException ex){
+                        types.add(type.getValue0().getName().replaceAll("\\s+", ""));
+                    }
+                    Utils.SQLupdate(String.format("UPDATE `produits` SET `title` = \"%s\", `dailyPrice` = \"" + produit.getDailyPrice() + "\", `quantity` = \"%d\", `option1` = \"%s\", `id-types` = \"%d\" WHERE `produits`.`id-prod` = \"%s\"", produit.getTitle(), produit.getQuantity(), produit.getOption1(), types.indexOf(produit.getClass().getName().substring(4)), produit.getId()));
+                } catch (SQLException ex) {
                     Utils.logStream.Error(ex);
                 }
                 produit.setTitle(tf_title.getText());
@@ -235,6 +224,17 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         } else if (e.getSource() == btn_cancel) {
             quit();
         }
+    }
+
+    public Class<? extends Produit> getSelectedClass() {
+        try {
+            for (var field : Lang.class.getDeclaredFields())
+                if (((String) field.get(Utils.lang)).equals(cbx_type.getSelectedItem()))
+                    return (Class<? extends Produit>) Class.forName("app." + (String) field.getName().substring(6));
+        } catch (IllegalAccessException | ClassNotFoundException e) {
+            Utils.logStream.Error(e);
+        }
+        return null;
     }
 
     public void itemStateChanged(ItemEvent e) {
