@@ -47,10 +47,7 @@ public class CommandeInfo extends JDialog implements ActionListener {
 
         var pnl_dateCreation = new JPanel(new FlowLayout());
         var lbl_dateCreationStatic = new JLabel(Utils.lang.field_date_start + " :");
-        var dateCreation = commande.getDateCreation();
-        var lbl_dateCreation = new JLabel(((dateCreation.get(Calendar.DAY_OF_MONTH) > 9) ? dateCreation.get(Calendar.DAY_OF_MONTH) : ("0" + dateCreation.get(Calendar.DAY_OF_MONTH))) + 
-            "/" + ((dateCreation.get(Calendar.MONTH) > 8) ? (dateCreation.get(Calendar.MONTH) + 1) : ("0" + (dateCreation.get(Calendar.MONTH) + 1))) + 
-            "/" + dateCreation.get(Calendar.YEAR));
+        var lbl_dateCreation = new JLabel(Utils.dateToString(commande.getDateCreation()));
         pnl_dateCreation.add(lbl_dateCreationStatic);
         pnl_dateCreation.add(lbl_dateCreation);
 

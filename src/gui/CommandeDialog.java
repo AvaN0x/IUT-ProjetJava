@@ -124,11 +124,7 @@ public class CommandeDialog extends JDialog implements ActionListener, ListSelec
         lbl_dateCreation = new JLabel(Utils.lang.order_date + " :");
         tf_dateCreation = new JTextField(10);
         tf_dateCreation.setToolTipText("dd/mm/yyyy");
-        var defDate = new int[] { dateCreation.get(Calendar.DATE), (dateCreation.get(Calendar.MONTH) + 1), dateCreation.get(Calendar.YEAR) };
-        tf_dateCreation.setText(
-                  (defDate[0] < 10 ? "0" + defDate[0] : defDate[0]) + "/"
-                + (defDate[1] < 10 ? "0" + defDate[1] : defDate[1]) + "/"
-                + defDate[2]);
+        tf_dateCreation.setText(Utils.dateToString(dateCreation));
         dateCreationValid = true;
         lbl_dateCreationWarn = new JLabel("");
         lbl_dateCreationWarn.setForeground(Color.RED);
