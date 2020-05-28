@@ -43,7 +43,7 @@
   "del_user_fail": "L'utilisateur à une commande en cours !",
   "edit_user": "Modifier un client",
   "user_info": "Informations sur un client",
-  "loyal_tooltip": "Le client est-il fièdle",
+  "loyal_tooltip": "Le client est-il fidèle",
 
   "orders": "Commandes",
   "new_order": "Nouvelle commande",

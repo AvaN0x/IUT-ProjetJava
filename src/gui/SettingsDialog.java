@@ -151,7 +151,7 @@ public class SettingsDialog extends MyJDialog implements ActionListener {
             
             changeDBSettings();
 
-            if(Utils.settings.language != (Locale) cbx_language.getSelectedItem())
+            if(!Utils.settings.language.toString().equals(cbx_language.getSelectedItem().toString()))
                 JOptionPane.showMessageDialog(this, Utils.lang.restart_lang, Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
             Utils.settings.language = (Locale) cbx_language.getSelectedItem();
 

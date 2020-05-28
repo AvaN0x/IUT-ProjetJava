@@ -227,7 +227,7 @@ public class Utils {
             InputStream fileStream = new FileInputStream(new File(Utils.savingDir + "data.ser"));
             var input = new ObjectInputStream(fileStream);
 
-            settings = (Settings) input.readObject();
+            input.readObject(); // ignore settings
 
             if(settings.isLocal) {
                 commandes.setList((List<Commande>) input.readObject());

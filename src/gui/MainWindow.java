@@ -81,9 +81,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
         Utils.commandes = new TableauCommandes();
 
         if (new File(Utils.savingDir + "data.ser").exists()) {
-            if (!Utils.settings.isLocal)
-                JOptionPane.showMessageDialog(this, Utils.lang.connect_try,
-                        Utils.lang.connect_title, JOptionPane.INFORMATION_MESSAGE);
+            if (!Utils.settings.isLocal){
+                String[] options = {Utils.lang.validate, Utils.lang.local_version};
+                var result = JOptionPane.showOptionDialog(this, Utils.lang.connect_try, Utils.lang.connect_title, 
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                    if(result == 1)
+                        Utils.settings.isLocal = true;
+            }
             requestLoading();
         }
 
@@ -108,7 +112,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
                 JOptionPane.showMessageDialog(null, Utils.lang.connect_sucess, Utils.lang.connect_title,
                         JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException e) { // if loading result is not known
-            String[] options = {Utils.lang.retry, Utils.lang.close, Utils.lang.retry};
+            String[] options = {Utils.lang.retry, Utils.lang.close, Utils.lang.local_version};
             int result = JOptionPane.showOptionDialog(null, Utils.lang.connect_error_question, Utils.lang.connect_title,
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
             if(result == 0){
