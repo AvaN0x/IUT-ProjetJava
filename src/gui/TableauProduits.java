@@ -58,6 +58,14 @@ public class TableauProduits extends AbstractTableModel implements IMyTableModel
             case 1:
                 return produits.get(rowIndex).getDailyPrice() + " €";
             case 2:
+                for(var field : Lang.class.getDeclaredFields()) {
+                    if(field.getName().equals("class_" + produits.get(rowIndex).getClass().getSimpleName()))
+                        try{
+                            return (String) field.get(Utils.lang);
+                        } catch (IllegalAccessException e) {
+                            Utils.logStream.Error(e);
+                        }
+                }
                 return produits.get(rowIndex).getClass().getSimpleName();
             case 3:
                 return prodStock.get(produits.get(rowIndex).getId());

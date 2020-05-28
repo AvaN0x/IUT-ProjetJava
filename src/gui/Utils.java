@@ -241,13 +241,7 @@ public class Utils {
                                 produits.add(
                                     cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString("id-prod"), products.getString("title"), products.getDouble("dailyPrice"), products.getInt("quantity"), products.getString("option1"))
                                 );
-                            } catch (NoSuchMethodException e){
-                                logStream.Error(e);
-                            } catch (InstantiationException e){
-                                logStream.Error(e);
-                            } catch (IllegalAccessException e){
-                                logStream.Error(e);
-                            } catch (InvocationTargetException e){
+                            } catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e){
                                 logStream.Error(e);
                             }
                         else
@@ -277,13 +271,7 @@ public class Utils {
                             
                         try{
                             clients.addElement(cls.getDeclaredConstructor(String.class, String.class, String.class).newInstance(users.getString("id-cli"), users.getString("nom"), users.getString("prenom")));
-                        } catch (NoSuchMethodException e){
-                            logStream.Error(e);
-                        } catch (InstantiationException e){
-                            logStream.Error(e);
-                        } catch (IllegalAccessException e){
-                            logStream.Error(e);
-                        } catch (InvocationTargetException e){
+                        } catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e){
                             logStream.Error(e);
                         }
                     }
@@ -329,10 +317,7 @@ public class Utils {
             input.close();
             logStream.Log("Data loaded");
             return true;
-        } catch (IOException ex) {
-            logStream.Error(ex);
-            return false;
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | IOException ex) {
             logStream.Error(ex);
             return false;
         }

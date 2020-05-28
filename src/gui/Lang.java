@@ -1,9 +1,11 @@
 package gui;
 
 import java.io.FileReader;
+import java.io.IOException;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Lang {
     public String title;
@@ -12,7 +14,7 @@ public class Lang {
     public String error;
     public String cancel;
     public String validate;
-    
+
     public String settings;
     public String settings_lang;
     public String settings_save;
@@ -51,7 +53,7 @@ public class Lang {
     public String edit_user;
     public String user_info;
     public String loyal_tooltip;
-    
+
     public String orders;
     public String new_order;
     public String del_order;
@@ -85,7 +87,7 @@ public class Lang {
     public String product_stock_error;
 
     public String export;
-    
+
     public String field_name;
     public String field_first_name;
     public String field_client;
@@ -109,23 +111,38 @@ public class Lang {
     public String field_realisateur;
     public String field_quantity;
     public String field_langue;
-    
+
     public String date_invalid;
     public String number_invalid;
     public String days_invalid;
     public String field_empty;
     public String field_wrong;
     public String name_error;
-    
-    public Lang(){
+
+    public String class_BD;
+    public String class_CD;
+    public String class_Dictionnaire;
+    public String class_DVD;
+    public String class_ManuelScolaire;
+    public String class_Roman;
+
+    public Lang() {
         try {
-            var obj = new JSONParser().parse(new FileReader("lang/"+Utils.settings.language.toString() + ".json"));
-            var jo = (JSONObject) obj;
-            
-            for(var field : Lang.class.getDeclaredFields()) {
-                field.set(this, (String) jo.get(field.getName()));
+            var jo = (JSONObject) new JSONParser()
+                    .parse(new FileReader("lang/" + Utils.settings.language.toString() + ".json"));
+
+            for (var field : Lang.class.getDeclaredFields()) {
+                try {
+                    field.set(this, (String) jo.get(field.getName()));
+                } catch (IllegalAccessException e) {
+                    try {
+                        field.set(this, (String) field.getName());
+                    } catch (IllegalAccessException | IllegalArgumentException ex) {
+                        Utils.logStream.Error(e);
+                    }
+                }
             }
-        } catch (Exception e) {
+        } catch (IOException | ParseException e) {
             Utils.logStream.Error(e);
         }
     }

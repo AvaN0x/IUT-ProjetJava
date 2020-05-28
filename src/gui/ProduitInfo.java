@@ -44,7 +44,16 @@ public class ProduitInfo extends JDialog {
 
         var pnl_class = new JPanel(new FlowLayout());
         var lbl_classStatic = new JLabel(Utils.lang.field_type + " :");
-        var lbl_class = new JLabel(produit.getClass().getSimpleName());
+        var lbl_class = new JLabel();
+        for(var field : Lang.class.getDeclaredFields()) {
+            if(field.getName().equals("class_" + produit.getClass().getSimpleName()))
+                try{
+                    lbl_class.setText((String) field.get(Utils.lang));
+                    break;
+                } catch (IllegalAccessException e) {
+                    Utils.logStream.Error(e);
+                }
+        }
         pnl_class.add(lbl_classStatic);
         pnl_class.add(lbl_class);
 

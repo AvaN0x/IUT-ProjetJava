@@ -109,5 +109,12 @@
     "days_invalid": "Nombre de jours non valide",
     "field_empty": "L'un des champs est vide !",
     "field_wrong": "Une des entrées ne correspond pas.",
-    "name_error": "Nom ou prénom vide !"
+    "name_error": "Nom ou prénom vide !",
+    
+    "class_BD": "BD",
+    "class_CD": "CD",
+    "class_Dictionnaire": "Dictionnaire",
+    "class_DVD": "DVD",
+    "class_ManuelScolaire": "Manuel Scolaire",
+    "class_Roman": "Roman"
   }
