@@ -51,6 +51,7 @@ public class Utils {
         for (var class1 : classes) { // for each class of the package app
             if(!Modifier.isAbstract(class1.getModifiers())){ // if its not an abstract class
                 var fields = class1.getDeclaredFields(); // get all the fields
+                //TODO : better detection of book (no custom field)
                 if(class1.getSuperclass() == Livre.class) // if it's a book
                     fields = Livre.class.getDeclaredFields(); // get all the fields of a book
                 result.add(Pair.with(class1, fields));

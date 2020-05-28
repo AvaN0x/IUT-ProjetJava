@@ -83,12 +83,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
         pnl_optionfields.setLayout(new BoxLayout(pnl_optionfields, BoxLayout.PAGE_AXIS));
         var pnl_option1 = new JPanel(new FlowLayout());
         lbl_option1 = new JLabel();
-        var types = Utils.getTypes();
-        for (var pair : types) {
-            if(pair.getValue0().getSimpleName() == cbx_type.getSelectedItem())
-                // TODO: Majuscule
-                lbl_option1 = new JLabel(pair.getValue1()[0].getName() + " :");
-        }
+        reloadOptionsLabel();
         tf_option1 = new JTextField(10);
         pnl_option1.add(lbl_option1);
         pnl_option1.add(tf_option1);
@@ -107,6 +102,21 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
         add(pnl_fields, BorderLayout.CENTER);
         add(pnl_validate, BorderLayout.SOUTH);
+    }
+
+    private void reloadOptionsLabel() {
+        for (var pair : Utils.getTypes()) {
+            if(pair.getValue0().getSimpleName().equals(cbx_type.getSelectedItem()))
+                for(var field : Lang.class.getDeclaredFields()) {
+                    if(field.getName().equals("field_" + pair.getValue1()[0].getName()))
+                        try{
+                            lbl_option1.setText((String) field.get(Utils.lang) + " :");
+                            break;
+                        } catch (IllegalAccessException e) {
+                            Utils.logStream.Error(e);
+                        }
+                }
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -218,12 +228,7 @@ public class ProduitDialog extends MyJDialog implements ActionListener, ItemList
 
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == cbx_type) {
-            var types = Utils.getTypes();
-            for (var pair : types) {
-                if(pair.getValue0().getSimpleName() == cbx_type.getSelectedItem())
-                    // TODO: Majuscule... et meilleur nom ^^
-                    lbl_option1.setText(pair.getValue1()[0].getName() + " :");
-            }
+            reloadOptionsLabel();
             if (cbx_type.getSelectedItem() == CD.class.getSimpleName()) {
                 var defCalendar = Calendar.getInstance();
                 var defDate = new int[] { defCalendar.get(Calendar.DATE), (defCalendar.get(Calendar.MONTH) + 1), defCalendar.get(Calendar.YEAR) };

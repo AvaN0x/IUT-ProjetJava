@@ -53,8 +53,15 @@ public class ProduitInfo extends JDialog {
         var types = Utils.getTypes();
         for (int i = 0; i < types.size(); i++) {
             if (types.get(i).getValue0() == produit.getClass())
-                // TODO: Majuscule et meilleur nom releaseDate
-                lbl_option1Static.setText(types.get(i).getValue1()[0].getName() + " :");
+                for(var field : Lang.class.getDeclaredFields()) {
+                    if(field.getName().equals("field_" + types.get(i).getValue1()[0].getName()))
+                        try{
+                            lbl_option1Static.setText((String) field.get(Utils.lang) + " :");
+                            break;
+                        } catch (IllegalAccessException e) {
+                            Utils.logStream.Error(e);
+                        }
+                }
         }
         
         var lbl_option1 = new JLabel((String) produit.getOption1());
