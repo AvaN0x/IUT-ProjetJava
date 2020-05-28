@@ -44,16 +44,21 @@ public class Utils {
      * @return all the types + their options
      */
     static List<Pair<Class<? extends Produit>, Field[]>> getTypes() {
-        Reflections reflections = new Reflections("app");    
+        var reflections = new Reflections("app");    
         var classes = reflections.getSubTypesOf(Produit.class);
         var result = new ArrayList<Pair<Class<? extends Produit>, Field[]>>();
 
         for (var class1 : classes) { // for each class of the package app
             if(!Modifier.isAbstract(class1.getModifiers())){ // if its not an abstract class
-                var fields = class1.getDeclaredFields(); // get all the fields
-                //TODO : better detection of book (no custom field)
-                if(class1.getSuperclass() == Livre.class) // if it's a book
-                    fields = Livre.class.getDeclaredFields(); // get all the fields of a book
+                Field[] fields;
+                Class<?> cls = class1;
+                while(true){
+                    fields = cls.getDeclaredFields(); // get all the fields
+                    if (fields.length < 1) // if there's no fields
+                        cls = cls.getSuperclass(); // Check the super
+                    else
+                        break;
+                }
                 result.add(Pair.with(class1, fields));
             }
         }
