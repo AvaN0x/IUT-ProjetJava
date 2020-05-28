@@ -238,7 +238,7 @@ public class Utils {
                         if(cls != CD.class) // TODO better cd generation
                             try {
                                 produits.add(
-                                    cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), products.getString(6))
+                                    cls.getDeclaredConstructor(String.class, String.class, double.class, int.class, String.class).newInstance(products.getString("id-prod"), products.getString("title"), products.getDouble("dailyPrice"), products.getInt("quantity"), products.getString("option1"))
                                 );
                             } catch (NoSuchMethodException e){
                                 logStream.Error(e);
@@ -252,10 +252,10 @@ public class Utils {
                         else
                             try{
                                 var sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                var date = sdf.parse(products.getString(6));
+                                var date = sdf.parse(products.getString("option1"));
                                 var cal = Calendar.getInstance();
                                 cal.setTime(date);
-                                produits.add(new CD(products.getString(2), products.getString(3), products.getDouble(4), products.getInt(5), cal));
+                                produits.add(new CD(products.getString("id-prod"), products.getString("title"), products.getDouble("dailyPrice"), products.getInt("quantity"), cal));
                             } catch (ParseException e){
                                 logStream.Error(e);
                             }
@@ -270,12 +270,21 @@ public class Utils {
                 try {
                     var users = SQLrequest("SELECT * FROM `clients`");
                     while (users.next()){
-                        Client cli;
-                        if (users.getBoolean(4))
-                            cli = new ClientFidele(users.getString(1), users.getString(2), users.getString(3));
-                        else
-                            cli = new ClientOccas(users.getString(1), users.getString(2), users.getString(3));
-                        clients.addElement(cli);
+                        Class<? extends Client> cls = ClientOccas.class;
+                        if (users.getBoolean("isFidel"))
+                            cls = ClientFidele.class;
+                            
+                        try{
+                            clients.addElement(cls.getDeclaredConstructor(String.class, String.class, String.class).newInstance(users.getString("id-cli"), users.getString("nom"), users.getString("prenom")));
+                        } catch (NoSuchMethodException e){
+                            logStream.Error(e);
+                        } catch (InstantiationException e){
+                            logStream.Error(e);
+                        } catch (IllegalAccessException e){
+                            logStream.Error(e);
+                        } catch (InvocationTargetException e){
+                            logStream.Error(e);
+                        }
                     }
                 } catch (CommunicationsException e){
                     logStream.Log(e);
@@ -289,20 +298,20 @@ public class Utils {
                     while (orders.next()){
                         Commande order = null;
                         for (int i=0;i<clients.getSize();i++){
-                            if(clients.get(i).getId().equals(orders.getString(2))) {
+                            if(clients.get(i).getId().equals(orders.getString("id-cli"))) {
                                 var cal = Calendar.getInstance();
-                                cal.setTime(orders.getDate(3));
-                                order = new Commande(orders.getString(1), clients.get(i), cal);
+                                cal.setTime(orders.getDate("dateCreation"));
+                                order = new Commande(orders.getString("id-com"), clients.get(i), cal);
                                 break;
                             }
                         }
                         var loans = SQLrequest("SELECT * FROM `emprunts` WHERE `id-com` = \""+ order.getId() + "\"");
                         while(loans.next()){
                             for (var produit : produits.getList())
-                                if (produit.getId().equals(loans.getString(4))){
+                                if (produit.getId().equals(loans.getString("id-prod"))){
                                     var cal = Calendar.getInstance();
-                                    cal.setTime(loans.getDate(3));
-                                    order.addEmprunt(loans.getString(2), cal, produit);
+                                    cal.setTime(loans.getDate("dateFin"));
+                                    order.addEmprunt(loans.getString("id-empr"), cal, produit);
                                 }
                         }
                         commandes.add(order);
