@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class CD extends SupportNum {
-    protected Calendar releaseDate;
+    private Calendar releaseDate;
 
     /**
      * @param title of the product

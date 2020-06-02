@@ -5,9 +5,9 @@ import java.util.UUID;
 
 @SuppressWarnings("serial")
 public abstract class Client implements Serializable {
-    protected String id;
-    protected String nom;
-    protected String prenom;
+    private String id;
+    private String nom;
+    private String prenom;
 
     /**
      * @param nom of the client

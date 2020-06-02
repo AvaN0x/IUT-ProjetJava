@@ -2,7 +2,7 @@ package app;
 
 @SuppressWarnings("serial")
 public class DVD extends SupportNum {
-    protected String realisateur;
+    private String realisateur;
 
     /**
      * @param title of the product

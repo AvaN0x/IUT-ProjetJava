@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @SuppressWarnings("serial")
 public class Commande implements Serializable {
-    protected String id;
-    protected Client client;
-    protected Calendar dateCreation;
-    protected double reduction;
-    protected ArrayList<Emprunt> emprunts;
+    private String id;
+    private Client client;
+    private Calendar dateCreation;
+    private double reduction;
+    private ArrayList<Emprunt> emprunts;
 
     /**
      * @param client       who made the order

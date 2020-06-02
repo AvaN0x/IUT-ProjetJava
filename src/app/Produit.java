@@ -5,10 +5,10 @@ import java.util.UUID;
 
 @SuppressWarnings("serial")
 public abstract class Produit implements Serializable {
-    protected String id;
-    protected String title;
-    protected double dailyPrice;
-    protected int quantity;
+    private String id;
+    private String title;
+    private double dailyPrice;
+    private int quantity;
 
     /**
      * @param title of the product

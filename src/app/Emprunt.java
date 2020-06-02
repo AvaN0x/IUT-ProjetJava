@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @SuppressWarnings("serial")
 public class Emprunt implements Serializable {
-    protected String id;
-    protected Calendar dateDebut; // égale a la date de création de la commande
-    protected Calendar dateFin;
-    protected Produit produit;
+    private String id;
+    private Calendar dateDebut; // égale a la date de création de la commande
+    private Calendar dateFin;
+    private Produit produit;
 
     /**
      * @param dateDebut of the loaning

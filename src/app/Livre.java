@@ -2,7 +2,7 @@ package app;
 
 @SuppressWarnings("serial")
 public abstract class Livre extends Document {
-    protected String auteur;
+    private String auteur;
 
     /**
      * @param title of the product

@@ -22,6 +22,6 @@ public class ClientFidele extends Client {
 
     @Override
     public String toString() {
-        return nom + " " + prenom + " - ƒ";
+        return getNom() + " " + getPrenom() + " - ƒ";
     }
 }
