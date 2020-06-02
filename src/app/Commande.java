@@ -100,8 +100,7 @@ public class Commande implements Serializable {
     }
 
     /**
-     * ? Help @Avan0x
-     * TODO: Finish that doc
+     * Modify the HashMap with the amount of product rented at a certain date
      * @param date
      * @param prodStock
      */
