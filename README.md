@@ -1,6 +1,6 @@
 # IUT-ProjetJava
 
-Projet dans le cadre de l'IUT avec github.com/oxypomme
+Projet dans le cadre de l'IUT avec [github.com/oxypomme](https://github.com/oxypomme)
 
 ## LIB utilisées
 
