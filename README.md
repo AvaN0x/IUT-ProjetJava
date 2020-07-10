@@ -16,4 +16,4 @@ Projet dans le cadre de l'IUT avec github.com/oxypomme
 
 ## Exécution
 
-La fonction main se trouve dans /src/tests/TestMainWindow.java
+La fonction main se trouve dans [/src/tests/TestMainWindow.java](https://github.com/AvaN0x/IUT-ProjetJava/blob/master/src/tests/TestMainWindow.java)
